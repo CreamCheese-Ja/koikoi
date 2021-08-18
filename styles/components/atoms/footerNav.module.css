@@ -1,0 +1,9 @@
+.navList {
+  display: flex;
+  justify-content: center;
+  text-align: initial;
+}
+.navList li {
+  margin: 0 15px;
+  margin-bottom: 20px;
+}

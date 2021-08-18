@@ -1,0 +1,8 @@
+.navList {
+  display: flex;
+  margin-right: 50px;
+}
+.navList li {
+  margin: 0 10px;
+  color: white;
+}
