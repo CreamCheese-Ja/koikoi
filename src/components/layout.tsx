@@ -3,6 +3,7 @@ import Header from "./block/Header";
 import styles from "styles/layout.module.css";
 import Footer from "./block/Footer";
 import SideBar from "./block/SideBar";
+import Dialogs from "./block/Dialogs";
 
 type Props = {
   children: ReactNode;
@@ -19,6 +20,7 @@ export default function Layout({ children, ...props }: Props) {
         <SideBar />
       </div>
       <Footer />
+      <Dialogs />
     </>
   );
 }

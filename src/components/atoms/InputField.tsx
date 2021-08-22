@@ -23,7 +23,7 @@ const InputField = (props: Props) => {
         onChange={(e) => {
           props.onChange(() => e.target.value);
         }}
-        style={{ width: "230px" }}
+        style={{ width: "230px", marginTop: "10px", marginBottom: "10px" }}
       />
     </div>
   );

@@ -1,17 +1,20 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import { useSetRecoilState } from "recoil";
+import { loginAndSignUpFormState } from "src/atoms/atom";
 
-type Props = {
-  handleClickOpen: () => void;
-};
+const SignUpButton = () => {
+  // ログイン、新規登録フォーム用の変更関数
+  const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
 
-const SignUpButton = (props: Props) => {
   return (
     <>
       <Button
         variant="outlined"
         color="secondary"
-        onClick={props.handleClickOpen}
+        onClick={() => {
+          setLoginAndSignUpForm({ title: "無料会員登録", status: true });
+        }}
       >
         無料会員登録
       </Button>

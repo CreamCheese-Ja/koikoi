@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -7,26 +7,43 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import styles from "styles/components/atoms/LoginAndSignUpFormDialog.module.css";
+import EmailConfirmationDialog from "./EmailConfirmationDialog";
+import Linear from "./progress/Linear";
+import { useRecoilState } from "recoil";
+import { loginAndSignUpFormState } from "src/atoms/atom";
 
-type Props = {
-  open: boolean;
-  setFormName: Dispatch<SetStateAction<string>>;
-  formName: string;
-  handleClose: () => void;
-};
+const LoginAndSignUpFormDialog = () => {
+  // 確認メールDialog用のstate
+  const [emailConfirmation, setEmailConfirmation] = useState(false);
 
-const LoginAndSignUpFormDialog = (props: Props) => {
+  const openEmailConfirmationDialog = () => {
+    setEmailConfirmation(true);
+  };
+  const closeEmailConfirmationDialog = () => {
+    setEmailConfirmation(false);
+  };
+
+  // 処理中かどうかを判断するstate
+  const [running, setRunning] = useState(false);
+
+  // ログイン、新規登録フォーム用のstate
+  const [loginAndSignUpForm, setLoginAndSignUpForm] = useRecoilState(
+    loginAndSignUpFormState
+  );
+
   return (
     <>
       <Dialog
-        open={props.open}
-        onClose={props.handleClose}
+        open={loginAndSignUpForm.status}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{props.formName}</DialogTitle>
+        <Linear running={running} />
+        <DialogTitle id="alert-dialog-title">
+          {loginAndSignUpForm.title}
+        </DialogTitle>
         <DialogContent>
-          {props.formName === "ログイン" ? (
+          {loginAndSignUpForm.title === "ログイン" ? (
             <div>
               <LoginForm />
               <div className={styles.passwordMessage}>
@@ -36,8 +53,12 @@ const LoginAndSignUpFormDialog = (props: Props) => {
                 <Button
                   color="primary"
                   onClick={() => {
-                    props.setFormName("新規登録");
+                    setLoginAndSignUpForm({
+                      ...loginAndSignUpForm,
+                      title: "無料会員登録",
+                    });
                   }}
+                  disabled={running}
                 >
                   新規登録はこちら
                 </Button>
@@ -45,13 +66,21 @@ const LoginAndSignUpFormDialog = (props: Props) => {
             </div>
           ) : (
             <div>
-              <SignUpForm />
+              <SignUpForm
+                openEmailConfirmationDialog={openEmailConfirmationDialog}
+                running={running}
+                setRunning={setRunning}
+              />
               <div className={styles.loginAndSignUpMessage}>
                 <Button
                   color="primary"
                   onClick={() => {
-                    props.setFormName("ログイン");
+                    setLoginAndSignUpForm({
+                      ...loginAndSignUpForm,
+                      title: "ログイン",
+                    });
                   }}
+                  disabled={running}
                 >
                   ログインはこちら
                 </Button>
@@ -60,11 +89,21 @@ const LoginAndSignUpFormDialog = (props: Props) => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.handleClose} color="primary">
+          <Button
+            onClick={() => {
+              setLoginAndSignUpForm({ ...loginAndSignUpForm, status: false });
+            }}
+            color="primary"
+            disabled={running}
+          >
             キャンセル
           </Button>
         </DialogActions>
       </Dialog>
+      <EmailConfirmationDialog
+        emailConfirmation={emailConfirmation}
+        closeEmailConfirmationDialog={closeEmailConfirmationDialog}
+      />
     </>
   );
 };
