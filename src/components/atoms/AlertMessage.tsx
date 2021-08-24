@@ -7,8 +7,8 @@ function Alert(props: AlertProps) {
 }
 
 type Props = {
-  error: boolean;
-  setError: Dispatch<SetStateAction<boolean>>;
+  alert: boolean;
+  setAlert: Dispatch<SetStateAction<boolean>>;
   message: string;
   warningType: Color;
 };
@@ -19,11 +19,11 @@ const AlertMessage = (props: Props) => {
       return;
     }
 
-    props.setError(false);
+    props.setAlert(false);
   };
 
   return (
-    <Snackbar open={props.error} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar open={props.alert} autoHideDuration={6000} onClose={handleClose}>
       <Alert severity={props.warningType}>{props.message}</Alert>
     </Snackbar>
   );

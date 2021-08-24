@@ -84,14 +84,14 @@ const EmailConfirmationDialog = (props: Props) => {
         </DialogContent>
       </Dialog>
       <AlertMessage
-        error={error}
-        setError={setError}
+        alert={error}
+        setAlert={setError}
         message="登録が完了していません。"
         warningType="error"
       />
       <AlertMessage
-        error={success}
-        setError={setSuccess}
+        alert={success}
+        setAlert={setSuccess}
         message="正常に登録完了しました。"
         warningType="success"
       />

@@ -283,8 +283,8 @@ const SignUpForm = (props: Props) => {
           </Button>
         </div>
         <AlertMessage
-          error={othersError}
-          setError={setOthersError}
+          alert={othersError}
+          setAlert={setOthersError}
           message={othersErrorMessage}
           warningType="error"
         />

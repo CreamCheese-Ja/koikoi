@@ -32,3 +32,13 @@ export const loginAndSignUpFormState = atom({
     status: false,
   },
 });
+
+export const userMenuState = atom<null | HTMLElement>({
+  key: "userMenuState",
+  default: null,
+});
+
+export const logoutAlertState = atom({
+  key: "logoutAlertState",
+  default: false,
+});
