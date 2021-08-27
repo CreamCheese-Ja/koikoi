@@ -1,16 +1,21 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@material-ui/core";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import styles from "styles/components/atoms/LoginAndSignUpFormDialog.module.css";
 import EmailConfirmationDialog from "./EmailConfirmationDialog";
 import Linear from "./progress/Linear";
-import { useRecoilState } from "recoil";
-import { loginAndSignUpFormState } from "src/atoms/atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  loginAndSignUpFormState,
+  passwordChangeDialogState,
+} from "src/atoms/atom";
 
 const LoginAndSignUpFormDialog = () => {
   // 確認メールDialog用のstate
@@ -31,6 +36,14 @@ const LoginAndSignUpFormDialog = () => {
     loginAndSignUpFormState
   );
 
+  // パスワード変更ダイアログ開閉の変更関数
+  const setPasswordChange = useSetRecoilState(passwordChangeDialogState);
+
+  // パスワード変更ダイアログを開くメソッド
+  const openPasswordChangeDialog = () => {
+    setPasswordChange(true);
+  };
+
   return (
     <>
       <Dialog
@@ -45,9 +58,15 @@ const LoginAndSignUpFormDialog = () => {
         <DialogContent>
           {loginAndSignUpForm.title === "ログイン" ? (
             <div>
-              <LoginForm />
+              <LoginForm running={running} setRunning={setRunning} />
               <div className={styles.passwordMessage}>
-                <Button color="primary">パスワードをお忘れですか？</Button>
+                <Button
+                  color="primary"
+                  disabled={running}
+                  onClick={openPasswordChangeDialog}
+                >
+                  パスワードをお忘れですか？
+                </Button>
               </div>
               <div className={styles.loginAndSignUpMessage}>
                 <Button

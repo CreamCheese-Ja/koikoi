@@ -4,11 +4,11 @@ import styles from "styles/layout.module.css";
 import Footer from "./block/Footer";
 import SideBar from "./block/SideBar";
 import Dialogs from "./block/Dialogs";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import firebase from "../firebase/firebase";
 import { userProfileState } from "src/atoms/atom";
 import { useEffect } from "react";
-import Alerts from "./atoms/Alerts";
+import Alerts from "./block/Alerts";
 
 type Props = {
   children: ReactNode;
@@ -16,12 +16,12 @@ type Props = {
 
 export default function Layout({ children, ...props }: Props) {
   // ユーザープロフィール用の変更関数
-  const setUserProfile = useSetRecoilState(userProfileState);
+  const [userProfile, setUserProfile] = useRecoilState(userProfileState);
 
   useEffect(() => {
     // userがログインしていればプロフィールデータを取得しstateに保存
     firebase.auth().onAuthStateChanged(async (user) => {
-      if (user) {
+      if (user && userProfile.name === "") {
         try {
           const doc = await firebase
             .firestore()
@@ -30,7 +30,6 @@ export default function Layout({ children, ...props }: Props) {
             .get();
           if (doc.exists) {
             const profileData = doc.data();
-            console.log(profileData);
             setUserProfile({
               name: profileData?.name,
               photoURL: profileData?.photoURL,

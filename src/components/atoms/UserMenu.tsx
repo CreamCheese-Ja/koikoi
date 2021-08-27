@@ -17,7 +17,7 @@ const UserMenu = () => {
   const setUserProfile = useSetRecoilState(userProfileState);
 
   // ログアウトアラート用の変更関数
-  const setLogout = useSetRecoilState(logoutAlertState);
+  const setLogoutAlert = useSetRecoilState(logoutAlertState);
 
   const handleClose = () => {
     setUserMenu(null);
@@ -36,7 +36,7 @@ const UserMenu = () => {
         numberOfBestAnswer: 0,
         numberOfLikes: 0,
       });
-      setLogout(true);
+      setLogoutAlert(true);
       handleClose();
     } catch (error) {}
   };

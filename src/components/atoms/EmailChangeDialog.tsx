@@ -127,14 +127,14 @@ const EmailChangeDialog = () => {
         </DialogActions>
       </Dialog>
       <AlertMessage
-        error={success}
-        setError={setSuccess}
+        alert={success}
+        setAlert={setSuccess}
         message="正常に変更完了しました。"
         warningType="success"
       />
       <AlertMessage
-        error={othersError}
-        setError={setOthersError}
+        alert={othersError}
+        setAlert={setOthersError}
         message={othersErrorMessage}
         warningType="error"
       />
