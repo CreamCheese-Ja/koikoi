@@ -63,7 +63,7 @@ const EmailConfirmationDialog = (props: Props) => {
       >
         <Linear running={running} />
         <DialogTitle id="alert-dialog-title">
-          {"メールアドレスの確認"}
+          <p className={styles.formTitle}>メールアドレスの確認</p>
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">

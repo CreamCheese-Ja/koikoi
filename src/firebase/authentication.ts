@@ -37,8 +37,8 @@ export const sendPasswordResetEmail = async (email: string) => {
     switch (errorCode) {
       case "auth/invalid-email":
         return "正しい形式で入力してください。";
-      case "auth/wrong-password":
-        return "メールアドレスまたはパスワードが違います。";
+      case "auth/user-not-found":
+        return "アカウントが存在しません。";
     }
   }
 };

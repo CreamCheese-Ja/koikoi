@@ -45,11 +45,8 @@ const PasswordChangeDialog = () => {
     setErrorMessage("");
   }, [email]);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
+    setEmail("");
     setOpen(false);
   };
 
@@ -62,7 +59,7 @@ const PasswordChangeDialog = () => {
       setSuccess(true);
       handleClose();
     } else if (
-      message === "メールアドレスまたはパスワードが違います。" ||
+      message === "アカウントが存在しません。" ||
       message === "正しい形式で入力してください。"
     ) {
       setInputError(true);
@@ -80,7 +77,7 @@ const PasswordChangeDialog = () => {
       >
         <Linear running={running} />
         <DialogTitle id="alert-dialog-title">
-          {"パスワードの再設定"}
+          <p className={styles.formTitle}>パスワードの再設定</p>
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">

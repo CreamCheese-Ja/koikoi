@@ -53,7 +53,7 @@ const LoginAndSignUpFormDialog = () => {
       >
         <Linear running={running} />
         <DialogTitle id="alert-dialog-title">
-          {loginAndSignUpForm.title}
+          <p className={styles.formTitle}>{loginAndSignUpForm.title}</p>
         </DialogTitle>
         <DialogContent>
           {loginAndSignUpForm.title === "ログイン" ? (
