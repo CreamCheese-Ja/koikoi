@@ -6,5 +6,6 @@
 }
 .mainContent {
   width: 800px;
-  background-color: aquamarine;
+  /* background-color: aquamarine; */
+  padding: 10px;
 }

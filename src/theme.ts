@@ -15,8 +15,17 @@ const theme = createTheme({
       main: red.A400,
     },
     background: {
-      default: "#fff",
+      default: "#f6f6f4",
     },
+  },
+  typography: {
+    fontFamily: [
+      '"Noto Sans Japanese"',
+      '"Avenir next"',
+      "Helvetica",
+      "Arial",
+      '"Hiragino Sans"',
+    ].join(","),
   },
 });
 

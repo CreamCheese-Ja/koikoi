@@ -6,8 +6,8 @@ const UserRanking = () => {
     <div className={styles.rankingArea}>
       <h3>ユーザーランキング</h3>
       <div>
-        <p>いいね数</p>
-        <p>ベストアンサー数</p>
+        <div>いいね数</div>
+        <div>ベストアンサー数</div>
       </div>
     </div>
   );

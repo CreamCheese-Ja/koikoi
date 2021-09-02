@@ -10,6 +10,7 @@ import SearchBar from "../atoms/SearchBar";
 import { useRecoilValue } from "recoil";
 import { userProfileState } from "src/atoms/atom";
 import CurrentUserPhoto from "../atoms/CurrentUserPhoto";
+import PostButton from "../atoms/buttons/PostButton";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -41,7 +42,10 @@ const Header = () => {
             {userProfile.name === "" ? (
               <LoginAndSignUpButton />
             ) : (
-              <CurrentUserPhoto />
+              <div className={styles.postButtonAndPhoto}>
+                <PostButton />
+                <CurrentUserPhoto />
+              </div>
             )}
           </Toolbar>
         </AppBar>

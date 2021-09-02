@@ -11,7 +11,7 @@ const CurrentUserPhoto = () => {
 
   const [userMenu, setUserMenu] = useRecoilState(userMenuState);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const openUserMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setUserMenu(event.currentTarget);
   };
 
@@ -21,7 +21,7 @@ const CurrentUserPhoto = () => {
         <Button
           aria-controls="simple-menu"
           aria-haspopup="true"
-          onClick={handleClick}
+          onClick={openUserMenu}
         >
           <Image src={noProfile} width={40} height={40} />
         </Button>
@@ -29,7 +29,7 @@ const CurrentUserPhoto = () => {
         <Button
           aria-controls="simple-menu"
           aria-haspopup="true"
-          onClick={handleClick}
+          onClick={openUserMenu}
         >
           <Image src={noProfile} width={40} height={40} />
         </Button>

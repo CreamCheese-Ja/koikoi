@@ -5,6 +5,10 @@ const ConsultationRanking = () => {
   return (
     <div className={styles.rankingArea}>
       <h3>恋愛相談ランキング</h3>
+      <div>
+        <div>いいね数</div>
+        <div>回答数</div>
+      </div>
     </div>
   );
 };

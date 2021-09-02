@@ -1,0 +1,25 @@
+.consultationArea {
+  padding: 10px;
+}
+.consultationArea > * {
+  margin: 10px 0;
+}
+.consultationTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.userArea {
+  display: flex;
+  align-items: center;
+}
+.userName {
+  margin-left: 10px;
+}
+.goodButtonArea {
+  display: flex;
+  align-items: center;
+}
+.goodCount {
+  margin-left: 5px;
+}

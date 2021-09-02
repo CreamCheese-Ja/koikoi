@@ -56,7 +56,6 @@ const SearchBar = () => {
   const classes = useStyles();
 
   const [searchWord, setSearchWord] = React.useState("");
-  const [composing, setComposing] = React.useState(false);
 
   return (
     <div className={classes.search}>
@@ -74,19 +73,6 @@ const SearchBar = () => {
           input: classes.inputInput,
         }}
         inputProps={{ "aria-label": "search" }}
-        onCompositionStart={() => {
-          setComposing(true);
-        }}
-        onCompositionEnd={() => {
-          setComposing(false);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && composing === false && searchWord !== "") {
-            // エンターキー押下時の処理
-            // alert(searchWord);
-            e.currentTarget.blur();
-          }
-        }}
       />
     </div>
   );

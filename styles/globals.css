@@ -17,3 +17,8 @@ li {
 * {
   box-sizing: border-box;
 }
+
+h1,
+h3 {
+  color: #f48fb1;
+}

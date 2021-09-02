@@ -47,6 +47,8 @@ const PasswordChangeDialog = () => {
 
   const handleClose = () => {
     setEmail("");
+    setErrorMessage("");
+    setInputError(false);
     setOpen(false);
   };
 
