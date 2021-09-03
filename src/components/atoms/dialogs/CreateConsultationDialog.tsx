@@ -4,15 +4,8 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import {
-  consultationContentState,
-  consultationCategoryState,
-  consultationErrorMessageState,
-  consultationErrorState,
-  consultationTitleState,
-  createConsultationDialogState,
-} from "src/atoms/atom";
+import { useRecoilState } from "recoil";
+import { createConsultationDialogState } from "src/atoms/atom";
 import styles from "styles/components/atoms/dialogs/createConsultationDialog.module.css";
 import PostExecutionButton from "../buttons/PostExecutionButton";
 import ConsultationTitleField from "../textFields/ConsultationTitleField";
@@ -22,18 +15,9 @@ import ConsultationCategorySelect from "../selectBoxes/ConsultationCategorySelec
 const CreateConsultationDialog = () => {
   const [open, setOpen] = useRecoilState(createConsultationDialogState);
 
-  const [category, setCategory] = useRecoilState(consultationCategoryState);
-  const [title, setTitle] = useRecoilState(consultationTitleState);
-  const [content, setContent] = useRecoilState(consultationContentState);
-
-  const setInputError = useSetRecoilState(consultationErrorState);
-  const setErrorMessage = useSetRecoilState(consultationErrorMessageState);
-
   const handleClose = () => {
     setOpen(false);
   };
-
-  const postConsultation = () => {};
 
   return (
     <>

@@ -4,13 +4,17 @@ import firebase from "./firebase";
 export const loginEmailAndPassword = async (
   email: string,
   password: string
-) => {
+): Promise<string | firebase.User> => {
   try {
     const userCredential = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
     const user = userCredential.user;
-    return user;
+    if (user !== null) {
+      return user;
+    } else {
+      return "error";
+    }
   } catch (error) {
     const errorCode = error.code;
 
@@ -23,12 +27,16 @@ export const loginEmailAndPassword = async (
         return "メールアドレスまたはパスワードが違います。";
       case "auth/wrong-password":
         return "メールアドレスまたはパスワードが違います。";
+      default:
+        return "error";
     }
   }
 };
 
 // パスワードを再設定するための関数
-export const sendPasswordResetEmail = async (email: string) => {
+export const sendPasswordResetEmail = async (
+  email: string
+): Promise<string> => {
   try {
     await firebase.auth().sendPasswordResetEmail(email);
     return "completion";
@@ -39,6 +47,19 @@ export const sendPasswordResetEmail = async (email: string) => {
         return "正しい形式で入力してください。";
       case "auth/user-not-found":
         return "アカウントが存在しません。";
+      default:
+        return "error";
     }
+  }
+};
+
+// メール確認が終わっているかどうか確認する関数
+export const checkEmailVerified = (): boolean => {
+  const user = firebase.auth().currentUser;
+  if (user !== null) {
+    const emailVerified = user.emailVerified;
+    return emailVerified;
+  } else {
+    return false;
   }
 };

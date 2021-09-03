@@ -4,7 +4,7 @@ import firebase from "../../firebase/firebase";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import styles from "styles/components/atoms/signUpForm.module.css";
-import AlertMessage from "./AlertMessage";
+import BasicAlert from "./alerts/BasicAlert";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { loginAndSignUpFormState, userProfileState } from "src/atoms/atom";
 
@@ -186,7 +186,7 @@ const SignUpForm = (props: Props) => {
   const createNewProfile = async () => {
     const user = firebase.auth().currentUser!;
     try {
-      firebase.firestore().doc(`users/${user.uid}`).set({
+      await firebase.firestore().doc(`users/${user.uid}`).set({
         name: name,
         photoURL: "noImage",
         gender: "未設定",
@@ -201,6 +201,7 @@ const SignUpForm = (props: Props) => {
       });
       // userProfileStateにプロフィールデータをセット
       setUserProfile({
+        id: user.uid,
         name: name,
         photoURL: "noImage",
         gender: "未設定",
@@ -284,7 +285,7 @@ const SignUpForm = (props: Props) => {
             新規登録
           </Button>
         </div>
-        <AlertMessage
+        <BasicAlert
           alert={othersError}
           setAlert={setOthersError}
           message={othersErrorMessage}

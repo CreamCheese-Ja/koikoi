@@ -4,11 +4,16 @@ import styles from "styles/layout.module.css";
 import Footer from "./block/Footer";
 import SideBar from "./block/SideBar";
 import Dialogs from "./block/Dialogs";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import firebase from "../firebase/firebase";
-import { userProfileState } from "src/atoms/atom";
+import {
+  defaultErrorAlertState,
+  multipurposeErrorAlertState,
+  userProfileState,
+} from "src/atoms/atom";
 import { useEffect } from "react";
 import Alerts from "./block/Alerts";
+import { getUserProfile } from "src/firebase/firestore";
 
 type Props = {
   children: ReactNode;
@@ -16,33 +21,39 @@ type Props = {
 
 export default function Layout({ children, ...props }: Props) {
   // ユーザープロフィール用の変更関数
-  const [userProfile, setUserProfile] = useRecoilState(userProfileState);
+  const setUserProfile = useSetRecoilState(userProfileState);
+
+  // 共通のエラーアラート用の変更関数
+  const setDefaultErrorAlert = useSetRecoilState(defaultErrorAlertState);
+
+  // 多目的エラーアラート用の変更関数
+  const setMultipurposeErrorAlert = useSetRecoilState(
+    multipurposeErrorAlertState
+  );
 
   useEffect(() => {
     // userがログインしていればプロフィールデータを取得しstateに保存
     firebase.auth().onAuthStateChanged(async (user) => {
-      if (user && userProfile.name === "") {
-        try {
-          const doc = await firebase
-            .firestore()
-            .collection("users")
-            .doc(user.uid)
-            .get();
-          if (doc.exists) {
-            const profileData = doc.data();
-            setUserProfile({
-              name: profileData?.name,
-              photoURL: profileData?.photoURL,
-              gender: profileData?.gender,
-              age: profileData?.age,
-              bloodType: profileData?.bloodType,
-              sign: profileData?.sign,
-              numberOfBestAnswer: profileData?.numberOfBestAnswer,
-              numberOfLikes: profileData?.numberOfLikes,
-            });
-          }
-        } catch (error) {}
-      } else {
+      if (user) {
+        const profileData = await getUserProfile(user.uid);
+        if (typeof profileData !== "string") {
+          setUserProfile({
+            id: user.uid,
+            name: profileData.name,
+            photoURL: profileData.photoURL,
+            gender: profileData.gender,
+            age: profileData.age,
+            job: profileData.job,
+            bloodType: profileData.bloodType,
+            sign: profileData.sign,
+            numberOfBestAnswer: profileData.numberOfBestAnswer,
+            numberOfLikes: profileData.numberOfLikes,
+          });
+        } else if (profileData === "error") {
+          setDefaultErrorAlert(true);
+        } else {
+          setMultipurposeErrorAlert({ status: true, message: profileData });
+        }
       }
     });
   }, []);

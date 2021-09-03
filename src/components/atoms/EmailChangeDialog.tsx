@@ -8,7 +8,7 @@ import InputField from "./InputField";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import styles from "styles/components/atoms/emailChangeDialog.module.css";
 import firebase from "../../firebase/firebase";
-import AlertMessage from "./AlertMessage";
+import BasicAlert from "./alerts/BasicAlert";
 import Linear from "./progress/Linear";
 
 const useStyles = makeStyles(() =>
@@ -126,13 +126,13 @@ const EmailChangeDialog = () => {
           <Button color="primary">キャンセル</Button>
         </DialogActions>
       </Dialog>
-      <AlertMessage
+      <BasicAlert
         alert={success}
         setAlert={setSuccess}
         message="正常に変更完了しました。"
         warningType="success"
       />
-      <AlertMessage
+      <BasicAlert
         alert={othersError}
         setAlert={setOthersError}
         message={othersErrorMessage}

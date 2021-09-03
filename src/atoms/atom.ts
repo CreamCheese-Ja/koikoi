@@ -2,6 +2,7 @@ import { atom } from "recoil";
 
 // ユーザーのプロフィールデータの型
 type ProfileItem = {
+  id: string;
   name: string;
   photoURL: string;
   gender: string;
@@ -17,6 +18,7 @@ type ProfileItem = {
 export const userProfileState = atom<ProfileItem>({
   key: "userProfileState",
   default: {
+    id: "",
     name: "",
     photoURL: "",
     gender: "",
@@ -80,34 +82,46 @@ export const loginAlertState = atom({
   default: false,
 });
 
+// 共通のエラーアラート
+export const defaultErrorAlertState = atom({
+  key: "defaultErrorAlertState",
+  default: false,
+});
+
+// 多目的エラーアラート(これを基本にする)
+export const multipurposeErrorAlertState = atom({
+  key: "multipurposeErrorAlertState",
+  default: {
+    status: false,
+    message: "",
+  },
+});
+
+// 多目的サクセスアラート(これを基本にする)
+export const multipurposeSuccessAlertState = atom({
+  key: "multipurposeSuccessAlertState",
+  default: {
+    status: false,
+    message: "",
+  },
+});
+
 // 恋愛相談の入力フォーム
 
 // カテゴリー
 export const consultationCategoryState = atom({
   key: "consultationCategoryState",
-  default: "",
+  default: { text: "", errorStatus: false, errorMessage: "" },
 });
 
 // タイトル
 export const consultationTitleState = atom({
   key: "consultationTitleState",
-  default: "",
+  default: { text: "", errorStatus: false, errorMessage: "" },
 });
 
 // 内容
 export const consultationContentState = atom({
   key: "consultationContentState",
-  default: "",
-});
-
-// エラー
-export const consultationErrorState = atom({
-  key: "consultationErrorState",
-  default: { category: false, title: false, content: false },
-});
-
-// エラーメッセージ
-export const consultationErrorMessageState = atom({
-  key: "consultationErrorMessageState",
-  default: { category: "", title: "", content: "" },
+  default: { text: "", errorStatus: false, errorMessage: "" },
 });

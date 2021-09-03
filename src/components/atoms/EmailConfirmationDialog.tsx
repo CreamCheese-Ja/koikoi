@@ -6,7 +6,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import styles from "styles/components/atoms/EmailConfirmationDialog.module.css";
-import AlertMessage from "./AlertMessage";
+import BasicAlert from "./alerts/BasicAlert";
 import firebase from "../../firebase/firebase";
 import Linear from "./progress/Linear";
 
@@ -83,13 +83,13 @@ const EmailConfirmationDialog = (props: Props) => {
           </div>
         </DialogContent>
       </Dialog>
-      <AlertMessage
+      <BasicAlert
         alert={error}
         setAlert={setError}
         message="登録が完了していません。"
         warningType="error"
       />
-      <AlertMessage
+      <BasicAlert
         alert={success}
         setAlert={setSuccess}
         message="正常に登録完了しました。"

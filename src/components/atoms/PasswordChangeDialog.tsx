@@ -7,13 +7,16 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import styles from "styles/components/atoms/passwordChangeDialog.module.css";
-import { useRecoilState } from "recoil";
-import { passwordChangeDialogState } from "src/atoms/atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  defaultErrorAlertState,
+  passwordChangeDialogState,
+} from "src/atoms/atom";
 import InputField from "./InputField";
 import Linear from "./progress/Linear";
 import { sendPasswordResetEmail } from "../../firebase/authentication";
 import { useEffect } from "react";
-import AlertMessage from "./AlertMessage";
+import BasicAlert from "./alerts/BasicAlert";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -35,6 +38,9 @@ const PasswordChangeDialog = () => {
 
   // パスワード変更ダイアログ開閉用のstate
   const [open, setOpen] = useRecoilState(passwordChangeDialogState);
+
+  // 共通のエラーアラート用の変更関数
+  const setDefaultErrorAlert = useSetRecoilState(defaultErrorAlertState);
 
   const [success, setSuccess] = useState(false);
 
@@ -60,12 +66,11 @@ const PasswordChangeDialog = () => {
       setEmail("");
       setSuccess(true);
       handleClose();
-    } else if (
-      message === "アカウントが存在しません。" ||
-      message === "正しい形式で入力してください。"
-    ) {
+    } else if (message !== "error") {
       setInputError(true);
       setErrorMessage(message);
+    } else {
+      setDefaultErrorAlert(true);
     }
     setRunning(false);
   };
@@ -114,7 +119,7 @@ const PasswordChangeDialog = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <AlertMessage
+      <BasicAlert
         alert={success}
         setAlert={setSuccess}
         message="再設定メールを送信しました。"

@@ -1,17 +1,22 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
+import { SetterOrUpdater } from "recoil";
 
 type Props = {
   label: string;
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: SetterOrUpdater<{
+    text: string;
+    errorStatus: boolean;
+    errorMessage: string;
+  }>;
   error: boolean;
   errorMessage: string;
 };
 
 const MultilineTextField = (props: Props) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.setValue(event.target.value);
+    props.setValue((value) => ({ ...value, text: event.target.value }));
   };
 
   return (

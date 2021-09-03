@@ -1,25 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MultilineTextField from "./MultilineTextField";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  consultationContentState,
-  consultationErrorMessageState,
-  consultationErrorState,
-} from "src/atoms/atom";
+import { useRecoilState } from "recoil";
+import { consultationContentState } from "src/atoms/atom";
 
 const ConsultationContentField = () => {
   const [content, setContent] = useRecoilState(consultationContentState);
-  const inputError = useRecoilValue(consultationErrorState);
-  const errorMessage = useRecoilValue(consultationErrorMessageState);
+
+  useEffect(() => {
+    setContent((content) => ({
+      ...content,
+      errorStatus: false,
+      errorMessage: "",
+    }));
+  }, [content.text]);
 
   return (
     <>
       <MultilineTextField
         label="内容"
-        value={content}
+        value={content.text}
         setValue={setContent}
-        error={inputError.content}
-        errorMessage={errorMessage.content}
+        error={content.errorStatus}
+        errorMessage={content.errorMessage}
       />
     </>
   );

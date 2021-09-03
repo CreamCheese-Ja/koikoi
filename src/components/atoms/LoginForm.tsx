@@ -5,7 +5,11 @@ import Button from "@material-ui/core/Button";
 import styles from "styles/components/atoms/signUpForm.module.css";
 import { loginEmailAndPassword } from "src/firebase/authentication";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { loginAlertState, loginAndSignUpFormState } from "src/atoms/atom";
+import {
+  defaultErrorAlertState,
+  loginAlertState,
+  loginAndSignUpFormState,
+} from "src/atoms/atom";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -45,6 +49,9 @@ const LoginForm = (props: Props) => {
   // ログインアラート用の変更関数
   const setLoginAlert = useSetRecoilState(loginAlertState);
 
+  // 共通のエラーアラート用の変更関数
+  const setDefaultErrorAlert = useSetRecoilState(defaultErrorAlertState);
+
   // それぞれの入力欄のエラーをリセット
   useEffect(() => {
     setInputError({ ...inputError, email: false });
@@ -78,9 +85,11 @@ const LoginForm = (props: Props) => {
       if (user === "メールアドレスまたはパスワードが違います。") {
         setErrorMessage({ email: user, password: user });
         setInputError({ email: true, password: true });
-      } else {
+      } else if (user !== "error") {
         setErrorMessage({ ...errorMessage, email: user });
         setInputError({ email: true, password: false });
+      } else {
+        setDefaultErrorAlert(true);
       }
     }
     props.setRunning(false);

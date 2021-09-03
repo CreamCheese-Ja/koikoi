@@ -13,7 +13,7 @@ type Props = {
   warningType: Color;
 };
 
-const AlertMessage = (props: Props) => {
+const BasicAlert = (props: Props) => {
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
@@ -29,4 +29,4 @@ const AlertMessage = (props: Props) => {
   );
 };
 
-export default AlertMessage;
+export default BasicAlert;

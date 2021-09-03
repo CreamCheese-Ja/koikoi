@@ -5,6 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import { SetterOrUpdater } from "recoil";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -16,7 +17,11 @@ const useStyles = makeStyles(() =>
 
 type Props = {
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: SetterOrUpdater<{
+    text: string;
+    errorStatus: boolean;
+    errorMessage: string;
+  }>;
   error: boolean;
   errorMessage: string;
 };
@@ -25,7 +30,10 @@ const CategorySelect = (props: Props) => {
   const classes = useStyles();
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    props.setValue(event.target.value as string);
+    props.setValue((value) => ({
+      ...value,
+      text: event.target.value as string,
+    }));
   };
 
   return (

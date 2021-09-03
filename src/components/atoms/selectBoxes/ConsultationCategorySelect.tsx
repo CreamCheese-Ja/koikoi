@@ -1,26 +1,28 @@
-import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  consultationCategoryState,
-  consultationErrorMessageState,
-  consultationErrorState,
-} from "src/atoms/atom";
+import React, { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { consultationCategoryState } from "src/atoms/atom";
 import CategorySelect from "./CategorySelect";
 
 const ConsultationCategorySelect = () => {
   const [category, setCategory] = useRecoilState(consultationCategoryState);
-  const inputError = useRecoilValue(consultationErrorState);
-  const errorMessage = useRecoilValue(consultationErrorMessageState);
+
+  useEffect(() => {
+    setCategory((category) => ({
+      ...category,
+      errorStatus: false,
+      errorMessage: "",
+    }));
+  }, [category.text]);
 
   return (
-    <div>
+    <>
       <CategorySelect
-        value={category}
+        value={category.text}
         setValue={setCategory}
-        error={inputError.category}
-        errorMessage={errorMessage.category}
+        error={category.errorStatus}
+        errorMessage={category.errorMessage}
       />
-    </div>
+    </>
   );
 };
 
