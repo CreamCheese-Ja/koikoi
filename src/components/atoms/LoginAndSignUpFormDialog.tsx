@@ -103,6 +103,12 @@ const LoginAndSignUpFormDialog = () => {
                 >
                   ログインはこちら
                 </Button>
+                <div>
+                  <span>利用規約</span>
+                  を確認の上
+                  <br />
+                  ご登録ください
+                </div>
               </div>
             </div>
           )}

@@ -12,6 +12,7 @@ type Props = {
   }>;
   error: boolean;
   errorMessage: string;
+  disabled: boolean;
 };
 
 const MultilineTextField = (props: Props) => {
@@ -32,6 +33,7 @@ const MultilineTextField = (props: Props) => {
         onChange={handleChange}
         variant="outlined"
         style={{ width: "250px" }}
+        disabled={props.disabled}
       />
     </div>
   );

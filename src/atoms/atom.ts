@@ -125,3 +125,8 @@ export const consultationContentState = atom({
   key: "consultationContentState",
   default: { text: "", errorStatus: false, errorMessage: "" },
 });
+// 実行中
+export const postConsultationRunning = atom({
+  key: "postConsultationRunning",
+  default: false,
+});

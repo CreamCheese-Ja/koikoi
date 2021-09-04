@@ -1,10 +1,16 @@
 import React, { useEffect } from "react";
-import { useRecoilState } from "recoil";
-import { consultationCategoryState } from "src/atoms/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  consultationCategoryState,
+  postConsultationRunning,
+} from "src/atoms/atom";
 import CategorySelect from "./CategorySelect";
 
 const ConsultationCategorySelect = () => {
   const [category, setCategory] = useRecoilState(consultationCategoryState);
+
+  // 実行中の値
+  const running = useRecoilValue(postConsultationRunning);
 
   useEffect(() => {
     setCategory((category) => ({
@@ -21,6 +27,7 @@ const ConsultationCategorySelect = () => {
         setValue={setCategory}
         error={category.errorStatus}
         errorMessage={category.errorMessage}
+        disabled={running}
       />
     </>
   );

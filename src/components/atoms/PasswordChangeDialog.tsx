@@ -98,6 +98,7 @@ const PasswordChangeDialog = () => {
               onChange={setEmail}
               error={inputError}
               errorMessage={errorMessage}
+              disabled={running}
             />
           </div>
 

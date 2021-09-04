@@ -1,10 +1,16 @@
 import React, { useEffect } from "react";
 import MultilineTextField from "./MultilineTextField";
-import { useRecoilState } from "recoil";
-import { consultationContentState } from "src/atoms/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  consultationContentState,
+  postConsultationRunning,
+} from "src/atoms/atom";
 
 const ConsultationContentField = () => {
   const [content, setContent] = useRecoilState(consultationContentState);
+
+  // 実行中の値
+  const running = useRecoilValue(postConsultationRunning);
 
   useEffect(() => {
     setContent((content) => ({
@@ -22,6 +28,7 @@ const ConsultationContentField = () => {
         setValue={setContent}
         error={content.errorStatus}
         errorMessage={content.errorMessage}
+        disabled={running}
       />
     </>
   );

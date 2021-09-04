@@ -109,6 +109,7 @@ const EmailChangeDialog = () => {
             onChange={setEmail}
             error={inputError.email}
             errorMessage={errorMessage.email}
+            disabled={running}
           />
           <div className={styles.changeButtonArea}>
             <Button

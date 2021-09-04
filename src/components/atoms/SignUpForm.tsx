@@ -256,6 +256,7 @@ const SignUpForm = (props: Props) => {
             onChange={setName}
             error={inputError.name}
             errorMessage={errorMessage.name}
+            disabled={props.running}
           />
           <InputField
             label="メールアドレス"
@@ -264,6 +265,7 @@ const SignUpForm = (props: Props) => {
             onChange={setEmail}
             error={inputError.email}
             errorMessage={errorMessage.email}
+            disabled={props.running}
           />
           <InputField
             label="パスワード(6文字以上)"
@@ -272,6 +274,7 @@ const SignUpForm = (props: Props) => {
             onChange={setPassword}
             error={inputError.password}
             errorMessage={errorMessage.password}
+            disabled={props.running}
           />
         </div>
         <div className={styles.buttonArea}>

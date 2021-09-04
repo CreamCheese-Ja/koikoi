@@ -13,6 +13,7 @@ type Props = {
   warningType: Color;
 };
 
+// 消す予定、使わない(Alertsと新規登録フォームで使用中)
 const BasicAlert = (props: Props) => {
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {

@@ -24,6 +24,7 @@ type Props = {
   }>;
   error: boolean;
   errorMessage: string;
+  disabled: boolean;
 };
 
 const CategorySelect = (props: Props) => {
@@ -42,6 +43,7 @@ const CategorySelect = (props: Props) => {
         variant="outlined"
         className={classes.formControl}
         error={props.error}
+        disabled={props.disabled}
       >
         <InputLabel id="demo-simple-select-outlined-label">
           カテゴリー

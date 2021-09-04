@@ -52,7 +52,9 @@ export default function Layout({ children, ...props }: Props) {
         } else if (profileData === "error") {
           setDefaultErrorAlert(true);
         } else {
-          setMultipurposeErrorAlert({ status: true, message: profileData });
+          if (firebase.auth().currentUser?.emailVerified) {
+            setMultipurposeErrorAlert({ status: true, message: profileData });
+          }
         }
       }
     });

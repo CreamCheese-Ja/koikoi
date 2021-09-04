@@ -104,6 +104,7 @@ const LoginForm = (props: Props) => {
         onChange={setEmail}
         error={inputError.email}
         errorMessage={errorMessage.email}
+        disabled={props.running}
       />
       <InputField
         label="パスワード"
@@ -112,6 +113,7 @@ const LoginForm = (props: Props) => {
         onChange={setPassword}
         error={inputError.password}
         errorMessage={errorMessage.password}
+        disabled={props.running}
       />
       <div className={styles.buttonArea}>
         <Button

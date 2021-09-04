@@ -8,6 +8,7 @@ type Props = {
   onChange: Dispatch<SetStateAction<string>>;
   error: boolean;
   errorMessage: string;
+  disabled: boolean;
 };
 
 const InputField = (props: Props) => {
@@ -20,6 +21,7 @@ const InputField = (props: Props) => {
         variant="outlined"
         type={props.type}
         value={props.value}
+        disabled={props.disabled}
         onChange={(e) => {
           props.onChange(() => e.target.value);
         }}

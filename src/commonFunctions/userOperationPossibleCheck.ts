@@ -5,13 +5,13 @@ export const userOperationPossibleCheck = (
   userName: string
 ): boolean | string => {
   const emailVerified = checkEmailVerified();
-  if (emailVerified) {
-    if (userName !== "") {
+  if (userName !== "") {
+    if (emailVerified) {
       return true;
     } else {
-      return "ユーザー情報がありません。";
+      return "メールアドレスの確認が完了していません。";
     }
   } else {
-    return "メールアドレスの確認が完了していません。";
+    return "投稿にはログインが必要です。";
   }
 };
