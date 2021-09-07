@@ -7,6 +7,8 @@ import Dialogs from "./block/Dialogs";
 import { useSetRecoilState } from "recoil";
 import firebase from "../firebase/firebase";
 import {
+  authCheckState,
+  consultationListState,
   defaultErrorAlertState,
   multipurposeErrorAlertState,
   userProfileState,
@@ -23,6 +25,9 @@ export default function Layout({ children, ...props }: Props) {
   // ユーザープロフィール用の変更関数
   const setUserProfile = useSetRecoilState(userProfileState);
 
+  // onAuthStateChangedでチェック有無の変更関数
+  const setAuthCheck = useSetRecoilState(authCheckState);
+
   // 共通のエラーアラート用の変更関数
   const setDefaultErrorAlert = useSetRecoilState(defaultErrorAlertState);
 
@@ -31,10 +36,17 @@ export default function Layout({ children, ...props }: Props) {
     multipurposeErrorAlertState
   );
 
+  const setConsultationList = useSetRecoilState(consultationListState);
+
   useEffect(() => {
     // userがログインしていればプロフィールデータを取得しstateに保存
     firebase.auth().onAuthStateChanged(async (user) => {
       if (user) {
+        // ログインしたら、最初にauthCheckを空にする
+        setAuthCheck(false);
+        // 未ログイン時の恋愛相談リストも消す
+        setConsultationList([]);
+        // ユーザー情報をfirestoreから取得する
         const profileData = await getUserProfile(user.uid);
         if (typeof profileData !== "string") {
           setUserProfile({
@@ -57,6 +69,7 @@ export default function Layout({ children, ...props }: Props) {
           }
         }
       }
+      setAuthCheck(true);
     });
   }, []);
 

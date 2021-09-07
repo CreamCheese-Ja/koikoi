@@ -57,3 +57,68 @@ export const createConsultation = async (
     return "error";
   }
 };
+
+// 恋愛相談リストの型
+export type ConsultationList = {
+  user: {
+    id: string;
+    name: string;
+    photoURL: string;
+  };
+  consultationId: string;
+  category: string;
+  title: string;
+  content: string;
+  supplement: string;
+  solution: boolean;
+  numberOfLikes: number;
+  numberOfAnswer: number;
+  createdAt: firebase.firestore.FieldValue;
+  updatedAt: firebase.firestore.FieldValue;
+}[];
+
+// 恋愛相談のリストを取得(最初の10件)
+export const getSolutionList = async (
+  userId: string
+): Promise<ConsultationList | string> => {
+  const ref = firebase.firestore().collection("consultations");
+  try {
+    const querySnapshot = await ref
+      .orderBy("createdAt", "desc")
+      .limit(10)
+      .get();
+    // 取得したリストにuserがいいねしているかどうかのフラグを付け加えて返す
+    const currentPage = await Promise.all(
+      querySnapshot.docs.map(async (doc) => {
+        const good = await ref
+          .doc(doc.id)
+          .collection("likes")
+          .doc(userId)
+          .get();
+
+        const userData = await doc.get("user.ref").get();
+        return {
+          user: {
+            id: userData.id,
+            name: userData.get("name"),
+            photoURL: userData.get("photoURL"),
+          },
+          consultationId: doc.id,
+          category: doc.get("category"),
+          title: doc.get("title"),
+          content: doc.get("content"),
+          supplement: doc.get("supplement"),
+          solution: doc.get("solution"),
+          numberOfLikes: doc.get("numberOfLikes"),
+          numberOfAnswer: doc.get("numberOfAnswer"),
+          createdAt: doc.get("createdAt"),
+          updatedAt: doc.get("updatedAt"),
+          userGood: good.exists,
+        };
+      })
+    );
+    return currentPage;
+  } catch (error) {
+    return "error";
+  }
+};

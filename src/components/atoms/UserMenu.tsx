@@ -27,7 +27,7 @@ const UserMenu = () => {
     try {
       await firebase.auth().signOut();
       setUserProfile({
-        id: "",
+        id: "noUser",
         name: "",
         photoURL: "",
         gender: "",

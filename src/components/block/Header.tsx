@@ -1,4 +1,3 @@
-import React from "react";
 import HeaderNav from "../atoms/HeaderNav";
 import styles from "styles/components/block/header.module.css";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
@@ -27,6 +26,7 @@ const useStyles = makeStyles(() =>
 const Header = () => {
   const classes = useStyles();
 
+  // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
 
   return (
@@ -37,6 +37,7 @@ const Header = () => {
             <Typography variant="h6" className={classes.title}>
               Title
             </Typography>
+            {/* <div onClick={() => get()}>取得</div> */}
             <SearchBar />
             <HeaderNav />
             {userProfile.name === "" ? (

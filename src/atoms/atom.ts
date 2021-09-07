@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { ConsultationList } from "src/firebase/firestore";
 
 // ユーザーのプロフィールデータの型
 type ProfileItem = {
@@ -18,7 +19,7 @@ type ProfileItem = {
 export const userProfileState = atom<ProfileItem>({
   key: "userProfileState",
   default: {
-    id: "",
+    id: "noUser",
     name: "",
     photoURL: "",
     gender: "",
@@ -29,6 +30,18 @@ export const userProfileState = atom<ProfileItem>({
     numberOfBestAnswer: 0,
     numberOfLikes: 0,
   },
+});
+
+// ログインしているかどうかのstate
+// export const loginStatusState = atom({
+//   key: "loginStatusState",
+//   default: false,
+// });
+
+// onAuthStateChangedでチェックが終わっているかどうかのstate
+export const authCheckState = atom({
+  key: "authCheckState",
+  default: false,
 });
 
 // ログイン、新規登録フォーム開閉
@@ -129,4 +142,10 @@ export const consultationContentState = atom({
 export const postConsultationRunning = atom({
   key: "postConsultationRunning",
   default: false,
+});
+
+// 恋愛相談のリスト
+export const consultationListState = atom<ConsultationList>({
+  key: "consultationListState",
+  default: [],
 });

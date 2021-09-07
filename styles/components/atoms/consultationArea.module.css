@@ -16,10 +16,31 @@
 .userName {
   margin-left: 10px;
 }
+.date {
+  padding-right: 5px;
+}
 .goodButtonArea {
   display: flex;
   align-items: center;
 }
 .goodCount {
   margin-left: 5px;
+}
+.category {
+  display: inline-block;
+  color: #fff;
+  margin: 0 0;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.goodAndSolution {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.solution {
+  color: red;
+  border: red solid 1px;
+  padding: 3px 5px;
+  border-radius: 5px;
 }
