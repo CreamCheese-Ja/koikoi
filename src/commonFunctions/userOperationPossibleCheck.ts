@@ -12,6 +12,6 @@ export const userOperationPossibleCheck = (
       return "メールアドレスの確認が完了していません。";
     }
   } else {
-    return "投稿にはログインが必要です。";
+    return "ログインが必要です。";
   }
 };

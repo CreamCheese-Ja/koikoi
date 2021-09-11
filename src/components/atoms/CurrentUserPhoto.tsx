@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import noProfile from "public/images/no-profile.png";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { userMenuState, userProfileState } from "src/atoms/atom";
@@ -18,21 +18,21 @@ const CurrentUserPhoto = () => {
   return (
     <div>
       {userProfile.photoURL === "noImage" ? (
-        <Button
+        <IconButton
           aria-controls="simple-menu"
           aria-haspopup="true"
           onClick={openUserMenu}
         >
           <Image src={noProfile} width={40} height={40} />
-        </Button>
+        </IconButton>
       ) : (
-        <Button
+        <IconButton
           aria-controls="simple-menu"
           aria-haspopup="true"
           onClick={openUserMenu}
         >
-          <Image src={noProfile} width={40} height={40} />
-        </Button>
+          <Image src={userProfile.photoURL} width={40} height={40} />
+        </IconButton>
       )}
       <UserMenu />
     </div>

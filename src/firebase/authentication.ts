@@ -15,7 +15,8 @@ export const loginEmailAndPassword = async (
     } else {
       return "error";
     }
-  } catch (error) {
+  } catch (e) {
+    const error = e as firebase.FirebaseError;
     const errorCode = error.code;
 
     switch (errorCode) {
@@ -40,7 +41,8 @@ export const sendPasswordResetEmail = async (
   try {
     await firebase.auth().sendPasswordResetEmail(email);
     return "completion";
-  } catch (error) {
+  } catch (e) {
+    const error = e as firebase.FirebaseError;
     const errorCode = error.code;
     switch (errorCode) {
       case "auth/invalid-email":

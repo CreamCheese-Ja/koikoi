@@ -55,7 +55,8 @@ const EmailChangeDialog = () => {
     const user = firebase.auth().currentUser;
     try {
       await user!.updateEmail(email);
-    } catch (error) {
+    } catch (e) {
+      const error = e as firebase.FirebaseError;
       const errorCode = error.code;
 
       switch (errorCode) {

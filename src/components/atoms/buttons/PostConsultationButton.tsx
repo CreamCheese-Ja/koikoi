@@ -9,9 +9,13 @@ import {
   multipurposeSuccessAlertState,
   loginAndSignUpFormState,
   postConsultationRunning,
+  consultationListState,
 } from "src/atoms/atom";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
-import { createConsultation } from "src/firebase/firestore";
+import {
+  createConsultation,
+  getNewConsultationData,
+} from "src/firebase/firestore";
 import BasicExecutionButton from "./BasicExecutionButton";
 
 type Props = {
@@ -23,11 +27,14 @@ const PostConsultationButton = (props: Props) => {
   const [title, setTitle] = useRecoilState(consultationTitleState);
   const [content, setContent] = useRecoilState(consultationContentState);
 
+  // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
 
+  // 共通のエラー、サクセスアラートの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
 
+  // デフォルトエラーの変更関数
   const setDefaultError = useSetRecoilState(defaultErrorAlertState);
 
   // ログイン、新規登録フォーム用の変更関数
@@ -36,10 +43,21 @@ const PostConsultationButton = (props: Props) => {
   // 実行中の変更関数
   const [running, setRunning] = useRecoilState(postConsultationRunning);
 
+  // 恋愛相談リストのstate
+  const [consultationList, setConsultationList] = useRecoilState(
+    consultationListState
+  );
+
   // 投稿ボタンを押下した時に動く関数
   const postConsultation = async () => {
     setRunning(() => true);
-    if (category.text !== "" && title.text !== "" && content.text !== "") {
+    if (
+      category.text !== "" &&
+      title.text !== "" &&
+      content.text !== "" &&
+      title.text.length <= 100 &&
+      content.text.length <= 10000
+    ) {
       // ユーザー操作が可能かどうかチェック
       const operationPossible = userOperationPossibleCheck(userProfile.name);
       if (typeof operationPossible !== "string") {
@@ -52,18 +70,27 @@ const PostConsultationButton = (props: Props) => {
         );
         if (create !== "error") {
           // 投稿完了
-          setSuccess({ status: true, message: create });
-          setCategory((category) => ({ ...category, text: "" }));
-          setTitle((title) => ({ ...title, text: "" }));
-          setContent((content) => ({ ...content, text: "" }));
-          props.handleClose();
+          // 新規の投稿を取得
+          const newData = await getNewConsultationData(create);
+          if (typeof newData !== "string") {
+            // 新規の投稿を恋愛相談リストに追加
+            setConsultationList([newData, ...consultationList]);
+            // 投稿完了操作
+            setSuccess({ status: true, message: "投稿しました。" });
+            setCategory((category) => ({ ...category, text: "" }));
+            setTitle((title) => ({ ...title, text: "" }));
+            setContent((content) => ({ ...content, text: "" }));
+            props.handleClose();
+          } else {
+            setDefaultError(true);
+          }
         } else {
           setDefaultError(true);
         }
-      } else if (operationPossible === "投稿にはログインが必要です。") {
+      } else if (operationPossible === "ログインが必要です。") {
         // ログインフォームを開く
         setLoginAndSignUpForm({ title: "ログイン", status: true });
-        setError({ status: true, message: operationPossible });
+        setError({ status: true, message: `投稿には${operationPossible}` });
       } else if (
         operationPossible === "メールアドレスの確認が完了していません。"
       ) {
@@ -89,6 +116,20 @@ const PostConsultationButton = (props: Props) => {
           ...content,
           errorStatus: true,
           errorMessage: "内容を入力してください。",
+        }));
+      }
+      if (title.text.length > 100) {
+        setTitle((title) => ({
+          ...title,
+          errorStatus: true,
+          errorMessage: "タイトルは100文字以内です。",
+        }));
+      }
+      if (content.text.length > 10000) {
+        setContent((content) => ({
+          ...content,
+          errorStatus: true,
+          errorMessage: "内容は10000文字以内です。",
         }));
       }
     }

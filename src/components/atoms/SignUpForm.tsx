@@ -127,7 +127,8 @@ const SignUpForm = (props: Props) => {
         // メール確認フォームを開く
         props.openEmailConfirmationDialog();
       }
-    } catch (error) {
+    } catch (e) {
+      const error = e as firebase.FirebaseError;
       const errorCode = error.code;
 
       // errorLogに対してそれぞれの処理
@@ -169,7 +170,7 @@ const SignUpForm = (props: Props) => {
         displayName: name,
       });
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
     }
   };
 
@@ -178,7 +179,7 @@ const SignUpForm = (props: Props) => {
     try {
       await firebase.auth().currentUser?.sendEmailVerification();
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
     }
   };
 
@@ -213,7 +214,7 @@ const SignUpForm = (props: Props) => {
         numberOfLikes: 0,
       });
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
     }
   };
 

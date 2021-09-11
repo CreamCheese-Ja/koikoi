@@ -32,12 +32,6 @@ export const userProfileState = atom<ProfileItem>({
   },
 });
 
-// ログインしているかどうかのstate
-// export const loginStatusState = atom({
-//   key: "loginStatusState",
-//   default: false,
-// });
-
 // onAuthStateChangedでチェックが終わっているかどうかのstate
 export const authCheckState = atom({
   key: "authCheckState",

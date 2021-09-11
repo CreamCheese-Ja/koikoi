@@ -1,6 +1,7 @@
 import Image from "next/image";
 import noProfile from "public/images/no-profile.png";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined";
 import Divider from "@material-ui/core/Divider";
 import styles from "styles/components/atoms/consultationArea.module.css";
 
@@ -13,8 +14,11 @@ import {
 import { getSolutionList } from "src/firebase/firestore";
 import { useEffect } from "react";
 import { getCurrentUser } from "src/firebase/authentication";
+import { changeDateFormat } from "src/commonFunctions/chnageDateFormat";
+import ConsulGoodButton from "./buttons/ConsulGoodButton";
 
 const ConsultationArea = () => {
+  // 恋愛相談Listのstate
   const [consultationList, setConsultationList] = useRecoilState(
     consultationListState
   );
@@ -35,7 +39,7 @@ const ConsultationArea = () => {
         setConsultationList(data);
       }
     };
-    // 恋愛相談listが空 + authCheckが終わっている場合に動作する
+    // 恋愛相談listが空 + authCheckがtrueになっている場合に動作する
     if (!consultationList.length && authCheck) {
       if (userProfile.id !== "noUser") {
         // ログインユーザーの情報を取得
@@ -51,6 +55,7 @@ const ConsultationArea = () => {
     }
   }, [authCheck]);
 
+  // カテゴリーの色を決める関数
   const category = (label: string) => {
     let style = null;
     switch (label) {
@@ -93,24 +98,57 @@ const ConsultationArea = () => {
           <div className={styles.consultationArea}>
             <div className={styles.consultationTop}>
               <div className={styles.userArea}>
-                {consul.user.photoURL === "noProfile" ? (
+                {consul.user.photoURL === "noImage" ? (
                   <Image src={noProfile} width={30} height={30} />
                 ) : (
-                  <Image src={noProfile} width={30} height={30} />
+                  <Image src={consul.user.photoURL} width={30} height={30} />
                 )}
                 <div className={styles.userName}>{consul.user.name}</div>
               </div>
-              <div className={styles.date}>投稿日時</div>
+              <div className={styles.date}>
+                {changeDateFormat(consul.createdAt) + "に投稿"}
+              </div>
             </div>
             <h2>{consul.title}</h2>
             <p>{consul.content}</p>
             {category(consul.category)}
             <div className={styles.goodAndSolution}>
-              <div className={styles.goodButtonArea}>
-                <FavoriteBorderIcon />
-                <div className={styles.goodCount}>{consul.numberOfLikes}</div>
+              <div className={styles.goodAndAnswer}>
+                <div className={styles.goodButtonArea}>
+                  {consul.userGood ? (
+                    <FavoriteIcon color="primary" />
+                  ) : (
+                    <ConsulGoodButton
+                      userId={consul.user.id}
+                      userName={consul.user.name}
+                      userPhotoURL={consul.user.photoURL}
+                      consultationId={consul.consultationId}
+                      category={consul.category}
+                      title={consul.title}
+                      content={consul.content}
+                      supplement={consul.supplement}
+                      solution={consul.solution}
+                      numberOfLikes={consul.numberOfLikes}
+                      numberOfAnswer={consul.numberOfAnswer}
+                      createdAt={consul.createdAt}
+                      updatedAt={consul.updatedAt}
+                    />
+                  )}
+                  <div className={styles.goodCount}>{consul.numberOfLikes}</div>
+                </div>
+                <div className={styles.numberOfAnswerArea}>
+                  <InsertCommentOutlinedIcon />
+                  <div className={styles.answerCount}>
+                    {consul.numberOfAnswer}
+                  </div>
+                </div>
               </div>
-              <div className={styles.solution}>解決済み</div>
+
+              {consul.solution ? (
+                <div className={styles.solution}>解決済み</div>
+              ) : (
+                <div className={styles.noSolution}>回答待ち</div>
+              )}
             </div>
           </div>
           <Divider />

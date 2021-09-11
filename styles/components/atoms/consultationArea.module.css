@@ -26,12 +26,26 @@
 .goodCount {
   margin-left: 5px;
 }
+.numberOfAnswerArea {
+  display: flex;
+  align-items: center;
+}
+.answerCount {
+  margin-left: 5px;
+}
 .category {
   display: inline-block;
   color: #fff;
   margin: 0 0;
   padding: 3px 5px;
   border-radius: 5px;
+}
+.goodAndAnswer {
+  display: flex;
+  align-items: center;
+}
+.goodAndAnswer > * {
+  margin-right: 15px;
 }
 .goodAndSolution {
   display: flex;
@@ -41,6 +55,12 @@
 .solution {
   color: red;
   border: red solid 1px;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.noSolution {
+  color: #000;
+  border: #000 solid 1px;
   padding: 3px 5px;
   border-radius: 5px;
 }
