@@ -11,6 +11,7 @@ type ProfileItem = {
   job: string;
   bloodType: string;
   sign: string;
+  message: string;
   numberOfBestAnswer: number;
   numberOfLikes: number;
 };
@@ -27,6 +28,7 @@ export const userProfileState = atom<ProfileItem>({
     job: "",
     bloodType: "",
     sign: "",
+    message: "",
     numberOfBestAnswer: 0,
     numberOfLikes: 0,
   },

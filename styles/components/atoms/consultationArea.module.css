@@ -19,6 +19,16 @@
 .date {
   padding-right: 5px;
 }
+.consulTitle {
+  display: inline-block;
+  margin: 0;
+}
+.consulTitle:hover {
+  color: #f48fb1;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
 .goodButtonArea {
   display: flex;
   align-items: center;

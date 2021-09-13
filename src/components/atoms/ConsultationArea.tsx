@@ -109,13 +109,21 @@ const ConsultationArea = () => {
                 {changeDateFormat(consul.createdAt) + "に投稿"}
               </div>
             </div>
-            <h2>{consul.title}</h2>
-            <p>{consul.content}</p>
+            <h2 className={styles.consulTitle}>
+              {consul.title.length <= 30
+                ? consul.title
+                : consul.title.slice(0, 30) + "..."}
+            </h2>
+            <p>
+              {consul.content.length <= 100
+                ? consul.content
+                : consul.content.slice(0, 100) + "..."}
+            </p>
             {category(consul.category)}
             <div className={styles.goodAndSolution}>
               <div className={styles.goodAndAnswer}>
                 <div className={styles.goodButtonArea}>
-                  {consul.userGood ? (
+                  {consul.userLike ? (
                     <FavoriteIcon color="primary" />
                   ) : (
                     <ConsulGoodButton

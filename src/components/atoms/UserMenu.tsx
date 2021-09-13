@@ -35,6 +35,7 @@ const UserMenu = () => {
         age: "",
         bloodType: "",
         sign: "",
+        message: "",
         numberOfBestAnswer: 0,
         numberOfLikes: 0,
       });

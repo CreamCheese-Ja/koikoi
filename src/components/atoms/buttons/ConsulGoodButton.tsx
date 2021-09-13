@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "styles/components/atoms/buttons/consulAndTweetGoodButton.module.css";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { createConsulAndTweetGood } from "src/firebase/firestore";
+import { createConsulAndTweetLike } from "src/firebase/firestore";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -57,7 +57,7 @@ const ConsulGoodButton = (props: Props) => {
     }
     const operationPossible = userOperationPossibleCheck(userProfile.name);
     if (typeof operationPossible !== "string") {
-      const createGood = await createConsulAndTweetGood(
+      const createGood = await createConsulAndTweetLike(
         "consultations",
         props.consultationId,
         props.userId,
@@ -84,7 +84,7 @@ const ConsulGoodButton = (props: Props) => {
               numberOfAnswer: props.numberOfAnswer,
               createdAt: props.createdAt,
               updatedAt: props.updatedAt,
-              userGood: true,
+              userLike: true,
             };
           } else {
             return data;

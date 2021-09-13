@@ -74,7 +74,7 @@ export type ConsultationList = {
   numberOfAnswer: number;
   createdAt: firebase.firestore.Timestamp;
   updatedAt: firebase.firestore.Timestamp;
-  userGood: boolean;
+  userLike: boolean;
 }[];
 
 // 恋愛相談のリストを取得(最初の10件)
@@ -113,7 +113,7 @@ export const getSolutionList = async (
           numberOfAnswer: doc.get("numberOfAnswer"),
           createdAt: doc.get("createdAt"),
           updatedAt: doc.get("updatedAt"),
-          userGood: good.exists,
+          userLike: good.exists,
         };
       })
     );
@@ -139,7 +139,7 @@ export type ConsultationData = {
   numberOfAnswer: number;
   createdAt: firebase.firestore.Timestamp;
   updatedAt: firebase.firestore.Timestamp;
-  userGood: boolean;
+  userLike: boolean;
 };
 
 // ユーザーが投稿した最新の恋愛相談を1件取得
@@ -167,7 +167,7 @@ export const getNewConsultationData = async (
         numberOfAnswer: doc.get("numberOfAnswer"),
         createdAt: doc.get("createdAt"),
         updatedAt: doc.get("updatedAt"),
-        userGood: false,
+        userLike: false,
       };
     } else {
       return "error";
@@ -178,22 +178,22 @@ export const getNewConsultationData = async (
 };
 
 // 恋愛相談、つぶやきのいいね機能
-export const createConsulAndTweetGood = async (
+export const createConsulAndTweetLike = async (
   collectionId: string,
   documentId: string,
-  goodUserId: string,
+  likeUserId: string,
   requestUserId: string
 ): Promise<string> => {
   const batch = firebase.firestore().batch();
 
   // いいねの操作ユーザのcreate処理の登録
-  const goodRef = firebase
+  const likeRef = firebase
     .firestore()
     .collection(collectionId)
     .doc(documentId)
     .collection("likes")
     .doc(requestUserId);
-  batch.set(goodRef, {
+  batch.set(likeRef, {
     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   });
 
@@ -211,7 +211,7 @@ export const createConsulAndTweetGood = async (
   const userLikesIncrementRef = firebase
     .firestore()
     .collection("users")
-    .doc(goodUserId);
+    .doc(likeUserId);
   batch.update(userLikesIncrementRef, {
     numberOfLikes: firebase.firestore.FieldValue.increment(1),
     updatedAt: firebase.firestore.FieldValue.serverTimestamp(),

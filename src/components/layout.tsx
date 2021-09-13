@@ -58,6 +58,7 @@ export default function Layout({ children, ...props }: Props) {
             job: profileData.job,
             bloodType: profileData.bloodType,
             sign: profileData.sign,
+            message: profileData.message,
             numberOfBestAnswer: profileData.numberOfBestAnswer,
             numberOfLikes: profileData.numberOfLikes,
           });

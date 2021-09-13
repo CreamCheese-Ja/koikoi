@@ -195,6 +195,7 @@ const SignUpForm = (props: Props) => {
         job: "未設定",
         bloodType: "未設定",
         sign: "未設定",
+        message: "",
         numberOfBestAnswer: 0,
         numberOfLikes: 0,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -210,6 +211,7 @@ const SignUpForm = (props: Props) => {
         job: "未設定",
         bloodType: "未設定",
         sign: "未設定",
+        message: "",
         numberOfBestAnswer: 0,
         numberOfLikes: 0,
       });
