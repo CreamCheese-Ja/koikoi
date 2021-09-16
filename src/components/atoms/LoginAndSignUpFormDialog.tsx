@@ -71,13 +71,13 @@ const LoginAndSignUpFormDialog = () => {
               <div className={styles.loginAndSignUpMessage}>
                 <Button
                   color="primary"
+                  disabled={running}
                   onClick={() => {
                     setLoginAndSignUpForm({
                       ...loginAndSignUpForm,
                       title: "無料会員登録",
                     });
                   }}
-                  disabled={running}
                 >
                   新規登録はこちら
                 </Button>
@@ -104,7 +104,7 @@ const LoginAndSignUpFormDialog = () => {
                   ログインはこちら
                 </Button>
                 <div>
-                  <span>利用規約</span>
+                  <span className={styles.terms}>利用規約</span>
                   を確認の上
                   <br />
                   ご登録ください

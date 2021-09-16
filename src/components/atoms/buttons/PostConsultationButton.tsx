@@ -10,6 +10,7 @@ import {
   loginAndSignUpFormState,
   postConsultationRunning,
   consultationListState,
+  postMenuState,
 } from "src/atoms/atom";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
 import {
@@ -48,6 +49,9 @@ const PostConsultationButton = (props: Props) => {
     consultationListState
   );
 
+  // 投稿メニューの変更関数
+  const setPostMenu = useSetRecoilState(postMenuState);
+
   // 投稿ボタンを押下した時に動く関数
   const postConsultation = async () => {
     setRunning(() => true);
@@ -81,6 +85,7 @@ const PostConsultationButton = (props: Props) => {
             setTitle((title) => ({ ...title, text: "" }));
             setContent((content) => ({ ...content, text: "" }));
             props.handleClose();
+            setPostMenu(null);
           } else {
             setDefaultError(true);
           }

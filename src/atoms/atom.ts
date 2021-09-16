@@ -1,6 +1,18 @@
 import { atom } from "recoil";
 import { ConsultationList } from "src/firebase/firestore";
 
+// ローディングスピナーON,OFF
+export const spinnerState = atom({
+  key: "spinnerState",
+  default: false,
+});
+
+// 恋愛相談用のもっと見るボタンの表示、非表示
+export const displayConsulMoreButtonState = atom({
+  key: "displayConsulMoreButtonState",
+  default: true,
+});
+
 // ユーザーのプロフィールデータの型
 type ProfileItem = {
   id: string;
@@ -115,7 +127,7 @@ export const multipurposeSuccessAlertState = atom({
   },
 });
 
-// 恋愛相談の入力フォーム
+// 恋愛相談関連
 
 // カテゴリー
 export const consultationCategoryState = atom({

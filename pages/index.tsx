@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import MoreButton from "src/components/atoms/buttons/MoreButton";
+import MoreConsultationButton from "src/components/atoms/buttons/MoreConsultationButton";
 import AllConsultationArea from "src/components/block/AllConsultationArea";
 import styles from "../styles/Home.module.css";
 
@@ -18,7 +18,7 @@ export default function Home() {
           <AllConsultationArea />
         </div>
         <div className={styles.nextButton}>
-          <MoreButton />
+          <MoreConsultationButton />
         </div>
       </div>
     </div>

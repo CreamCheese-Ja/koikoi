@@ -56,8 +56,10 @@ const CategorySelect = (props: Props) => {
           label="カテゴリー"
         >
           <MenuItem value="出会い">出会い</MenuItem>
+          <MenuItem value="片想い">片想い</MenuItem>
           <MenuItem value="恋人未満">恋人未満</MenuItem>
           <MenuItem value="恋人">恋人</MenuItem>
+          <MenuItem value="復縁">復縁</MenuItem>
           <MenuItem value="結婚">結婚</MenuItem>
           <MenuItem value="浮気">浮気</MenuItem>
           <MenuItem value="不倫">不倫</MenuItem>

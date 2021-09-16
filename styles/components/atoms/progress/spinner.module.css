@@ -1,0 +1,92 @@
+.spinnerArea {
+  text-align: center;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+.cpSpinner {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+}
+.cpBubble {
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  box-sizing: border-box;
+  background: #f48fb1;
+  animation: cpBubble-animate 1s linear infinite;
+}
+.cpBubble:before {
+  border-radius: 50%;
+  content: " ";
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  box-sizing: border-box;
+  background-color: #f48fb1;
+  position: absolute;
+  left: -30px;
+  animation: cpBubble-animate-before 1s ease-in-out infinite;
+}
+.cpBubble:after {
+  border-radius: 50%;
+  content: " ";
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  box-sizing: border-box;
+  background-color: #f48fb1;
+  position: absolute;
+  right: -30px;
+  animation: cpBubble-animate-after 1s ease-in-out infinite;
+}
+@keyframes cpBubble-animate {
+  0% {
+    opacity: 0.5;
+    transform: scale(1) translateX(0);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1.1) translateX(-15px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) translateX(15px);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(1) translateX(0);
+  }
+}
+@keyframes cpBubble-animate-before {
+  0% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.1);
+  }
+  100%,
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes cpBubble-animate-after {
+  0%,
+  50% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100%,
+  75% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

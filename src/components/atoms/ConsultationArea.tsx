@@ -5,13 +5,14 @@ import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined"
 import Divider from "@material-ui/core/Divider";
 import styles from "styles/components/atoms/consultationArea.module.css";
 
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   authCheckState,
   consultationListState,
+  spinnerState,
   userProfileState,
 } from "src/atoms/atom";
-import { getSolutionList } from "src/firebase/firestore";
+import { processingConsultationList } from "src/firebase/firestore";
 import { useEffect } from "react";
 import { getCurrentUser } from "src/firebase/authentication";
 import { changeDateFormat } from "src/commonFunctions/chnageDateFormat";
@@ -29,14 +30,19 @@ const ConsultationArea = () => {
   // onAuthStateChangedでチェック有無の値
   const authCheck = useRecoilValue(authCheckState);
 
+  // ローディングの変更関数
+  const setRunning = useSetRecoilState(spinnerState);
+
   useEffect(() => {
+    setRunning(true);
     // 恋愛相談リストを取得する関数
     const get = async (userId: string) => {
-      console.log(1, userProfile.id);
-      const data = await getSolutionList(userId);
-      console.log(2, data);
+      // console.log(1, userProfile.id);
+      const data = await processingConsultationList(userId);
+      // console.log(2, data);
       if (typeof data !== "string") {
         setConsultationList(data);
+        setRunning(false);
       }
     };
     // 恋愛相談listが空 + authCheckがtrueになっている場合に動作する
@@ -62,11 +68,17 @@ const ConsultationArea = () => {
       case "出会い":
         style = { backgroundColor: "#ffb74d" };
         break;
+      case "片想い":
+        style = { backgroundColor: "#81c784" };
+        break;
       case "恋人未満":
         style = { backgroundColor: "#ff8a65" };
         break;
       case "恋人":
         style = { backgroundColor: "#f06292" };
+        break;
+      case "復縁":
+        style = { backgroundColor: "#4db6ac" };
         break;
       case "結婚":
         style = { backgroundColor: "#e57373" };
@@ -124,7 +136,9 @@ const ConsultationArea = () => {
               <div className={styles.goodAndAnswer}>
                 <div className={styles.goodButtonArea}>
                   {consul.userLike ? (
-                    <FavoriteIcon color="primary" />
+                    <div>
+                      <FavoriteIcon color="primary" />
+                    </div>
                   ) : (
                     <ConsulGoodButton
                       userId={consul.user.id}
@@ -145,7 +159,10 @@ const ConsultationArea = () => {
                   <div className={styles.goodCount}>{consul.numberOfLikes}</div>
                 </div>
                 <div className={styles.numberOfAnswerArea}>
-                  <InsertCommentOutlinedIcon />
+                  <div className={styles.commentIcon}>
+                    <InsertCommentOutlinedIcon />
+                  </div>
+
                   <div className={styles.answerCount}>
                     {consul.numberOfAnswer}
                   </div>

@@ -52,7 +52,7 @@ const CreateConsultationDialog = () => {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="primary" disabled={running}>
             キャンセル
           </Button>
         </DialogActions>
