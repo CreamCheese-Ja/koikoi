@@ -35,7 +35,7 @@ export default function Layout({ children, ...props }: Props) {
   const setMultipurposeErrorAlert = useSetRecoilState(
     multipurposeErrorAlertState
   );
-
+  // 恋愛相談リストの変更関数
   const setConsultationList = useSetRecoilState(consultationListState);
 
   useEffect(() => {

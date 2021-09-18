@@ -20,11 +20,12 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: [
-      '"Noto Sans Japanese"',
-      '"Avenir next"',
+      '"Helvetica Neue"',
       "Helvetica",
       "Arial",
       '"Hiragino Sans"',
+      '"Meiryo"',
+      "sans-serif",
     ].join(","),
   },
 });

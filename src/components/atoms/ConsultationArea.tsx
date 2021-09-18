@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import noProfile from "public/images/no-profile.png";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined";
@@ -34,12 +35,15 @@ const ConsultationArea = () => {
   const setRunning = useSetRecoilState(spinnerState);
 
   useEffect(() => {
-    setRunning(true);
+    if (consultationList.length === 0) {
+      setRunning(true);
+    }
+
     // 恋愛相談リストを取得する関数
     const get = async (userId: string) => {
       // console.log(1, userProfile.id);
       const data = await processingConsultationList(userId);
-      // console.log(2, data);
+      console.log(2, data);
       if (typeof data !== "string") {
         setConsultationList(data);
         setRunning(false);
@@ -121,11 +125,15 @@ const ConsultationArea = () => {
                 {changeDateFormat(consul.createdAt) + "に投稿"}
               </div>
             </div>
-            <h2 className={styles.consulTitle}>
-              {consul.title.length <= 30
-                ? consul.title
-                : consul.title.slice(0, 30) + "..."}
-            </h2>
+            <Link href={`/consultations/${consul.consultationId}`}>
+              <a>
+                <h2 className={styles.consulTitle}>
+                  {consul.title.length <= 30
+                    ? consul.title
+                    : consul.title.slice(0, 30) + "..."}
+                </h2>
+              </a>
+            </Link>
             <p>
               {consul.content.length <= 100
                 ? consul.content

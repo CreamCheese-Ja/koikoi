@@ -1,0 +1,27 @@
+.container {
+  padding: 10px 20px 20px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+.title {
+  padding-bottom: 30px;
+}
+.dateAndUserArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -10px;
+  margin-bottom: 30px;
+}
+.userArea {
+  display: flex;
+  align-items: center;
+}
+.name {
+  margin-left: 10px;
+}
+.content {
+  line-height: 2.5;
+  white-space: pre-wrap;
+  word-break: break-all;
+}

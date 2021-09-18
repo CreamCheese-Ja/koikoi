@@ -1,3 +1,4 @@
+import { changeDateFormat } from "src/commonFunctions/chnageDateFormat";
 import firebase from "./firebase";
 
 // ユーザーのプロフィール情報を取得する関数
@@ -220,6 +221,151 @@ export const getNewConsultationData = async (
     } else {
       return "error";
     }
+  } catch (error) {
+    return "error";
+  }
+};
+
+// 恋愛相談詳細(回答なし)の型
+export type ConsultationDetails = {
+  user: {
+    id: string;
+    name: string;
+    photoURL: string;
+  };
+  consultationId: string;
+  category: string;
+  title: string;
+  content: string;
+  supplement: string;
+  solution: boolean;
+  numberOfLikes: number;
+  numberOfAnswer: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+// 恋愛相談詳細を1件取得(恋愛相談詳細ページSSR用)
+export const getConsultationDetails = async (
+  docId: string
+): Promise<ConsultationDetails | string> => {
+  // 恋愛相談ドキュメントのリファレンス
+  const consulRef = firebase.firestore().collection("consultations").doc(docId);
+
+  try {
+    // 恋愛相談ドキュメントを取得
+    const doc = await consulRef.get();
+    if (doc !== undefined) {
+      const userData = await doc.get("user.ref").get();
+
+      // 恋愛情報ドキュメントと回答リストをまとめたオブジェクトを返す
+      // SSRでTimestampを扱うときは最初にstingに変換する
+      return {
+        user: {
+          id: userData.id,
+          name: userData.get("name"),
+          photoURL: userData.get("photoURL"),
+        },
+        consultationId: doc.id,
+        category: doc.get("category"),
+        title: doc.get("title"),
+        content: doc.get("content"),
+        supplement: doc.get("supplement"),
+        solution: doc.get("solution"),
+        numberOfLikes: doc.get("numberOfLikes"),
+        numberOfAnswer: doc.get("numberOfAnswer"),
+        createdAt: changeDateFormat(doc.get("createdAt")),
+        updatedAt: changeDateFormat(doc.get("updatedAt")),
+      };
+    } else {
+      return "error";
+    }
+  } catch (error) {
+    return "error";
+  }
+};
+
+// 恋愛相談詳細の中の回答リストの型
+export type ConsultationAnswers = {
+  user: {
+    id: string;
+    name: string;
+    photoURL: string;
+  };
+  answerId: string;
+  content: string;
+  createdAt: firebase.firestore.Timestamp;
+  updatedAt: firebase.firestore.Timestamp;
+  numberOfLikes: number;
+  bestAnswer: boolean;
+  comment: string;
+}[];
+
+// 恋愛相談詳細に対する回答リストを取得(恋愛相談詳細ページCSR用)
+export const getConsultationAnswers = async (
+  docId: string,
+  userId: string
+): Promise<ConsultationAnswers | string> => {
+  // 回答へのリファレンス
+  const answersRef = firebase
+    .firestore()
+    .collection("consultations")
+    .doc(docId)
+    .collection("answers");
+  try {
+    // 取得した恋愛相談ドキュメントに中の回答を5つ取得
+    const answersSnapshot = await answersRef
+      .orderBy("createdAt", "desc")
+      .limit(5)
+      .get();
+    // 回答のuserRefを値に直し、いいね済みかどうかを確認後リスト化
+    const answersList = await Promise.all(
+      answersSnapshot.docs.map(async (doc) => {
+        // 回答にいいね済みかどうかを確認
+        const userLike = await answersRef
+          .doc(doc.id)
+          .collection("likes")
+          .doc(userId)
+          .get();
+        const answerUserData = await doc.get("user.ref").get();
+        return {
+          user: {
+            id: answerUserData.id,
+            name: answerUserData.get("name"),
+            photoURL: answerUserData.get("photoURL"),
+          },
+          answerId: doc.id,
+          content: doc.get("content"),
+          createdAt: doc.get("createdAt"),
+          updatedAt: doc.get("updatedAt"),
+          numberOfLikes: doc.get("numberOfLikes"),
+          bestAnswer: doc.get("bestAnswer"),
+          comment: doc.get("comment"),
+          userLike: userLike.exists,
+        };
+      })
+    );
+    return answersList;
+  } catch (error) {
+    return "error";
+  }
+};
+
+// 恋愛相談、つぶやきにユーザーがいいねしているかどうかのみを判断する(個別ページCSR用)
+export const checkUserLike = async (
+  userId: string,
+  collectionId: string,
+  docId: string
+): Promise<boolean | string> => {
+  const ref = firebase
+    .firestore()
+    .collection(collectionId)
+    .doc(docId)
+    .collection("likes")
+    .doc(userId);
+  try {
+    const userLike = await ref.get();
+    return userLike.exists;
   } catch (error) {
     return "error";
   }

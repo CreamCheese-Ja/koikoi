@@ -1,6 +1,7 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   consultationListState,
+  defaultErrorAlertState,
   displayConsulMoreButtonState,
   spinnerState,
   userProfileState,
@@ -18,30 +19,35 @@ const MoreConsultationButton = () => {
     consultationListState
   );
 
-  // スピナーの値
+  // 共通エラー用の変更関数
+  const setError = useSetRecoilState(defaultErrorAlertState);
+
+  // スピナーのstate
   const [running, setRunning] = useRecoilState(spinnerState);
 
-  // もっと見るボタンの表示、非表示
+  // もっと見るボタンの表示、非表示state
   const [buttonDisplay, setButtonDisplay] = useRecoilState(
     displayConsulMoreButtonState
   );
 
   const fetchNextPage = async () => {
     setRunning(true);
+    // 次の10件を取得
     const nextPage = await processingNextConsultationList(
       userProfile.id,
       consultationList[consultationList.length - 1].createdAt
     );
-    console.log(nextPage);
     if (typeof nextPage !== "string") {
       setConsultationList([...consultationList, ...nextPage]);
     } else {
-      alert("error");
+      setError(true);
     }
 
+    // 取得数が10未満であればボタンを非表示にする
     if (nextPage.length !== 10) {
       setButtonDisplay(false);
     }
+
     setRunning(false);
   };
 
