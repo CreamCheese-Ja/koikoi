@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "styles/components/atoms/buttons/consulAndTweetGoodButton.module.css";
+import styles from "styles/components/atoms/buttons/likeButton.module.css";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { createConsulAndTweetLike } from "src/firebase/firestore";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
@@ -12,25 +12,13 @@ import {
   multipurposeSuccessAlertState,
   userProfileState,
 } from "src/atoms/atom";
-import firebase from "src/firebase/firebase";
 
 type Props = {
   userId: string;
-  userName: string;
-  userPhotoURL: string;
   consultationId: string;
-  category: string;
-  title: string;
-  content: string;
-  supplement: string;
-  solution: boolean;
-  numberOfLikes: number;
-  numberOfAnswer: number;
-  createdAt: firebase.firestore.Timestamp;
-  updatedAt: firebase.firestore.Timestamp;
 };
 
-const ConsulGoodButton = (props: Props) => {
+const ConsulListLikeButton = (props: Props) => {
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
 
@@ -50,40 +38,40 @@ const ConsulGoodButton = (props: Props) => {
   );
 
   // 相談に対するいいね機能
-  const good = async () => {
+  const like = async () => {
     // 自分の投稿にはいいねをさせない
     if (props.userId === userProfile.id) {
       return;
     }
     const operationPossible = userOperationPossibleCheck(userProfile.name);
     if (typeof operationPossible !== "string") {
-      const createGood = await createConsulAndTweetLike(
+      const createLike = await createConsulAndTweetLike(
         "consultations",
         props.consultationId,
         props.userId,
         userProfile.id
       );
-      if (createGood !== "error") {
+      if (createLike !== "error") {
         // 現在の恋愛相談リストのデータを更新する
         const dataList = consultationList;
         const newDataList = dataList.map((data) => {
           if (data.consultationId === props.consultationId) {
             return {
               user: {
-                id: props.userId,
-                name: props.userName,
-                photoURL: props.userPhotoURL,
+                id: data.user.id,
+                name: data.user.name,
+                photoURL: data.user.photoURL,
               },
-              consultationId: props.consultationId,
-              category: props.category,
-              title: props.title,
-              content: props.content,
-              supplement: props.supplement,
-              solution: props.solution,
-              numberOfLikes: props.numberOfLikes + 1,
-              numberOfAnswer: props.numberOfAnswer,
-              createdAt: props.createdAt,
-              updatedAt: props.updatedAt,
+              consultationId: data.consultationId,
+              category: data.category,
+              title: data.title,
+              content: data.content,
+              supplement: data.supplement,
+              solution: data.solution,
+              numberOfLikes: data.numberOfLikes + 1,
+              numberOfAnswer: data.numberOfAnswer,
+              createdAt: data.createdAt,
+              updatedAt: data.updatedAt,
               userLike: true,
             };
           } else {
@@ -92,7 +80,7 @@ const ConsulGoodButton = (props: Props) => {
         });
         setConsultationList(newDataList);
         // サクセスメッセージ
-        setSuccess({ status: true, message: createGood });
+        setSuccess({ status: true, message: createLike });
       } else {
         // エラーメッセージ
         setDefaultError(true);
@@ -109,10 +97,10 @@ const ConsulGoodButton = (props: Props) => {
   };
 
   return (
-    <div className={styles.goodButton} onClick={good}>
+    <div className={styles.likeButtonArea} onClick={like}>
       <FavoriteBorderIcon />
     </div>
   );
 };
 
-export default ConsulGoodButton;
+export default ConsulListLikeButton;

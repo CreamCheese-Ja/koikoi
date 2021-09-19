@@ -17,7 +17,49 @@ import { processingConsultationList } from "src/firebase/firestore";
 import { useEffect } from "react";
 import { getCurrentUser } from "src/firebase/authentication";
 import { changeDateFormat } from "src/commonFunctions/chnageDateFormat";
-import ConsulGoodButton from "./buttons/ConsulGoodButton";
+import ConsulListLikeButton from "./buttons/ConsulListLikeButton";
+
+// カテゴリーの色を決める関数
+export const consulCategory = (label: string) => {
+  let style = null;
+  switch (label) {
+    case "出会い":
+      style = { backgroundColor: "#ffb74d" };
+      break;
+    case "片想い":
+      style = { backgroundColor: "#81c784" };
+      break;
+    case "恋人未満":
+      style = { backgroundColor: "#ff8a65" };
+      break;
+    case "恋人":
+      style = { backgroundColor: "#f06292" };
+      break;
+    case "復縁":
+      style = { backgroundColor: "#4db6ac" };
+      break;
+    case "結婚":
+      style = { backgroundColor: "#e57373" };
+      break;
+    case "浮気":
+      style = { backgroundColor: "#64b5f6" };
+      break;
+    case "不倫":
+      style = { backgroundColor: "#ba68c8" };
+      break;
+    case "その他":
+      style = { backgroundColor: "#a1887f" };
+      break;
+    default:
+      style = { backgroundColor: "#fff" };
+      break;
+  }
+  return (
+    <div {...{ style }} className={styles.category}>
+      {label}
+    </div>
+  );
+};
 
 const ConsultationArea = () => {
   // 恋愛相談Listのstate
@@ -65,48 +107,6 @@ const ConsultationArea = () => {
     }
   }, [authCheck]);
 
-  // カテゴリーの色を決める関数
-  const category = (label: string) => {
-    let style = null;
-    switch (label) {
-      case "出会い":
-        style = { backgroundColor: "#ffb74d" };
-        break;
-      case "片想い":
-        style = { backgroundColor: "#81c784" };
-        break;
-      case "恋人未満":
-        style = { backgroundColor: "#ff8a65" };
-        break;
-      case "恋人":
-        style = { backgroundColor: "#f06292" };
-        break;
-      case "復縁":
-        style = { backgroundColor: "#4db6ac" };
-        break;
-      case "結婚":
-        style = { backgroundColor: "#e57373" };
-        break;
-      case "浮気":
-        style = { backgroundColor: "#64b5f6" };
-        break;
-      case "不倫":
-        style = { backgroundColor: "#ba68c8" };
-        break;
-      case "その他":
-        style = { backgroundColor: "#a1887f" };
-        break;
-      default:
-        style = { backgroundColor: "#fff" };
-        break;
-    }
-    return (
-      <div {...{ style }} className={styles.category}>
-        {label}
-      </div>
-    );
-  };
-
   return (
     <div>
       {consultationList.map((consul, index) => (
@@ -139,7 +139,7 @@ const ConsultationArea = () => {
                 ? consul.content
                 : consul.content.slice(0, 100) + "..."}
             </p>
-            {category(consul.category)}
+            {consulCategory(consul.category)}
             <div className={styles.goodAndSolution}>
               <div className={styles.goodAndAnswer}>
                 <div className={styles.goodButtonArea}>
@@ -148,20 +148,9 @@ const ConsultationArea = () => {
                       <FavoriteIcon color="primary" />
                     </div>
                   ) : (
-                    <ConsulGoodButton
+                    <ConsulListLikeButton
                       userId={consul.user.id}
-                      userName={consul.user.name}
-                      userPhotoURL={consul.user.photoURL}
                       consultationId={consul.consultationId}
-                      category={consul.category}
-                      title={consul.title}
-                      content={consul.content}
-                      supplement={consul.supplement}
-                      solution={consul.solution}
-                      numberOfLikes={consul.numberOfLikes}
-                      numberOfAnswer={consul.numberOfAnswer}
-                      createdAt={consul.createdAt}
-                      updatedAt={consul.updatedAt}
                     />
                   )}
                   <div className={styles.goodCount}>{consul.numberOfLikes}</div>

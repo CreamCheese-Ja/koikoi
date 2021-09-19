@@ -226,7 +226,7 @@ export const getNewConsultationData = async (
   }
 };
 
-// 恋愛相談詳細(回答なし)の型
+// 恋愛相談詳細(SSR)の型
 export type ConsultationDetails = {
   user: {
     id: string;
@@ -356,7 +356,7 @@ export const checkUserLike = async (
   userId: string,
   collectionId: string,
   docId: string
-): Promise<boolean | string> => {
+): Promise<boolean> => {
   const ref = firebase
     .firestore()
     .collection(collectionId)
@@ -367,7 +367,7 @@ export const checkUserLike = async (
     const userLike = await ref.get();
     return userLike.exists;
   } catch (error) {
-    return "error";
+    return false;
   }
 };
 

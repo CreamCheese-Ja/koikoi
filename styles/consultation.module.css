@@ -2,16 +2,50 @@
   padding: 10px 20px 20px;
   background-color: #fff;
   border-radius: 5px;
+  margin-bottom: 20px;
+}
+.titleAndAnswer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 10px;
 }
 .title {
-  padding-bottom: 30px;
+  font-size: 1.5rem;
+  max-width: 600px;
+}
+.answerArea {
+  margin-top: 3px;
+}
+.answer {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-right: 5px;
+  color: #f48fb1;
+}
+.categoryAndSolution {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.solution {
+  color: red;
+  border: red solid 1px;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.noSolution {
+  color: #000;
+  border: #000 solid 1px;
+  padding: 3px 5px;
+  border-radius: 5px;
 }
 .dateAndUserArea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: -10px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 .userArea {
   display: flex;
@@ -21,7 +55,19 @@
   margin-left: 10px;
 }
 .content {
-  line-height: 2.5;
+  line-height: 2;
   white-space: pre-wrap;
   word-break: break-all;
+  margin: 20px 0;
+}
+.likeButtonArea {
+  display: flex;
+  align-items: center;
+}
+.numberOfLikes {
+  margin-left: 5px;
+}
+.answerButtonArea {
+  text-align: center;
+  margin-top: 20px;
 }
