@@ -1,4 +1,7 @@
-import { changeDateFormat } from "src/commonFunctions/chnageDateFormat";
+import {
+  changeDateFormat,
+  changeDateFormatAddTime,
+} from "src/commonFunctions/chnageDateFormat";
 import firebase from "./firebase";
 
 // ユーザーのプロフィール情報を取得する関数
@@ -49,9 +52,9 @@ export const createConsultation = async (
       numberOfAnswer: 0,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      supplementCreatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     const refId = ref.id;
-    console.log(refId);
     return refId;
   } catch (error) {
     return "error";
@@ -243,6 +246,7 @@ export type ConsultationDetails = {
   numberOfAnswer: number;
   createdAt: string;
   updatedAt: string;
+  supplementCreatedAt: string;
 };
 
 // 恋愛相談詳細を1件取得(恋愛相談詳細ページSSR用)
@@ -274,8 +278,11 @@ export const getConsultationDetails = async (
         solution: doc.get("solution"),
         numberOfLikes: doc.get("numberOfLikes"),
         numberOfAnswer: doc.get("numberOfAnswer"),
-        createdAt: changeDateFormat(doc.get("createdAt")),
-        updatedAt: changeDateFormat(doc.get("updatedAt")),
+        createdAt: changeDateFormatAddTime(doc.get("createdAt")),
+        updatedAt: changeDateFormatAddTime(doc.get("updatedAt")),
+        supplementCreatedAt: changeDateFormatAddTime(
+          doc.get("supplementCreatedAt")
+        ),
       };
     } else {
       return "error";
@@ -299,6 +306,7 @@ export type ConsultationAnswers = {
   numberOfLikes: number;
   bestAnswer: boolean;
   comment: string;
+  commentCreatedAt: firebase.firestore.Timestamp;
 }[];
 
 // 恋愛相談詳細に対する回答リストを取得(恋愛相談詳細ページCSR用)
@@ -341,6 +349,7 @@ export const getConsultationAnswers = async (
           numberOfLikes: doc.get("numberOfLikes"),
           bestAnswer: doc.get("bestAnswer"),
           comment: doc.get("comment"),
+          commentCreatedAt: doc.get("commentCreatedAt"),
           userLike: userLike.exists,
         };
       })
@@ -416,6 +425,23 @@ export const createConsulAndTweetLike = async (
     return "いいねしました。";
   } catch (error: any) {
     console.log(error.code);
+    return "error";
+  }
+};
+
+// 補足を追加する機能
+export const postSupplement = async (
+  docId: string,
+  supplement: string
+): Promise<string> => {
+  const ref = firebase.firestore().collection("consultations").doc(docId);
+  try {
+    await ref.update({
+      supplement: supplement,
+      supplementCreatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    return "補足を追加しました。";
+  } catch (error) {
     return "error";
   }
 };

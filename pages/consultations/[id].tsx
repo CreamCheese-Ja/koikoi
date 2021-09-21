@@ -3,19 +3,20 @@ import Image from "next/image";
 import noProfile from "public/images/no-profile.png";
 import Head from "next/head";
 import {
-  checkUserLike,
   ConsultationDetails,
   getConsultationDetails,
 } from "src/firebase/firestore";
 import styles from "styles/consultation.module.css";
 import Divider from "@material-ui/core/Divider";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import { consulCategory } from "src/components/atoms/ConsultationArea";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AnswerButton from "src/components/atoms/buttons/AnswerButton";
-import ConsulDetailLikeButton from "src/components/atoms/buttons/ConsulDetailLikeButton";
 import { useRecoilValue } from "recoil";
-import { authCheckState, userProfileState } from "src/atoms/atom";
+import { supplementsState, userProfileState } from "src/atoms/atom";
+import SupplementButton from "src/components/atoms/buttons/SupplementButton";
+import SupplementField from "src/components/atoms/textFields/SupplementField";
+import ConsulDetailLike from "src/components/modules/ConsulDetailLike";
+import SupplementArea from "src/components/atoms/SupplementArea";
 
 interface SSRProps {
   post: ConsultationDetails;
@@ -34,37 +35,17 @@ export default function Consultation({ post }: SSRProps) {
     numberOfAnswer,
     createdAt,
     updatedAt,
+    supplementCreatedAt,
   } = post;
 
   // 回答数のstate
   const [answer, setAnswer] = useState(numberOfAnswer);
-  // いいね数のstate
-  const [like, setLike] = useState(numberOfLikes);
-  // ユーザーがいいねしているかどうかのstate
-  const [userLike, setUserLike] = useState({ check: false, status: false });
-  // onAuthStateChangedでチェック有無の値
-  const authCheck = useRecoilValue(authCheckState);
 
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
 
-  useEffect(() => {
-    const get = async () => {
-      const userLike = await checkUserLike(
-        userProfile.id,
-        "consultations",
-        consultationId
-      );
-      if (userLike) {
-        setUserLike({ check: true, status: true });
-      } else {
-        setUserLike({ check: true, status: false });
-      }
-    };
-    if (!userLike.check && authCheck) {
-      get();
-    }
-  }, [authCheck]);
+  // 補足stateの値
+  const supplements = useRecoilValue(supplementsState);
 
   return (
     <div>
@@ -102,28 +83,37 @@ export default function Consultation({ post }: SSRProps) {
 
         <Divider />
         <div className={styles.content}>{content}</div>
-        <div>
+        <SupplementArea
+          supplement={supplement}
+          consulId={consultationId}
+          supplementCreatedAt={supplementCreatedAt}
+        />
+        <div className={styles.likeAndSupplementArea}>
           <div className={styles.likeButtonArea}>
-            {userLike.status ? (
-              <div>
-                <FavoriteIcon color="primary" />
-              </div>
-            ) : (
-              <div>
-                <ConsulDetailLikeButton
-                  userId={user.id}
-                  consultationId={consultationId}
-                  like={like}
-                  setLike={setLike}
-                  setUserLike={setUserLike}
-                />
-              </div>
-            )}
-            <div className={styles.numberOfLikes}>{like}</div>
+            <ConsulDetailLike
+              numberOfLikes={numberOfLikes}
+              consultationId={consultationId}
+              userId={user.id}
+            />
           </div>
-
-          <div>補足ぼたん</div>
+          {user.id === userProfile.id &&
+          supplement === "" &&
+          !(consultationId in supplements) ? (
+            <div>
+              <SupplementButton />
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
+        {user.id === userProfile.id && supplement === "" ? (
+          <div className={styles.supplementFieldArea}>
+            <SupplementField userId={user.id} docId={consultationId} />
+          </div>
+        ) : (
+          <div></div>
+        )}
+
         <Divider />
         {solution ? (
           <div></div>
@@ -140,7 +130,6 @@ export default function Consultation({ post }: SSRProps) {
       ) : (
         <div></div>
       )}
-
       <div className={styles.container}>
         <h2>回答</h2>
       </div>

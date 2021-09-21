@@ -60,12 +60,18 @@
   word-break: break-all;
   margin: 20px 0;
 }
+.likeAndSupplementArea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .likeButtonArea {
   display: flex;
   align-items: center;
 }
-.numberOfLikes {
-  margin-left: 5px;
+.supplementFieldArea {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .answerButtonArea {
   text-align: center;

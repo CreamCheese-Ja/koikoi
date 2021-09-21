@@ -1,4 +1,3 @@
-import React from "react";
 import Button from "@material-ui/core/Button";
 import { useSetRecoilState } from "recoil";
 import { loginAndSignUpFormState } from "src/atoms/atom";

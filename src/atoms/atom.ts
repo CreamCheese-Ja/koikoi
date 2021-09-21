@@ -157,3 +157,21 @@ export const consultationListState = atom<ConsultationList>({
   key: "consultationListState",
   default: [],
 });
+
+// 恋愛相談詳細
+
+// 補足フィールドの表示
+export const displaySupplementFieldState = atom({
+  key: "displaySupplementFieldState",
+  default: false,
+});
+
+// 補足の型
+export type Supplements = {
+  [s: string]: string;
+};
+// 補足のstate
+export const supplementsState = atom<Supplements>({
+  key: "supplementsState",
+  default: {},
+});

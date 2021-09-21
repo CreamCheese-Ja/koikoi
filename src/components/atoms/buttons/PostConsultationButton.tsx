@@ -16,6 +16,7 @@ import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPos
 import {
   createConsultation,
   getNewConsultationData,
+  processingConsultationList,
 } from "src/firebase/firestore";
 import BasicExecutionButton from "./BasicExecutionButton";
 
@@ -77,8 +78,18 @@ const PostConsultationButton = (props: Props) => {
           // 新規の投稿を取得
           const newData = await getNewConsultationData(create);
           if (typeof newData !== "string") {
-            // 新規の投稿を恋愛相談リストに追加
-            setConsultationList([newData, ...consultationList]);
+            // 恋愛相談リストが空だった場合、最新の10件を取得する
+            if (consultationList.length === 0) {
+              const data = await processingConsultationList(userProfile.id);
+              if (typeof data !== "string") {
+                setConsultationList(data);
+              } else {
+                setDefaultError(true);
+              }
+            } else {
+              // 新規の投稿を恋愛相談リストに追加
+              setConsultationList([newData, ...consultationList]);
+            }
             // 投稿完了操作
             setSuccess({ status: true, message: "投稿しました。" });
             setCategory((category) => ({ ...category, text: "" }));
