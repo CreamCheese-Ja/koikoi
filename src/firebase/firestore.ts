@@ -293,7 +293,7 @@ export const getConsultationDetails = async (
 };
 
 // 恋愛相談詳細の中の回答リストの型
-export type ConsultationAnswers = {
+export type AnswerList = {
   user: {
     id: string;
     name: string;
@@ -307,13 +307,14 @@ export type ConsultationAnswers = {
   bestAnswer: boolean;
   comment: string;
   commentCreatedAt: firebase.firestore.Timestamp;
+  userLike: boolean;
 }[];
 
 // 恋愛相談詳細に対する回答リストを取得(恋愛相談詳細ページCSR用)
 export const getConsultationAnswers = async (
   docId: string,
   userId: string
-): Promise<ConsultationAnswers | string> => {
+): Promise<AnswerList | string> => {
   // 回答へのリファレンス
   const answersRef = firebase
     .firestore()
@@ -326,6 +327,7 @@ export const getConsultationAnswers = async (
       .orderBy("createdAt", "desc")
       .limit(5)
       .get();
+
     // 回答のuserRefを値に直し、いいね済みかどうかを確認後リスト化
     const answersList = await Promise.all(
       answersSnapshot.docs.map(async (doc) => {
@@ -355,6 +357,127 @@ export const getConsultationAnswers = async (
       })
     );
     return answersList;
+  } catch (error) {
+    return "error";
+  }
+};
+
+// 恋愛相談の回答create機能
+export const createAnswer = async (
+  consultationId: string,
+  userId: string,
+  content: string
+): Promise<string> => {
+  const batch = firebase.firestore().batch();
+  const userRef = firebase.firestore().doc(`users/${userId}`);
+  // 回答のcreate処理
+  const answerRef = firebase
+    .firestore()
+    .collection("consultations")
+    .doc(consultationId)
+    .collection("answers")
+    .doc(userId);
+  batch.set(answerRef, {
+    user: {
+      ref: userRef,
+    },
+    content: content,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    numberOfLikes: 0,
+    bestAnswer: false,
+    comment: "",
+    commentCreatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+
+  // 回答数のインクリメント処理
+  const consultationRef = firebase
+    .firestore()
+    .collection("consultations")
+    .doc(consultationId);
+  batch.update(consultationRef, {
+    numberOfAnswer: firebase.firestore.FieldValue.increment(1),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+
+  try {
+    await batch.commit();
+    return "投稿しました";
+  } catch (error) {
+    return "error";
+  }
+};
+
+// ユーザーがすでに回答を投稿しているかどうかチェックする
+export const checkExistsAnswer = async (
+  userId: string,
+  consulDocId: string
+): Promise<boolean> => {
+  const ref = firebase
+    .firestore()
+    .collection("consultations")
+    .doc(consulDocId)
+    .collection("answers")
+    .doc(userId);
+  const doc = await ref.get();
+  if (doc.exists) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+// 回答1件の型
+export type AnswerData = {
+  user: {
+    id: string;
+    name: string;
+    photoURL: string;
+  };
+  answerId: string;
+  content: string;
+  createdAt: firebase.firestore.Timestamp;
+  updatedAt: firebase.firestore.Timestamp;
+  numberOfLikes: number;
+  bestAnswer: boolean;
+  comment: string;
+  commentCreatedAt: firebase.firestore.Timestamp;
+  userLike: boolean;
+};
+// ユーザーが投稿した新規の回答を１件取得する
+export const getNewAnswerData = async (
+  userId: string,
+  consultationId: string
+): Promise<AnswerData | string> => {
+  const ref = firebase
+    .firestore()
+    .collection("consultations")
+    .doc(consultationId)
+    .collection("answers")
+    .doc(userId);
+  try {
+    const doc = await ref.get();
+    if (doc !== undefined) {
+      const userData = await doc.get("user.ref").get();
+      return {
+        user: {
+          id: userData.id,
+          name: userData.get("name"),
+          photoURL: userData.get("photoURL"),
+        },
+        answerId: doc.id,
+        content: doc.get("content"),
+        numberOfLikes: doc.get("numberOfLikes"),
+        bestAnswer: doc.get("bestAnswer"),
+        comment: doc.get("comment"),
+        commentCreatedAt: doc.get("commentCreatedAt"),
+        createdAt: doc.get("createdAt"),
+        updatedAt: doc.get("updatedAt"),
+        userLike: false,
+      };
+    } else {
+      return "error";
+    }
   } catch (error) {
     return "error";
   }

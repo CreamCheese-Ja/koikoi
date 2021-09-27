@@ -15,7 +15,6 @@ import {
 } from "src/atoms/atom";
 import { processingConsultationList } from "src/firebase/firestore";
 import { useEffect } from "react";
-import { getCurrentUser } from "src/firebase/authentication";
 import { changeDateFormat } from "src/commonFunctions/chnageDateFormat";
 import ConsulListLikeButton from "./buttons/ConsulListLikeButton";
 
@@ -80,12 +79,9 @@ const ConsultationArea = () => {
     if (consultationList.length === 0) {
       setRunning(true);
     }
-
     // 恋愛相談リストを取得する関数
     const get = async (userId: string) => {
-      // console.log(1, userProfile.id);
       const data = await processingConsultationList(userId);
-      console.log(2, data);
       if (typeof data !== "string") {
         setConsultationList(data);
         setRunning(false);
@@ -93,24 +89,15 @@ const ConsultationArea = () => {
     };
     // 恋愛相談listが空 + authCheckがtrueになっている場合に動作する
     if (!consultationList.length && authCheck) {
-      if (userProfile.id !== "noUser") {
-        // ログインユーザーの情報を取得
-        const user = getCurrentUser();
-        if (user !== null) {
-          get(user.uid);
-        } else {
-          get(userProfile.id);
-        }
-      } else {
-        get(userProfile.id);
-      }
+      get(userProfile.id);
+      // console.log("恋愛相談リストの取得");
     }
   }, [authCheck]);
 
   return (
     <div>
-      {consultationList.map((consul, index) => (
-        <div key={index}>
+      {consultationList.map((consul) => (
+        <div key={consul.consultationId}>
           <div className={styles.consultationArea}>
             <div className={styles.consultationTop}>
               <div className={styles.userArea}>

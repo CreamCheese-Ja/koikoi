@@ -65,9 +65,3 @@ export const checkEmailVerified = (): boolean => {
     return false;
   }
 };
-
-// onAuthStateChangedのチェック後ユーザーを取得する関数
-export const getCurrentUser = () => {
-  const user = firebase.auth().currentUser;
-  return user;
-};

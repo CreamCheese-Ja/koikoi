@@ -17,12 +17,7 @@
 .answerArea {
   margin-top: 3px;
 }
-.answer {
-  font-size: 1.3rem;
-  font-weight: bold;
-  margin-right: 5px;
-  color: #f48fb1;
-}
+
 .categoryAndSolution {
   display: flex;
   justify-content: space-between;

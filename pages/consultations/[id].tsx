@@ -9,7 +9,6 @@ import {
 import styles from "styles/consultation.module.css";
 import Divider from "@material-ui/core/Divider";
 import { consulCategory } from "src/components/atoms/ConsultationArea";
-import { useState } from "react";
 import AnswerButton from "src/components/atoms/buttons/AnswerButton";
 import { useRecoilValue } from "recoil";
 import { supplementsState, userProfileState } from "src/atoms/atom";
@@ -17,6 +16,8 @@ import SupplementButton from "src/components/atoms/buttons/SupplementButton";
 import SupplementField from "src/components/atoms/textFields/SupplementField";
 import ConsulDetailLike from "src/components/modules/ConsulDetailLike";
 import SupplementArea from "src/components/atoms/SupplementArea";
+import NumberOfAnswer from "src/components/atoms/consulPage/NumberOfAnswer";
+import AnswerArea from "src/components/atoms/consulPage/AnswerArea";
 
 interface SSRProps {
   post: ConsultationDetails;
@@ -37,9 +38,6 @@ export default function Consultation({ post }: SSRProps) {
     updatedAt,
     supplementCreatedAt,
   } = post;
-
-  // 回答数のstate
-  const [answer, setAnswer] = useState(numberOfAnswer);
 
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
@@ -68,7 +66,7 @@ export default function Consultation({ post }: SSRProps) {
         <div className={styles.titleAndAnswer}>
           <h1 className={styles.title}>{title}</h1>
           <div className={styles.answerArea}>
-            <span className={styles.answer}>{answer}</span>回答
+            <NumberOfAnswer initialNumberOfAnswer={numberOfAnswer} />
           </div>
         </div>
 
@@ -115,11 +113,11 @@ export default function Consultation({ post }: SSRProps) {
         )}
 
         <Divider />
-        {solution ? (
+        {solution || userProfile.id === user.id ? (
           <div></div>
         ) : (
           <div className={styles.answerButtonArea}>
-            <AnswerButton />
+            <AnswerButton consultationId={consultationId} />
           </div>
         )}
       </div>
@@ -131,7 +129,7 @@ export default function Consultation({ post }: SSRProps) {
         <div></div>
       )}
       <div className={styles.container}>
-        <h2>回答</h2>
+        <AnswerArea consultationId={consultationId} userId={user.id} />
       </div>
     </div>
   );

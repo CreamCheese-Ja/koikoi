@@ -28,7 +28,7 @@ const MultilineTextField = (props: Props) => {
         helperText={props.error === true ? props.errorMessage : ""}
         label={props.label}
         multiline
-        maxRows={5}
+        maxRows={10}
         value={props.value}
         onChange={handleChange}
         variant="outlined"

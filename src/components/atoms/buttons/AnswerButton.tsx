@@ -1,17 +1,29 @@
 import React, { useState } from "react";
+import CreateAnswerDialog from "../dialogs/CreateAnswerDialog";
 import BasicExecutionButton from "./BasicExecutionButton";
 
-const AnswerButton = () => {
-  const answer = () => {};
+type Props = {
+  consultationId: string;
+};
 
-  const [running, setRunning] = useState(false);
+const AnswerButton = (props: Props) => {
+  const [open, setOpen] = useState(false);
+
+  const openCloseDialog = () => {
+    setOpen((open) => !open);
+  };
 
   return (
     <>
       <BasicExecutionButton
-        onClick={answer}
-        buttonLabel="回答する"
-        disabled={running}
+        onClick={openCloseDialog}
+        buttonLabel="相談に回答"
+        disabled={false}
+      />
+      <CreateAnswerDialog
+        open={open}
+        openCloseDialog={openCloseDialog}
+        consultationId={props.consultationId}
       />
     </>
   );

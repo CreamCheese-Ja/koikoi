@@ -1,0 +1,32 @@
+.areaTitle {
+  padding-bottom: 20px;
+  color: #f48fb1;
+}
+.answerArea {
+  padding: 10px 0;
+}
+.answerArea > * {
+  margin: 10px 0;
+}
+.answerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.userArea {
+  display: flex;
+  align-items: center;
+}
+.userName {
+  margin-left: 10px;
+}
+.date {
+  padding-right: 5px;
+}
+.goodButtonArea {
+  display: flex;
+  align-items: center;
+}
+.goodCount {
+  margin-left: 5px;
+}

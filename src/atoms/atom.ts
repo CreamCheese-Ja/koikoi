@@ -1,7 +1,11 @@
 import { atom } from "recoil";
-import { ConsultationList } from "src/firebase/firestore";
+import {
+  AnswerData,
+  AnswerList,
+  ConsultationList,
+} from "src/firebase/firestore";
 
-// ローディングスピナーON,OFF
+// ローディングスピナーON,OFF(恋愛相談リストの取得)
 export const spinnerState = atom({
   key: "spinnerState",
   default: false,
@@ -129,24 +133,24 @@ export const multipurposeSuccessAlertState = atom({
 
 // 恋愛相談関連
 
-// カテゴリー
+// カテゴリー(form)
 export const consultationCategoryState = atom({
   key: "consultationCategoryState",
   default: { text: "", errorStatus: false, errorMessage: "" },
 });
 
-// タイトル
+// タイトル(form)
 export const consultationTitleState = atom({
   key: "consultationTitleState",
   default: { text: "", errorStatus: false, errorMessage: "" },
 });
 
-// 内容
+// 内容(form)
 export const consultationContentState = atom({
   key: "consultationContentState",
   default: { text: "", errorStatus: false, errorMessage: "" },
 });
-// 実行中
+// 実行中(恋愛相談create)
 export const postConsultationRunning = atom({
   key: "postConsultationRunning",
   default: false,
@@ -174,4 +178,40 @@ export type Supplements = {
 export const supplementsState = atom<Supplements>({
   key: "supplementsState",
   default: {},
+});
+
+// 回答数
+export const numberOfAnswerState = atom({
+  key: "numberOfAnswerState",
+  default: 0,
+});
+
+// 回答内容(form)
+export const answerState = atom({
+  key: "answerState",
+  default: { text: "", errorStatus: false, errorMessage: "" },
+});
+
+// 実行中(回答create)
+export const postAnswerRunningState = atom({
+  key: "postAnswerRunning",
+  default: false,
+});
+
+// 回答リストのstate
+export const answerListState = atom<AnswerList>({
+  key: "answerListState",
+  default: [],
+});
+
+// ベストアンサーのstate
+export const bestAnswerState = atom<AnswerData | {}>({
+  key: "bestAnswerState",
+  default: {},
+});
+
+// 実行中(回答リストget)
+export const getAnswerListRunningState = atom({
+  key: "getAnswerListRunningState",
+  default: false,
 });

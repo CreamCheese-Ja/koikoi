@@ -69,24 +69,12 @@ const ConsulDetailLikeButton = (props: Props) => {
           const dataList = consultationList;
           const newDataList = dataList.map((data) => {
             if (data.consultationId === props.consultationId) {
-              return {
-                user: {
-                  id: data.user.id,
-                  name: data.user.name,
-                  photoURL: data.user.photoURL,
-                },
-                consultationId: data.consultationId,
-                category: data.category,
-                title: data.title,
-                content: data.content,
-                supplement: data.supplement,
-                solution: data.solution,
+              const newData = {
+                ...data,
                 numberOfLikes: data.numberOfLikes + 1,
-                numberOfAnswer: data.numberOfAnswer,
-                createdAt: data.createdAt,
-                updatedAt: data.updatedAt,
                 userLike: true,
               };
+              return newData;
             } else {
               return data;
             }

@@ -42,7 +42,7 @@ const PostConsultationButton = (props: Props) => {
   // ログイン、新規登録フォーム用の変更関数
   const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
 
-  // 実行中の変更関数
+  // 実行中のstate
   const [running, setRunning] = useRecoilState(postConsultationRunning);
 
   // 恋愛相談リストのstate
