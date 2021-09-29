@@ -1,27 +1,30 @@
 import React from "react";
-import styles from "styles/components/atoms/buttons/likeButton.module.css";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { createConsulAndTweetLike } from "src/firebase/firestore";
-import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { SetterOrUpdater, useSetRecoilState } from "recoil";
 import {
-  consultationListState,
   defaultErrorAlertState,
   loginAndSignUpFormState,
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
-  userProfileState,
+  ProfileItem,
 } from "src/atoms/atom";
+import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
+import { AnswerList, createAnswerLike } from "src/firebase/firestore";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import styles from "styles/components/atoms/buttons/answerLikeButton.module.css";
 
 type Props = {
-  userId: string;
-  consultationId: string;
+  consulDocId: string;
+  answerDocId: string;
+  likeUserId: string;
+  userProfile: ProfileItem;
+  answerList: AnswerList;
+  setAnswerList: SetterOrUpdater<AnswerList>;
+  useLike: boolean;
+  numberOfLikes: number;
 };
 
-const ConsulListLikeButton = (props: Props) => {
-  // ユーザープロフィールの値
-  const userProfile = useRecoilValue(userProfileState);
-
+const AnswerLikeButton = (props: Props) => {
   // 共通のエラー、サクセスアラートの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
@@ -32,30 +35,27 @@ const ConsulListLikeButton = (props: Props) => {
   // ログイン、新規登録フォーム用の変更関数
   const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
 
-  // 恋愛相談リストのstate
-  const [consultationList, setConsultationList] = useRecoilState(
-    consultationListState
-  );
-
-  // 相談に対するいいね機能
+  // 回答に対する「いいね!」機能
   const like = async () => {
-    // 自分の投稿にはいいねをさせない
-    if (props.userId === userProfile.id) {
+    // 自分の投稿には「いいね!」をさせない
+    if (props.likeUserId === props.userProfile.id) {
       return;
     }
-    const operationPossible = userOperationPossibleCheck(userProfile.name);
+    const operationPossible = userOperationPossibleCheck(
+      props.userProfile.name
+    );
     if (typeof operationPossible !== "string") {
-      const createLike = await createConsulAndTweetLike(
-        "consultations",
-        props.consultationId,
-        props.userId,
-        userProfile.id
+      // 「いいね!」のcreate処理
+      const createLike = await createAnswerLike(
+        props.consulDocId,
+        props.answerDocId,
+        props.likeUserId,
+        props.userProfile.id
       );
       if (createLike !== "error") {
-        // 現在の恋愛相談リストのデータを更新する
-        const dataList = consultationList;
-        const newDataList = dataList.map((data) => {
-          if (data.consultationId === props.consultationId) {
+        // 回答リストのデータを更新
+        const newDataList = props.answerList.map((data) => {
+          if (data.answerId === props.answerDocId) {
             const newData = {
               ...data,
               numberOfLikes: data.numberOfLikes + 1,
@@ -66,7 +66,7 @@ const ConsulListLikeButton = (props: Props) => {
             return data;
           }
         });
-        setConsultationList(newDataList);
+        props.setAnswerList(newDataList);
         // サクセスメッセージ
         setSuccess({ status: true, message: createLike });
       } else {
@@ -88,10 +88,19 @@ const ConsulListLikeButton = (props: Props) => {
   };
 
   return (
-    <div className={styles.likeButtonArea} onClick={like}>
-      <FavoriteBorderIcon />
+    <div className={styles.area}>
+      {!props.useLike ? (
+        <div onClick={like} className={styles.likeButton}>
+          <FavoriteBorderIcon />
+        </div>
+      ) : (
+        <div>
+          <FavoriteIcon color="primary" />
+        </div>
+      )}
+      <div className={styles.numberOfLikes}>{props.numberOfLikes}</div>
     </div>
   );
 };
 
-export default ConsulListLikeButton;
+export default AnswerLikeButton;

@@ -10,6 +10,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   authCheckState,
   consultationListState,
+  displayConsulMoreButtonState,
   spinnerState,
   userProfileState,
 } from "src/atoms/atom";
@@ -75,6 +76,9 @@ const ConsultationArea = () => {
   // ローディングの変更関数
   const setRunning = useSetRecoilState(spinnerState);
 
+  // もっと見るボタン表示の変更関数
+  const setMoreButtonDisplay = useSetRecoilState(displayConsulMoreButtonState);
+
   useEffect(() => {
     if (consultationList.length === 0) {
       setRunning(true);
@@ -87,10 +91,11 @@ const ConsultationArea = () => {
         setRunning(false);
       }
     };
-    // 恋愛相談listが空 + authCheckがtrueになっている場合に動作する
+    // authCheckがtrueになっていて、恋愛相談リストが空の場合に動作する
     if (!consultationList.length && authCheck) {
       get(userProfile.id);
-      // console.log("恋愛相談リストの取得");
+      // もっと見るボタンの表示
+      setMoreButtonDisplay(true);
     }
   }, [authCheck]);
 

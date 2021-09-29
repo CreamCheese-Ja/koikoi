@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import { authCheckState, userProfileState } from "src/atoms/atom";
 import { checkUserLike } from "src/firebase/firestore";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import ConsulDetailLikeButton from "../atoms/buttons/ConsulDetailLikeButton";
+import ConsulDetailLikeButton from "../../atoms/buttons/ConsulDetailLikeButton";
 import styles from "styles/components/modules/ConsulDetailLike.module.css";
 
 type Props = {
@@ -35,7 +35,7 @@ const ConsulDetailLike = (props: Props) => {
         setUserLike({ check: true, status: false });
       }
     };
-    if (!userLike.check && authCheck) {
+    if (authCheck) {
       get();
     }
   }, [authCheck]);

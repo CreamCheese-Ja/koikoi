@@ -1,0 +1,11 @@
+.area {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+}
+.numberOfLikes {
+  margin-left: 5px;
+}
+.likeButton {
+  cursor: pointer;
+}

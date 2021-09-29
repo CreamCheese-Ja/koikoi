@@ -11,12 +11,13 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { changeDateFormatAddTime } from "src/commonFunctions/chnageDateFormat";
+import AnswerLikeButton from "src/components/atoms/buttons/AnswerLikeButton";
 import { getConsultationAnswers } from "src/firebase/firestore";
 import styles from "styles/components/atoms/answerArea.module.css";
 
 type Props = {
   consultationId: string;
-  userId: string;
+  consulUserId: string;
 };
 
 const AnswerArea = (props: Props) => {
@@ -81,21 +82,31 @@ const AnswerArea = (props: Props) => {
                 </div>
               </div>
               <p>{answer.content}</p>
-              {answer.comment === "" ? (
-                userProfile.id === props.userId ? (
-                  <div>コメントフィールドを表示</div>
+              <div className={styles.likeAndAnswerArea}>
+                <AnswerLikeButton
+                  consulDocId={props.consultationId}
+                  answerDocId={answer.answerId}
+                  likeUserId={answer.user.id}
+                  userProfile={userProfile}
+                  answerList={answerList}
+                  setAnswerList={setAnswerList}
+                  useLike={answer.userLike}
+                  numberOfLikes={answer.numberOfLikes}
+                />
+                {props.consulUserId === userProfile.id &&
+                answer.comment === "" ? (
+                  <div>返信する</div>
                 ) : (
                   <div></div>
-                )
-              ) : (
-                <div className={styles.commentArea}>
-                  <div className={styles.comment}>相談者のコメント</div>
-                  <div className={styles.commentDate}>
-                    {changeDateFormatAddTime(answer.commentCreatedAt)}
-                  </div>
-                  <p className={styles.commentContent}>{answer.comment}</p>
+                )}
+              </div>
+              {/* <div className={styles.commentArea}>
+                <div className={styles.comment}>相談者のコメント</div>
+                <div className={styles.commentDate}>
+                  {changeDateFormatAddTime(answer.commentCreatedAt)}
                 </div>
-              )}
+                <p className={styles.commentContent}>{answer.comment}</p>
+              </div> */}
             </div>
             <Divider />
           </div>

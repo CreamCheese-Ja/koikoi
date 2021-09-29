@@ -14,10 +14,10 @@ import { useRecoilValue } from "recoil";
 import { supplementsState, userProfileState } from "src/atoms/atom";
 import SupplementButton from "src/components/atoms/buttons/SupplementButton";
 import SupplementField from "src/components/atoms/textFields/SupplementField";
-import ConsulDetailLike from "src/components/modules/ConsulDetailLike";
+import ConsulDetailLike from "src/components/pages/consulPage/ConsulDetailLike";
 import SupplementArea from "src/components/atoms/SupplementArea";
-import NumberOfAnswer from "src/components/atoms/consulPage/NumberOfAnswer";
-import AnswerArea from "src/components/atoms/consulPage/AnswerArea";
+import NumberOfAnswer from "src/components/pages/consulPage/NumberOfAnswer";
+import AnswerArea from "src/components/pages/consulPage/AnswerArea";
 
 interface SSRProps {
   post: ConsultationDetails;
@@ -35,7 +35,6 @@ export default function Consultation({ post }: SSRProps) {
     numberOfLikes,
     numberOfAnswer,
     createdAt,
-    updatedAt,
     supplementCreatedAt,
   } = post;
 
@@ -81,11 +80,7 @@ export default function Consultation({ post }: SSRProps) {
 
         <Divider />
         <div className={styles.content}>{content}</div>
-        <SupplementArea
-          supplement={supplement}
-          consulId={consultationId}
-          supplementCreatedAt={supplementCreatedAt}
-        />
+
         <div className={styles.likeAndSupplementArea}>
           <div className={styles.likeButtonArea}>
             <ConsulDetailLike
@@ -105,13 +100,17 @@ export default function Consultation({ post }: SSRProps) {
           )}
         </div>
         {user.id === userProfile.id && supplement === "" ? (
-          <div className={styles.supplementFieldArea}>
+          <div>
             <SupplementField userId={user.id} docId={consultationId} />
           </div>
         ) : (
           <div></div>
         )}
-
+        <SupplementArea
+          supplement={supplement}
+          consulId={consultationId}
+          supplementCreatedAt={supplementCreatedAt}
+        />
         <Divider />
         {solution || userProfile.id === user.id ? (
           <div></div>
@@ -129,7 +128,7 @@ export default function Consultation({ post }: SSRProps) {
         <div></div>
       )}
       <div className={styles.container}>
-        <AnswerArea consultationId={consultationId} userId={user.id} />
+        <AnswerArea consultationId={consultationId} consulUserId={user.id} />
       </div>
     </div>
   );

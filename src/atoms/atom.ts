@@ -18,7 +18,7 @@ export const displayConsulMoreButtonState = atom({
 });
 
 // ユーザーのプロフィールデータの型
-type ProfileItem = {
+export type ProfileItem = {
   id: string;
   name: string;
   photoURL: string;

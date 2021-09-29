@@ -25,6 +25,9 @@ export default function Layout({ children, ...props }: Props) {
   // ユーザープロフィール用の変更関数
   const setUserProfile = useSetRecoilState(userProfileState);
 
+  // 恋愛相談リストの変更関数
+  const setConsultationList = useSetRecoilState(consultationListState);
+
   // onAuthStateChangedでチェック有無の変更関数
   const setAuthCheck = useSetRecoilState(authCheckState);
 
@@ -35,8 +38,6 @@ export default function Layout({ children, ...props }: Props) {
   const setMultipurposeErrorAlert = useSetRecoilState(
     multipurposeErrorAlertState
   );
-  // 恋愛相談リストの変更関数
-  const setConsultationList = useSetRecoilState(consultationListState);
 
   useEffect(() => {
     // userがログインしていればプロフィールデータを取得しstateに保存
@@ -44,7 +45,7 @@ export default function Layout({ children, ...props }: Props) {
       if (user) {
         // ログインしたら、最初にauthCheckを空にする
         setAuthCheck(false);
-        // 未ログイン時の恋愛相談リストも消す
+        // ログインしたら恋愛相談リストを空にする(ユーザのリセット処理なので必要)
         setConsultationList([]);
         // ユーザー情報をfirestoreから取得する
         const profileData = await getUserProfile(user.uid);

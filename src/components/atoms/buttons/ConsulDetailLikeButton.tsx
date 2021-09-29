@@ -66,8 +66,7 @@ const ConsulDetailLikeButton = (props: Props) => {
         props.setUserLike({ check: true, status: true });
         // 恋愛相談リストのデータを更新する
         if (consultationList.length !== 0) {
-          const dataList = consultationList;
-          const newDataList = dataList.map((data) => {
+          const newDataList = consultationList.map((data) => {
             if (data.consultationId === props.consultationId) {
               const newData = {
                 ...data,
@@ -90,7 +89,10 @@ const ConsulDetailLikeButton = (props: Props) => {
     } else if (operationPossible === "ログインが必要です。") {
       // ログインフォームを開く
       setLoginAndSignUpForm({ title: "ログイン", status: true });
-      setError({ status: true, message: `いいねするには${operationPossible}` });
+      setError({
+        status: true,
+        message: `「いいね!」するには${operationPossible}`,
+      });
     } else if (
       operationPossible === "メールアドレスの確認が完了していません。"
     ) {

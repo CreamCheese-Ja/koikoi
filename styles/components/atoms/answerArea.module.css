@@ -3,7 +3,7 @@
   color: #f48fb1;
 }
 .answerArea {
-  padding: 10px 0;
+  margin-bottom: -10px;
 }
 .answerArea > * {
   margin: 10px 0;
@@ -12,6 +12,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 10px;
 }
 .userArea {
   display: flex;
@@ -23,10 +24,8 @@
 .date {
   padding-right: 5px;
 }
-.goodButtonArea {
+.likeAndAnswerArea {
   display: flex;
   align-items: center;
-}
-.goodCount {
-  margin-left: 5px;
+  justify-content: space-between;
 }
