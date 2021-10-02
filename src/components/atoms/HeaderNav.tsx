@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 import styles from "styles/components/atoms/headerNav.module.css";
 
-const HeaderNav = () => {
+const HeaderNav = memo(() => {
   return (
     <nav>
       <ul className={styles.navList}>
@@ -12,6 +12,6 @@ const HeaderNav = () => {
       </ul>
     </nav>
   );
-};
+});
 
 export default HeaderNav;

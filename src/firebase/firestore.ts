@@ -306,7 +306,7 @@ export type AnswerList = {
   numberOfLikes: number;
   bestAnswer: boolean;
   comment: string;
-  commentCreatedAt: firebase.firestore.Timestamp;
+  commentCreatedAt: firebase.firestore.Timestamp | null;
   userLike: boolean;
 }[];
 
@@ -615,6 +615,29 @@ export const postSupplement = async (
       supplementCreatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
     return "補足を追加しました。";
+  } catch (error) {
+    return "error";
+  }
+};
+
+// 回答に返信する機能
+export const postAnswerComment = async (
+  consulId: string,
+  answerId: string,
+  comment: string
+): Promise<string> => {
+  const ref = firebase
+    .firestore()
+    .collection("consultations")
+    .doc(consulId)
+    .collection("answers")
+    .doc(answerId);
+  try {
+    await ref.update({
+      comment: comment,
+      commentCreatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    return "回答に返信しました。";
   } catch (error) {
     return "error";
   }

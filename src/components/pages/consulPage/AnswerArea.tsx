@@ -12,6 +12,8 @@ import {
 } from "src/atoms/atom";
 import { changeDateFormatAddTime } from "src/commonFunctions/chnageDateFormat";
 import AnswerLikeButton from "src/components/atoms/buttons/AnswerLikeButton";
+import AnswerReplyButton from "src/components/atoms/buttons/AnswerReplyButton";
+import AnswerCommentField from "src/components/atoms/textFields/AnswerCommentField";
 import { getConsultationAnswers } from "src/firebase/firestore";
 import styles from "styles/components/atoms/answerArea.module.css";
 
@@ -55,6 +57,7 @@ const AnswerArea = (props: Props) => {
     // authCheckがtrueで動作する
     if (authCheck) {
       get(props.consultationId, userProfile.id);
+      console.log("回答リスト更新");
     }
   }, [authCheck]);
 
@@ -81,7 +84,7 @@ const AnswerArea = (props: Props) => {
                   {changeDateFormatAddTime(answer.createdAt) + "に投稿"}
                 </div>
               </div>
-              <p>{answer.content}</p>
+              <p className={styles.content}>{answer.content}</p>
               <div className={styles.likeAndAnswerArea}>
                 <AnswerLikeButton
                   consulDocId={props.consultationId}
@@ -95,18 +98,43 @@ const AnswerArea = (props: Props) => {
                 />
                 {props.consulUserId === userProfile.id &&
                 answer.comment === "" ? (
-                  <div>返信する</div>
+                  <AnswerReplyButton />
                 ) : (
                   <div></div>
                 )}
               </div>
-              {/* <div className={styles.commentArea}>
-                <div className={styles.comment}>相談者のコメント</div>
-                <div className={styles.commentDate}>
-                  {changeDateFormatAddTime(answer.commentCreatedAt)}
+              {props.consulUserId === userProfile.id &&
+              answer.comment === "" ? (
+                <div>
+                  <AnswerCommentField
+                    userProfile={userProfile}
+                    consulId={props.consultationId}
+                    answerId={answer.answerId}
+                    consulUserId={props.consulUserId}
+                    answerList={answerList}
+                    setAnswerList={setAnswerList}
+                  />
                 </div>
-                <p className={styles.commentContent}>{answer.comment}</p>
-              </div> */}
+              ) : (
+                <div></div>
+              )}
+              {answer.comment === "" ? (
+                <div></div>
+              ) : (
+                <div className={styles.commentArea}>
+                  <div className={styles.commentTop}>
+                    <div className={styles.comment}>相談者のコメント</div>
+                    {answer.commentCreatedAt === null ? (
+                      <div></div>
+                    ) : (
+                      <div className={styles.commentDate}>
+                        {changeDateFormatAddTime(answer.commentCreatedAt)}
+                      </div>
+                    )}
+                  </div>
+                  <p className={styles.commentContent}>{answer.comment}</p>
+                </div>
+              )}
             </div>
             <Divider />
           </div>

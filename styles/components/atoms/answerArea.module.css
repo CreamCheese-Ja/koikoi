@@ -24,8 +24,34 @@
 .date {
   padding-right: 5px;
 }
+.content {
+  line-height: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
 .likeAndAnswerArea {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.comment {
+  border: 1px #f48fb1 solid;
+  color: #f48fb1;
+  display: inline-block;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.commentTop {
+  display: flex;
+  align-items: center;
+}
+.commentDate {
+  margin-left: 10px;
+}
+.commentContent {
+  margin-top: 10px;
+  padding-bottom: 10px;
+  line-height: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
 }

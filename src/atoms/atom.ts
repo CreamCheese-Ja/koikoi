@@ -215,3 +215,9 @@ export const getAnswerListRunningState = atom({
   key: "getAnswerListRunningState",
   default: false,
 });
+
+// 返信フィールドの表示
+export const showAnswerReplyFieldState = atom({
+  key: "showAnswerReplyFieldState",
+  default: false,
+});

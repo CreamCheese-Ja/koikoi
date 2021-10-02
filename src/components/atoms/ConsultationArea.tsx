@@ -107,9 +107,19 @@ const ConsultationArea = () => {
             <div className={styles.consultationTop}>
               <div className={styles.userArea}>
                 {consul.user.photoURL === "noImage" ? (
-                  <Image src={noProfile} width={30} height={30} />
+                  <Image
+                    src={noProfile}
+                    width={30}
+                    height={30}
+                    alt="userPhoto"
+                  />
                 ) : (
-                  <Image src={consul.user.photoURL} width={30} height={30} />
+                  <Image
+                    src={consul.user.photoURL}
+                    width={30}
+                    height={30}
+                    alt="userPhoto"
+                  />
                 )}
                 <div className={styles.userName}>{consul.user.name}</div>
               </div>

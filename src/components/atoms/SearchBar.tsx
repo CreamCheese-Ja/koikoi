@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import {
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const SearchBar = () => {
+const SearchBar = memo(() => {
   const classes = useStyles();
 
   const [searchWord, setSearchWord] = React.useState("");
@@ -76,6 +76,6 @@ const SearchBar = () => {
       />
     </div>
   );
-};
+});
 
 export default SearchBar;

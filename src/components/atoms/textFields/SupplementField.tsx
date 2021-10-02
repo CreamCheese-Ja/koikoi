@@ -38,7 +38,7 @@ const SupplementField = (props: Props) => {
 
   const post = async () => {
     setRunning((running) => !running);
-    // 恋愛相談の作成者と補足の追加者が同じことを確認
+    // 恋愛相談の作成者と補足の追加者が同じこと、500文字以内であることを確認
     if (props.userId === userProfile.id && value.length <= 500) {
       const postData = await postSupplement(props.docId, value);
       if (postData !== "error") {
@@ -49,12 +49,14 @@ const SupplementField = (props: Props) => {
         setDisplaySupplementField(false);
         setSuccess({ status: true, message: "補足を追加しました。" });
       } else {
-        setError({ status: true, message: "エラーが発生しました。" });
         // 失敗
+        setError({ status: true, message: "エラーが発生しました。" });
       }
     } else if (value.length > 500) {
-      setError({ status: true, message: "補足は500文字以内です。" });
       // 500文字以内のアラート
+      setError({ status: true, message: "補足は500文字以内です。" });
+    } else {
+      setError({ status: true, message: "エラーが発生しました。" });
     }
     setRunning((running) => !running);
   };
