@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CreateAnswerDialog from "../dialogs/CreateAnswerDialog";
+import CreateAnswerDialog from "../../modules/dialogs/CreateAnswerDialog";
 import BasicExecutionButton from "./BasicExecutionButton";
 
 type Props = {

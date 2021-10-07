@@ -10,11 +10,11 @@ import {
   postConsultationRunning,
 } from "src/atoms/atom";
 import styles from "styles/components/atoms/dialogs/createConsultationDialog.module.css";
-import PostConsultationButton from "../buttons/PostConsultationButton";
-import ConsultationTitleField from "../textFields/ConsultationTitleField";
-import ConsultationContentField from "../textFields/ConsultationContentField";
-import ConsultationCategorySelect from "../selectBoxes/ConsultationCategorySelect";
-import Linear from "../progress/Linear";
+import PostConsultationButton from "../../atoms/buttons/PostConsultationButton";
+import ConsultationTitleField from "../../atoms/textFields/ConsultationTitleField";
+import ConsultationContentField from "../../atoms/textFields/ConsultationContentField";
+import ConsultationCategorySelect from "../../atoms/selectBoxes/ConsultationCategorySelect";
+import Linear from "../../atoms/progress/Linear";
 
 const CreateConsultationDialog = () => {
   const [open, setOpen] = useRecoilState(createConsultationDialogState);

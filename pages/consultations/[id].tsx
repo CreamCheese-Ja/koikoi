@@ -2,22 +2,22 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Image from "next/image";
 import noProfile from "public/images/no-profile.png";
 import Head from "next/head";
-import {
-  ConsultationDetails,
-  getConsultationDetails,
-} from "src/firebase/firestore";
+import { getConsultationDetails } from "src/firebase/firestore";
 import styles from "styles/consultation.module.css";
 import Divider from "@material-ui/core/Divider";
-import { consulCategory } from "src/components/atoms/ConsultationArea";
+import { consulCategory } from "src/components/block/ConsultationArea";
 import AnswerButton from "src/components/atoms/buttons/AnswerButton";
 import { useRecoilValue } from "recoil";
 import { supplementsState, userProfileState } from "src/atoms/atom";
 import SupplementButton from "src/components/atoms/buttons/SupplementButton";
 import SupplementField from "src/components/atoms/textFields/SupplementField";
-import ConsulDetailLike from "src/components/pages/consulPage/ConsulDetailLike";
+import ConsulDetailLike from "src/components/atoms/others/ConsulDetailLike";
 import SupplementArea from "src/components/atoms/SupplementArea";
-import NumberOfAnswer from "src/components/pages/consulPage/NumberOfAnswer";
-import AnswerArea from "src/components/pages/consulPage/AnswerArea";
+import NumberOfAnswer from "src/components/atoms/others/NumberOfAnswer";
+import AnswerArea from "src/components/block/AnswerArea";
+import { ConsultationDetails } from "src/type";
+import Solution from "src/components/atoms/others/Solution";
+import BestAnswerArea from "src/components/block/BestAnswerArea";
 
 interface SSRProps {
   post: ConsultationDetails;
@@ -59,7 +59,6 @@ export default function Consultation({ post }: SSRProps) {
             )}
             <div className={styles.name}>{user.name}</div>
           </div>
-
           <div>{createdAt}に投稿</div>
         </div>
         <div className={styles.titleAndAnswer}>
@@ -68,19 +67,12 @@ export default function Consultation({ post }: SSRProps) {
             <NumberOfAnswer initialNumberOfAnswer={numberOfAnswer} />
           </div>
         </div>
-
         <div className={styles.categoryAndSolution}>
           <div className={styles.category}>{consulCategory(category)}</div>
-          {solution ? (
-            <div className={styles.solution}>解決済み</div>
-          ) : (
-            <div className={styles.noSolution}>回答待ち</div>
-          )}
+          <Solution solution={solution} />
         </div>
-
         <Divider />
         <div className={styles.content}>{content}</div>
-
         <div className={styles.likeAndSupplementArea}>
           <div className={styles.likeButtonArea}>
             <ConsulDetailLike
@@ -120,13 +112,11 @@ export default function Consultation({ post }: SSRProps) {
           </div>
         )}
       </div>
-      {solution ? (
-        <div className={styles.container}>
-          <h2>ベストアンサー</h2>
-        </div>
-      ) : (
-        <div></div>
-      )}
+      <BestAnswerArea
+        consulId={consultationId}
+        solution={solution}
+        userProfile={userProfile}
+      />
       <div className={styles.container}>
         <AnswerArea consultationId={consultationId} consulUserId={user.id} />
       </div>

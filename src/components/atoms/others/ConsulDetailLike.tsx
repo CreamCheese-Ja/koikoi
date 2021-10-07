@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { authCheckState, userProfileState } from "src/atoms/atom";
-import { checkUserLike } from "src/firebase/firestore";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import ConsulDetailLikeButton from "../../atoms/buttons/ConsulDetailLikeButton";
+import ConsulDetailLikeButton from "../buttons/ConsulDetailLikeButton";
 import styles from "styles/components/modules/ConsulDetailLike.module.css";
+import { checkUserLike } from "src/firebase/firestore/common/get/firestore";
 
 type Props = {
   numberOfLikes: number;

@@ -8,7 +8,7 @@ import {
   supplementsState,
   userProfileState,
 } from "src/atoms/atom";
-import { postSupplement } from "src/firebase/firestore";
+import { writeSupplement } from "src/firebase/firestore/consultations/write/firestore";
 import MultilineBasicTextField from "./MultilineBasicTextField";
 
 type Props = {
@@ -40,7 +40,7 @@ const SupplementField = (props: Props) => {
     setRunning((running) => !running);
     // 恋愛相談の作成者と補足の追加者が同じこと、500文字以内であることを確認
     if (props.userId === userProfile.id && value.length <= 500) {
-      const postData = await postSupplement(props.docId, value);
+      const postData = await writeSupplement(props.docId, value);
       if (postData !== "error") {
         // 成功
         const docId: keyof Supplements = props.docId;

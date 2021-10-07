@@ -10,9 +10,10 @@ import {
   numberOfAnswerState,
   userProfileState,
 } from "src/atoms/atom";
-import { changeDateFormatAddTime } from "src/commonFunctions/chnageDateFormat";
+import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
 import AnswerLikeButton from "src/components/atoms/buttons/AnswerLikeButton";
 import AnswerReplyButton from "src/components/atoms/buttons/AnswerReplyButton";
+import BestAnswerButton from "src/components/atoms/buttons/BestAnswerButton";
 import AnswerCommentField from "src/components/atoms/textFields/AnswerCommentField";
 import { getConsultationAnswers } from "src/firebase/firestore";
 import styles from "styles/components/atoms/answerArea.module.css";
@@ -54,10 +55,8 @@ const AnswerArea = (props: Props) => {
         setRunning(false);
       }
     };
-    // authCheckがtrueで動作する
     if (authCheck) {
       get(props.consultationId, userProfile.id);
-      console.log("回答リスト更新");
     }
   }, [authCheck]);
 
@@ -81,21 +80,37 @@ const AnswerArea = (props: Props) => {
                   <div className={styles.userName}>{answer.user.name}</div>
                 </div>
                 <div className={styles.date}>
-                  {changeDateFormatAddTime(answer.createdAt) + "に投稿"}
+                  {changeDateFormatAddTime(answer.createdAt) + "に回答"}
                 </div>
               </div>
               <p className={styles.content}>{answer.content}</p>
               <div className={styles.likeAndAnswerArea}>
-                <AnswerLikeButton
-                  consulDocId={props.consultationId}
-                  answerDocId={answer.answerId}
-                  likeUserId={answer.user.id}
-                  userProfile={userProfile}
-                  answerList={answerList}
-                  setAnswerList={setAnswerList}
-                  useLike={answer.userLike}
-                  numberOfLikes={answer.numberOfLikes}
-                />
+                <div className={styles.iconArea}>
+                  <AnswerLikeButton
+                    consulDocId={props.consultationId}
+                    answerDocId={answer.answerId}
+                    likeUserId={answer.user.id}
+                    userProfile={userProfile}
+                    answerList={answerList}
+                    setAnswerList={setAnswerList}
+                    useLike={answer.userLike}
+                    numberOfLikes={answer.numberOfLikes}
+                  />
+                  {props.consulUserId === userProfile.id &&
+                  answer.bestAnswer === false ? (
+                    <BestAnswerButton
+                      consulId={props.consultationId}
+                      answerId={answer.answerId}
+                      answerUserId={answer.user.id}
+                      answerList={answerList}
+                      setAnswerList={setAnswerList}
+                      answerComment={answer.comment}
+                    />
+                  ) : (
+                    <div></div>
+                  )}
+                </div>
+
                 {props.consulUserId === userProfile.id &&
                 answer.comment === "" ? (
                   <AnswerReplyButton />

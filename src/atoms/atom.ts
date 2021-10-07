@@ -3,7 +3,8 @@ import {
   AnswerData,
   AnswerList,
   ConsultationList,
-} from "src/firebase/firestore";
+  ProfileItem,
+} from "src/type";
 
 // ローディングスピナーON,OFF(恋愛相談リストの取得)
 export const spinnerState = atom({
@@ -16,21 +17,6 @@ export const displayConsulMoreButtonState = atom({
   key: "displayConsulMoreButtonState",
   default: true,
 });
-
-// ユーザーのプロフィールデータの型
-export type ProfileItem = {
-  id: string;
-  name: string;
-  photoURL: string;
-  gender: string;
-  age: string;
-  job: string;
-  bloodType: string;
-  sign: string;
-  message: string;
-  numberOfBestAnswer: number;
-  numberOfLikes: number;
-};
 
 // ユーザーのプロフィールデータ
 export const userProfileState = atom<ProfileItem>({
@@ -178,6 +164,12 @@ export type Supplements = {
 export const supplementsState = atom<Supplements>({
   key: "supplementsState",
   default: {},
+});
+
+// 解決、未解決
+export const isSolutionState = atom({
+  key: "isSolutionState",
+  default: false,
 });
 
 // 回答数

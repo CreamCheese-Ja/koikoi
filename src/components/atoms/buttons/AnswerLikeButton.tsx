@@ -5,21 +5,23 @@ import {
   loginAndSignUpFormState,
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
-  ProfileItem,
 } from "src/atoms/atom";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
-import { AnswerList, createAnswerLike } from "src/firebase/firestore";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import styles from "styles/components/atoms/buttons/answerLikeButton.module.css";
+import { writeAnswerLike } from "src/firebase/firestore/consultations/write/firestore";
+import { AnswerData, AnswerList, ProfileItem } from "src/type";
 
 type Props = {
   consulDocId: string;
   answerDocId: string;
   likeUserId: string;
   userProfile: ProfileItem;
-  answerList: AnswerList;
-  setAnswerList: SetterOrUpdater<AnswerList>;
+  answerList?: AnswerList;
+  setAnswerList?: SetterOrUpdater<AnswerList>;
+  bestAnswer?: AnswerData;
+  setBestAnswer?: SetterOrUpdater<AnswerData | {}>;
   useLike: boolean;
   numberOfLikes: number;
 };
@@ -45,28 +47,36 @@ const AnswerLikeButton = (props: Props) => {
       props.userProfile.name
     );
     if (typeof operationPossible !== "string") {
-      // 「いいね!」のcreate処理
-      const createLike = await createAnswerLike(
+      // 「いいね!」のwrite処理
+      const createLike = await writeAnswerLike(
         props.consulDocId,
         props.answerDocId,
         props.likeUserId,
         props.userProfile.id
       );
       if (createLike !== "error") {
-        // 回答リストのデータを更新
-        const newDataList = props.answerList.map((data) => {
-          if (data.answerId === props.answerDocId) {
-            const newData = {
-              ...data,
-              numberOfLikes: data.numberOfLikes + 1,
-              userLike: true,
-            };
-            return newData;
-          } else {
-            return data;
-          }
-        });
-        props.setAnswerList(newDataList);
+        if (props.answerList && props.setAnswerList) {
+          // 回答リストstateのデータを更新
+          const newDataList = props.answerList.map((data) => {
+            if (data.answerId === props.answerDocId) {
+              const newData = {
+                ...data,
+                numberOfLikes: data.numberOfLikes + 1,
+                userLike: true,
+              };
+              return newData;
+            } else {
+              return data;
+            }
+          });
+          props.setAnswerList(newDataList);
+        } else if (props.setBestAnswer && props.bestAnswer) {
+          // ベストアンサーstateのデータを更新
+          props.setBestAnswer({
+            ...props.bestAnswer,
+            numberOfLikes: props.bestAnswer.numberOfLikes + 1,
+          });
+        }
         // サクセスメッセージ
         setSuccess({ status: true, message: createLike });
       } else {

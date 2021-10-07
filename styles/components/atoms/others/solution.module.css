@@ -1,0 +1,12 @@
+.solution {
+  color: red;
+  border: red solid 1px;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.noSolution {
+  color: #000;
+  border: #000 solid 1px;
+  padding: 3px 5px;
+  border-radius: 5px;
+}

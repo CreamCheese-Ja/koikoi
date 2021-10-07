@@ -1,4 +1,4 @@
-import ConsultationArea from "../atoms/ConsultationArea";
+import ConsultationArea from "./ConsultationArea";
 import Divider from "@material-ui/core/Divider";
 
 const AllConsultationArea = () => {

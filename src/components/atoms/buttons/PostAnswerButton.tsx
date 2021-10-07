@@ -13,11 +13,8 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
-import {
-  checkExistsAnswer,
-  createAnswer,
-  getNewAnswerData,
-} from "src/firebase/firestore";
+import { checkExistsAnswer, createAnswer } from "src/firebase/firestore";
+import { getNewAnswerData } from "src/firebase/firestore/consultations/get/firestore";
 import BasicExecutionButton from "./BasicExecutionButton";
 
 type Props = {

@@ -1,6 +1,5 @@
 .supplementArea {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 0 20px 20px;
 }
 .supplement {
   border: 1px #f48fb1 solid;
@@ -13,7 +12,11 @@
   line-height: 2;
   white-space: pre-wrap;
   word-break: break-all;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-left: 10px;
+  padding-left: 10px;
+  padding-bottom: 30px;
+  border-left: #e0e0e0 5px solid;
 }
 .top {
   display: flex;

@@ -1,8 +1,8 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { postAnswerRunningState } from "src/atoms/atom";
-import PostAnswerButton from "../buttons/PostAnswerButton";
-import AnswerTextField from "../textFields/AnswerTextField";
+import PostAnswerButton from "../../atoms/buttons/PostAnswerButton";
+import AnswerTextField from "../../atoms/textFields/AnswerTextField";
 import BasicDialog from "./BasicDialog";
 
 type Props = {

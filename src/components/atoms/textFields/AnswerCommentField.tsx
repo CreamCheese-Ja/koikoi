@@ -4,9 +4,9 @@ import {
   showAnswerReplyFieldState,
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
-  ProfileItem,
 } from "src/atoms/atom";
-import { AnswerList, postAnswerComment } from "src/firebase/firestore";
+import { writeAnswerComment } from "src/firebase/firestore/consultations/write/firestore";
+import { AnswerList, ProfileItem } from "src/type";
 import MultilineBasicTextField from "./MultilineBasicTextField";
 
 type Props = {
@@ -34,7 +34,7 @@ const AnswerCommentField = (props: Props) => {
     setRunning((running) => !running);
     // 恋愛相談者と返信者が同じであること、500文字以内であることを確認
     if (props.consulUserId === props.userProfile.id && value.length <= 500) {
-      const postMessage = await postAnswerComment(
+      const postMessage = await writeAnswerComment(
         props.consulId,
         props.answerId,
         value

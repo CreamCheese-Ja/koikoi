@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "styles/components/atoms/buttons/likeButton.module.css";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { createConsulAndTweetLike } from "src/firebase/firestore";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -12,6 +11,7 @@ import {
   multipurposeSuccessAlertState,
   userProfileState,
 } from "src/atoms/atom";
+import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/firestore";
 
 type Props = {
   userId: string;
@@ -45,7 +45,7 @@ const ConsulListLikeButton = (props: Props) => {
     }
     const operationPossible = userOperationPossibleCheck(userProfile.name);
     if (typeof operationPossible !== "string") {
-      const createLike = await createConsulAndTweetLike(
+      const createLike = await writeConsulAndTweetLike(
         "consultations",
         props.consultationId,
         props.userId,

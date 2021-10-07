@@ -16,8 +16,8 @@ import {
 } from "src/atoms/atom";
 import { processingConsultationList } from "src/firebase/firestore";
 import { useEffect } from "react";
-import { changeDateFormat } from "src/commonFunctions/chnageDateFormat";
-import ConsulListLikeButton from "./buttons/ConsulListLikeButton";
+import { changeDateFormat } from "src/commonFunctions/changeDateFormat";
+import ConsulListLikeButton from "../atoms/buttons/ConsulListLikeButton";
 
 // カテゴリーの色を決める関数
 export const consulCategory = (label: string) => {
@@ -161,13 +161,11 @@ const ConsultationArea = () => {
                   <div className={styles.commentIcon}>
                     <InsertCommentOutlinedIcon />
                   </div>
-
                   <div className={styles.answerCount}>
                     {consul.numberOfAnswer}
                   </div>
                 </div>
               </div>
-
               {consul.solution ? (
                 <div className={styles.solution}>解決済み</div>
               ) : (

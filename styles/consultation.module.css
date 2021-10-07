@@ -17,24 +17,11 @@
 .answerArea {
   margin-top: 3px;
 }
-
 .categoryAndSolution {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-}
-.solution {
-  color: red;
-  border: red solid 1px;
-  padding: 3px 5px;
-  border-radius: 5px;
-}
-.noSolution {
-  color: #000;
-  border: #000 solid 1px;
-  padding: 3px 5px;
-  border-radius: 5px;
 }
 .dateAndUserArea {
   display: flex;

@@ -4,7 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import noProfile from "public/images/no-profile.png";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { userMenuState, userProfileState } from "src/atoms/atom";
-import UserMenu from "./UserMenu";
+import UserMenu from "../UserMenu";
 
 const CurrentUserPhoto = memo(() => {
   const userProfile = useRecoilValue(userProfileState);

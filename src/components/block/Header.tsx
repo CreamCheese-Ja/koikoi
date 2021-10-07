@@ -8,8 +8,8 @@ import LoginAndSignUpButton from "../atoms/LoginAndSignUpButton";
 import SearchBar from "../atoms/SearchBar";
 import { useRecoilValue } from "recoil";
 import { userProfileState } from "src/atoms/atom";
-import CurrentUserPhoto from "../atoms/CurrentUserPhoto";
-import PostButton from "../atoms/buttons/PostButton";
+import CurrentUserPhoto from "../atoms/others/CurrentUserPhoto";
+import OpenPostMenuButton from "../atoms/buttons/OpenPostMenuButton";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -37,14 +37,13 @@ const Header = () => {
             <Typography variant="h6" className={classes.title}>
               Title
             </Typography>
-            {/* <div onClick={() => get()}>取得</div> */}
             <SearchBar />
             <HeaderNav />
             {userProfile.name === "" ? (
               <LoginAndSignUpButton />
             ) : (
               <div className={styles.postButtonAndPhoto}>
-                <PostButton />
+                <OpenPostMenuButton />
                 <CurrentUserPhoto />
               </div>
             )}
