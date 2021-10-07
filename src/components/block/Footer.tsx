@@ -1,5 +1,5 @@
 import React from "react";
-import FooterNav from "../atoms/FooterNav";
+import FooterNav from "./nav/FooterNav";
 import styles from "styles/components/block/footer.module.css";
 
 const Footer = () => {

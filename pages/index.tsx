@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import MoreConsultationButton from "src/components/atoms/buttons/MoreConsultationButton";
+import MoreConsultationButton from "src/components/modules/buttons/MoreConsultationButton";
 import AllConsultationArea from "src/components/block/AllConsultationArea";
 import styles from "../styles/Home.module.css";
 

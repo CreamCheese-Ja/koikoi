@@ -9,11 +9,11 @@ import {
   isSolutionState,
 } from "src/atoms/atom";
 import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
-import { getBestAnswerData } from "src/firebase/firestore/consultations/get/firestore";
 import { ProfileItem } from "src/type";
 import styles from "styles/components/block/bestAnswerArea.module.css";
-import AnswerLikeButton from "../atoms/buttons/AnswerLikeButton";
+import AnswerLikeButton from "../modules/buttons/AnswerLikeButton";
 import StarIcon from "@material-ui/icons/Star";
+import { getBestAnswerData } from "src/firebase/firestore/consultations/get/getBestAnswerData";
 
 type Props = {
   consulId: string;

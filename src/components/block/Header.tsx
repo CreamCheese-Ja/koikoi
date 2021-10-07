@@ -1,11 +1,11 @@
-import HeaderNav from "../atoms/HeaderNav";
+import HeaderNav from "./nav/HeaderNav";
 import styles from "styles/components/block/header.module.css";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import LoginAndSignUpButton from "../atoms/LoginAndSignUpButton";
-import SearchBar from "../atoms/SearchBar";
+import LoginAndSignUpButton from "../atoms/buttons/LoginAndSignUpButton";
+import SearchBar from "../atoms/others/SearchBar";
 import { useRecoilValue } from "recoil";
 import { userProfileState } from "src/atoms/atom";
 import CurrentUserPhoto from "../atoms/others/CurrentUserPhoto";

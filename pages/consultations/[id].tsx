@@ -2,7 +2,6 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Image from "next/image";
 import noProfile from "public/images/no-profile.png";
 import Head from "next/head";
-import { getConsultationDetails } from "src/firebase/firestore";
 import styles from "styles/consultation.module.css";
 import Divider from "@material-ui/core/Divider";
 import { consulCategory } from "src/components/block/ConsultationArea";
@@ -10,14 +9,15 @@ import AnswerButton from "src/components/atoms/buttons/AnswerButton";
 import { useRecoilValue } from "recoil";
 import { supplementsState, userProfileState } from "src/atoms/atom";
 import SupplementButton from "src/components/atoms/buttons/SupplementButton";
-import SupplementField from "src/components/atoms/textFields/SupplementField";
+import SupplementField from "src/components/modules/textFields/SupplementField";
 import ConsulDetailLike from "src/components/atoms/others/ConsulDetailLike";
-import SupplementArea from "src/components/atoms/SupplementArea";
+import SupplementArea from "src/components/block/SupplementArea";
 import NumberOfAnswer from "src/components/atoms/others/NumberOfAnswer";
 import AnswerArea from "src/components/block/AnswerArea";
 import { ConsultationDetails } from "src/type";
 import Solution from "src/components/atoms/others/Solution";
 import BestAnswerArea from "src/components/block/BestAnswerArea";
+import { getConsultationDetails } from "src/firebase/firestore/consultations/get/getConsultationDetails";
 
 interface SSRProps {
   post: ConsultationDetails;

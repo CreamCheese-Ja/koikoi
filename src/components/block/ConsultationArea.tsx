@@ -4,7 +4,7 @@ import noProfile from "public/images/no-profile.png";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined";
 import Divider from "@material-ui/core/Divider";
-import styles from "styles/components/atoms/consultationArea.module.css";
+import styles from "styles/components/block/consultationArea.module.css";
 
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -14,10 +14,10 @@ import {
   spinnerState,
   userProfileState,
 } from "src/atoms/atom";
-import { processingConsultationList } from "src/firebase/firestore";
 import { useEffect } from "react";
 import { changeDateFormat } from "src/commonFunctions/changeDateFormat";
-import ConsulListLikeButton from "../atoms/buttons/ConsulListLikeButton";
+import ConsulListLikeButton from "../modules/buttons/ConsulListLikeButton";
+import { getConsultationList } from "src/firebase/firestore/consultations/get/getConsultationList";
 
 // カテゴリーの色を決める関数
 export const consulCategory = (label: string) => {
@@ -85,7 +85,7 @@ const ConsultationArea = () => {
     }
     // 恋愛相談リストを取得する関数
     const get = async (userId: string) => {
-      const data = await processingConsultationList(userId);
+      const data = await getConsultationList(userId);
       if (typeof data !== "string") {
         setConsultationList(data);
         setRunning(false);

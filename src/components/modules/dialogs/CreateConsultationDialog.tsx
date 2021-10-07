@@ -9,10 +9,10 @@ import {
   createConsultationDialogState,
   postConsultationRunning,
 } from "src/atoms/atom";
-import styles from "styles/components/atoms/dialogs/createConsultationDialog.module.css";
-import PostConsultationButton from "../../atoms/buttons/PostConsultationButton";
-import ConsultationTitleField from "../../atoms/textFields/ConsultationTitleField";
-import ConsultationContentField from "../../atoms/textFields/ConsultationContentField";
+import styles from "styles/components/modules/dialogs/createConsultationDialog.module.css";
+import PostConsultationButton from "../buttons/PostConsultationButton";
+import ConsultationTitleField from "../textFields/ConsultationTitleField";
+import ConsultationContentField from "../textFields/ConsultationContentField";
 import ConsultationCategorySelect from "../../atoms/selectBoxes/ConsultationCategorySelect";
 import Linear from "../../atoms/progress/Linear";
 

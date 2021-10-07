@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { numberOfAnswerState } from "src/atoms/atom";
-import styles from "styles/components/atoms/consulPage/numberOfAnswer.module.css";
+import styles from "styles/components/atoms/others/numberOfAnswer.module.css";
 
 type Props = {
   initialNumberOfAnswer: number;

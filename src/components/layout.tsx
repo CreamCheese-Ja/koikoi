@@ -3,7 +3,7 @@ import Header from "./block/Header";
 import styles from "styles/layout.module.css";
 import Footer from "./block/Footer";
 import SideBar from "./block/SideBar";
-import Dialogs from "./block/Dialogs";
+import Dialogs from "./block/common/Dialogs";
 import { useSetRecoilState } from "recoil";
 import firebase from "../firebase/firebase";
 import {
@@ -14,8 +14,8 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { useEffect } from "react";
-import Alerts from "./block/Alerts";
-import { getUserProfile } from "src/firebase/firestore";
+import Alerts from "./block/common/Alerts";
+import { getUserProfile } from "src/firebase/firestore/users/get/getUserProfile";
 
 type Props = {
   children: ReactNode;

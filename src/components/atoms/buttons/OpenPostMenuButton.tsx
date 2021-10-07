@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import Button from "@material-ui/core/Button";
-import PostMenu from "../PostMenu";
+import PostMenu from "../../modules/menu/PostMenu";
 import { useSetRecoilState } from "recoil";
 import { postMenuState } from "src/atoms/atom";
 

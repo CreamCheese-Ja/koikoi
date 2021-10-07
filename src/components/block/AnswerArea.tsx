@@ -11,12 +11,12 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
-import AnswerLikeButton from "src/components/atoms/buttons/AnswerLikeButton";
+import AnswerLikeButton from "src/components/modules/buttons/AnswerLikeButton";
 import AnswerReplyButton from "src/components/atoms/buttons/AnswerReplyButton";
-import BestAnswerButton from "src/components/atoms/buttons/BestAnswerButton";
-import AnswerCommentField from "src/components/atoms/textFields/AnswerCommentField";
-import { getConsultationAnswers } from "src/firebase/firestore";
-import styles from "styles/components/atoms/answerArea.module.css";
+import BestAnswerButton from "src/components/modules/buttons/BestAnswerButton";
+import AnswerCommentField from "src/components/modules/textFields/AnswerCommentField";
+import { getAnswerList } from "src/firebase/firestore/consultations/get/getAnswerList";
+import styles from "styles/components/block/answerArea.module.css";
 
 type Props = {
   consultationId: string;
@@ -45,7 +45,7 @@ const AnswerArea = (props: Props) => {
     setRunning(true);
     // 回答リストを取得する関数
     const get = async (docId: string, userId: string) => {
-      const answerData = await getConsultationAnswers(docId, userId);
+      const answerData = await getAnswerList(docId, userId);
       if (typeof answerData !== "string") {
         // ベストアンサーを振り分ける処理
         const newAnswerData = answerData.filter((data) => {
