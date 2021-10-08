@@ -4,7 +4,6 @@ import noProfile from "public/images/no-profile.png";
 import Head from "next/head";
 import styles from "styles/consultation.module.css";
 import Divider from "@material-ui/core/Divider";
-import { consulCategory } from "src/components/block/ConsultationArea";
 import AnswerButton from "src/components/atoms/buttons/AnswerButton";
 import { useRecoilValue } from "recoil";
 import { supplementsState, userProfileState } from "src/atoms/atom";
@@ -18,6 +17,7 @@ import { ConsultationDetails } from "src/type";
 import Solution from "src/components/atoms/others/Solution";
 import BestAnswerArea from "src/components/block/BestAnswerArea";
 import { getConsultationDetails } from "src/firebase/firestore/consultations/get/getConsultationDetails";
+import Category from "src/components/atoms/others/Category";
 
 interface SSRProps {
   post: ConsultationDetails;
@@ -68,7 +68,9 @@ export default function Consultation({ post }: SSRProps) {
           </div>
         </div>
         <div className={styles.categoryAndSolution}>
-          <div className={styles.category}>{consulCategory(category)}</div>
+          <div className={styles.category}>
+            <Category categoryLabel={category} />
+          </div>
           <Solution solution={solution} />
         </div>
         <Divider />

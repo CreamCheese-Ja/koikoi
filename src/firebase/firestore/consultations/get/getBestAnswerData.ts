@@ -3,20 +3,29 @@ import { AnswerData } from "src/type";
 
 // ベストアンサーの取得
 export const getBestAnswerData = async (
-  consulId: string
+  consulId: string,
+  userId: string
 ): Promise<AnswerData | null> => {
   const ref = firebase
     .firestore()
     .collection("consultations")
     .doc(consulId)
-    .collection("answers")
-    .where("bestAnswer", "==", true)
-    .limit(1);
+    .collection("answers");
   try {
-    const bestAnswerSnapshot = await ref.get();
+    const bestAnswerSnapshot = await ref
+      .where("bestAnswer", "==", true)
+      .limit(1)
+      .get();
     const bestAnswerData = bestAnswerSnapshot.docs.find(
       (doc) => doc.data().bestAnswer === true
     );
+    // いいね済みかどうか確認
+    const userLike = await ref
+      .doc(bestAnswerData?.id)
+      .collection("likes")
+      .doc(userId)
+      .get();
+
     if (bestAnswerData) {
       const userData = await bestAnswerData.get("user.ref").get();
       return {
@@ -33,7 +42,7 @@ export const getBestAnswerData = async (
         commentCreatedAt: bestAnswerData.get("commentCreatedAt"),
         createdAt: bestAnswerData.get("createdAt"),
         updatedAt: bestAnswerData.get("updatedAt"),
-        userLike: false,
+        userLike: userLike.exists,
       };
     } else {
       return null;

@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "@material-ui/core";
 import React from "react";
+import Linear from "src/components/atoms/progress/Linear";
 
 type Props = {
   open: boolean;
@@ -22,9 +23,11 @@ const BasicAlertDialog = (props: Props) => {
     <div>
       <Dialog
         open={props.open}
+        onClose={props.dialogClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
+        <Linear running={props.running} />
         <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">

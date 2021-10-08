@@ -1,5 +1,7 @@
 import firebase from "src/firebase/firebase";
 
+type TimeStamp = firebase.firestore.Timestamp;
+
 // ユーザーのプロフィールデータの型
 export type ProfileItem = {
   id: string;
@@ -30,8 +32,8 @@ export type ConsultationList = {
   solution: boolean;
   numberOfLikes: number;
   numberOfAnswer: number;
-  createdAt: firebase.firestore.Timestamp;
-  updatedAt: firebase.firestore.Timestamp;
+  createdAt: TimeStamp;
+  updatedAt: TimeStamp;
   userLike: boolean;
 }[];
 
@@ -50,8 +52,8 @@ export type ConsultationData = {
   solution: boolean;
   numberOfLikes: number;
   numberOfAnswer: number;
-  createdAt: firebase.firestore.Timestamp;
-  updatedAt: firebase.firestore.Timestamp;
+  createdAt: TimeStamp;
+  updatedAt: TimeStamp;
   userLike: boolean;
 };
 
@@ -84,12 +86,12 @@ export type AnswerList = {
   };
   answerId: string;
   content: string;
-  createdAt: firebase.firestore.Timestamp;
-  updatedAt: firebase.firestore.Timestamp;
+  createdAt: TimeStamp;
+  updatedAt: TimeStamp;
   numberOfLikes: number;
   bestAnswer: boolean;
   comment: string;
-  commentCreatedAt: firebase.firestore.Timestamp | null;
+  commentCreatedAt: TimeStamp | null;
   userLike: boolean;
 }[];
 
@@ -102,11 +104,11 @@ export type AnswerData = {
   };
   answerId: string;
   content: string;
-  createdAt: firebase.firestore.Timestamp;
-  updatedAt: firebase.firestore.Timestamp;
+  createdAt: TimeStamp;
+  updatedAt: TimeStamp;
   numberOfLikes: number;
   bestAnswer: boolean;
   comment: string;
-  commentCreatedAt: firebase.firestore.Timestamp;
+  commentCreatedAt: TimeStamp;
   userLike: boolean;
 };

@@ -36,7 +36,10 @@ const BestAnswerArea = (props: Props) => {
     setBestAnswer({});
     // ベストアンサー取得の関数
     const get = async (consulId: string) => {
-      const bestAnswerData = await getBestAnswerData(consulId);
+      const bestAnswerData = await getBestAnswerData(
+        consulId,
+        props.userProfile.id
+      );
       if (bestAnswerData) {
         setBestAnswer(bestAnswerData);
       }

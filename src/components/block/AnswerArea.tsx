@@ -17,6 +17,7 @@ import BestAnswerButton from "src/components/modules/buttons/BestAnswerButton";
 import AnswerCommentField from "src/components/modules/textFields/AnswerCommentField";
 import { getAnswerList } from "src/firebase/firestore/consultations/get/getAnswerList";
 import styles from "styles/components/block/answerArea.module.css";
+import MoreAnswerButton from "../modules/buttons/MoreAnswerButton";
 
 type Props = {
   consultationId: string;
@@ -154,6 +155,14 @@ const AnswerArea = (props: Props) => {
             <Divider />
           </div>
         ))}
+      </div>
+      <div className={styles.moreButtonArea}>
+        <MoreAnswerButton
+          answerList={answerList}
+          setAnswerList={setAnswerList}
+          consultationId={props.consultationId}
+          userProfileId={userProfile.id}
+        />
       </div>
     </div>
   );

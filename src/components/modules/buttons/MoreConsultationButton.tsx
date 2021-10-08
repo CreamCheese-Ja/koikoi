@@ -42,12 +42,10 @@ const MoreConsultationButton = () => {
     } else {
       setError(true);
     }
-
     // 取得数が10未満であればボタンを非表示にする
     if (nextPage.length !== 10) {
       setButtonDisplay(false);
     }
-
     setRunning(false);
   };
 
