@@ -9,7 +9,7 @@ import {
   createConsultationDialogState,
   postConsultationRunning,
 } from "src/atoms/atom";
-import styles from "styles/components/modules/dialogs/createConsultationDialog.module.css";
+import styles from "styles/components/modules/dialogs/createConsulAndTweetDialog.module.css";
 import PostConsultationButton from "../buttons/PostConsultationButton";
 import ConsultationTitleField from "../textFields/ConsultationTitleField";
 import ConsultationContentField from "../textFields/ConsultationContentField";

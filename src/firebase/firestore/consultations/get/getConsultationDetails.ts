@@ -15,8 +15,7 @@ export const getConsultationDetails = async (
     if (doc !== undefined) {
       const userData = await doc.get("user.ref").get();
 
-      // 恋愛情報ドキュメントと回答リストをまとめたオブジェクトを返す
-      // SSRでTimestampを扱うときは最初にstingに変換する
+      // SSRでTimestampを扱うときは先にstingに変換する必要がある
       return {
         user: {
           id: userData.id,

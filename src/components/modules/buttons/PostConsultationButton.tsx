@@ -13,7 +13,6 @@ import {
   postMenuState,
 } from "src/atoms/atom";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
-import { getConsultationList } from "src/firebase/firestore/consultations/get/getConsultationList";
 import { getNewConsultationData } from "src/firebase/firestore/consultations/get/getNewConsultationData";
 import { createConsultation } from "src/firebase/firestore/consultations/write/createConsultation";
 import BasicExecutionButton from "../../atoms/buttons/BasicExecutionButton";
@@ -72,20 +71,10 @@ const PostConsultationButton = (props: Props) => {
           userProfile.id
         );
         if (create !== "error") {
-          // 投稿完了
-          // 新規の投稿を取得
-          const newData = await getNewConsultationData(create);
-          if (typeof newData !== "string") {
-            // 恋愛相談リストが空だった場合、最新の10件を取得する
-            if (consultationList.length === 0) {
-              const data = await getConsultationList(userProfile.id);
-              if (typeof data !== "string") {
-                setConsultationList(data);
-              } else {
-                setDefaultError(true);
-              }
-            } else {
-              // 新規の投稿を恋愛相談リストに追加
+          // 恋愛相談リストが空ではない場合、新しいデータを取得
+          if (consultationList.length !== 0) {
+            const newData = await getNewConsultationData(create);
+            if (typeof newData !== "string") {
               setConsultationList([newData, ...consultationList]);
             }
             // 投稿完了操作

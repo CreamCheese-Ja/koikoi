@@ -4,6 +4,7 @@ import {
   AnswerList,
   ConsultationList,
   ProfileItem,
+  TweetList,
 } from "src/type";
 
 // ローディングスピナーON,OFF(恋愛相談リストの取得)
@@ -212,4 +213,24 @@ export const getAnswerListRunningState = atom({
 export const showAnswerReplyFieldState = atom({
   key: "showAnswerReplyFieldState",
   default: false,
+});
+
+// つぶやき関連
+
+// カテゴリー(form)
+export const tweetCategoryState = atom({
+  key: "consultationCategoryState",
+  default: { text: "", errorStatus: false, errorMessage: "" },
+});
+
+// 内容(form)
+export const tweetContentState = atom({
+  key: "consultationContentState",
+  default: { text: "", errorStatus: false, errorMessage: "" },
+});
+
+// つぶやきリスト
+export const tweetListState = atom<TweetList>({
+  key: "tweetListState",
+  default: [],
 });

@@ -2,6 +2,13 @@ import firebase from "src/firebase/firebase";
 
 type TimeStamp = firebase.firestore.Timestamp;
 
+// ユーザーデータの型
+export type UserData = {
+  id: string;
+  name: string;
+  photoURL: string;
+};
+
 // ユーザーのプロフィールデータの型
 export type ProfileItem = {
   id: string;
@@ -37,7 +44,7 @@ export type ConsultationList = {
   userLike: boolean;
 }[];
 
-// 単体の恋愛相談の型
+// 恋愛相談1件の型
 export type ConsultationData = {
   user: {
     id: string;
@@ -77,7 +84,7 @@ export type ConsultationDetails = {
   supplementCreatedAt: string;
 };
 
-// 恋愛相談詳細の中の回答リストの型
+// 回答リストの型
 export type AnswerList = {
   user: {
     id: string;
@@ -112,3 +119,44 @@ export type AnswerData = {
   commentCreatedAt: TimeStamp;
   userLike: boolean;
 };
+
+// つぶやき1件の型
+export type TweetData = {
+  user: UserData;
+  tweetId: string;
+  category: string;
+  content: string;
+  numberOfLikes: number;
+  numberOfComments: number;
+  createdAt: TimeStamp;
+  updatedAt: TimeStamp;
+  userLike: boolean;
+};
+
+// つぶやきリストの型
+export type TweetList = TweetData[];
+
+// つぶやき詳細(SSR)の型
+export type TweetDetails = {
+  user: UserData;
+  tweetId: string;
+  category: string;
+  content: string;
+  numberOfLikes: number;
+  numberOfComments: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+// つぶやきコメント1件の型
+export type TweetCommentData = {
+  user: UserData;
+  commentId: string;
+  content: string;
+  createdAt: TimeStamp;
+  numberOfLikes: number;
+  userLike: boolean;
+};
+
+// つぶやきコメントリストの型
+export type TweetCommentList = TweetCommentData[];

@@ -58,7 +58,6 @@ const AnswerCommentField = (props: Props) => {
         setError({ status: true, message: "エラーが発生しました。" });
       }
     } else if (value.length > 500) {
-      // 500文字以内のアラート
       setError({ status: true, message: "補足は500文字以内です。" });
     } else {
       setError({ status: true, message: "エラーが発生しました。" });

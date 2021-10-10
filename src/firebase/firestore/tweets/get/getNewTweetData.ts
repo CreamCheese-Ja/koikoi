@@ -1,11 +1,10 @@
 import firebase from "src/firebase/firebase";
-import { ConsultationData } from "src/type";
+import { TweetData } from "src/type";
 
-// ユーザーが投稿した最新の恋愛相談を1件取得
-export const getNewConsultationData = async (
+export const getNewTweetData = async (
   docId: string
-): Promise<ConsultationData | string> => {
-  const ref = firebase.firestore().collection("consultations").doc(docId);
+): Promise<TweetData | null> => {
+  const ref = firebase.firestore().collection("tweets").doc(docId);
   try {
     const doc = await ref.get();
     if (doc) {
@@ -16,22 +15,19 @@ export const getNewConsultationData = async (
           name: userData.get("name"),
           photoURL: userData.get("photoURL"),
         },
-        consultationId: doc.id,
+        tweetId: doc.id,
         category: doc.get("category"),
-        title: doc.get("title"),
         content: doc.get("content"),
-        supplement: doc.get("supplement"),
-        solution: doc.get("solution"),
         numberOfLikes: doc.get("numberOfLikes"),
-        numberOfAnswer: doc.get("numberOfAnswer"),
+        numberOfComments: doc.get("numberOfComments"),
         createdAt: doc.get("createdAt"),
         updatedAt: doc.get("updatedAt"),
         userLike: false,
       };
     } else {
-      return "error";
+      return null;
     }
   } catch (error) {
-    return "error";
+    return null;
   }
 };
