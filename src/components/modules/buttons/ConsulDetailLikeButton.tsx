@@ -10,7 +10,7 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
-import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/firestore";
+import { writeListLike } from "src/firebase/firestore/common/write/writeListLike";
 
 type Props = {
   userId: string;
@@ -52,7 +52,7 @@ const ConsulDetailLikeButton = (props: Props) => {
     }
     const operationPossible = userOperationPossibleCheck(userProfile.name);
     if (typeof operationPossible !== "string") {
-      const createLike = await writeConsulAndTweetLike(
+      const createLike = await writeListLike(
         "consultations",
         props.consultationId,
         props.userId,

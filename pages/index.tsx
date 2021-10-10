@@ -1,8 +1,7 @@
 import Head from "next/head";
-import Image from "next/image";
 import MoreConsultationButton from "src/components/modules/buttons/MoreConsultationButton";
-import AllConsultationArea from "src/components/block/AllConsultationArea";
 import styles from "../styles/Home.module.css";
+import ConsultationListArea from "src/components/block/ConsultationListArea";
 
 export default function Home() {
   return (
@@ -15,7 +14,7 @@ export default function Home() {
       <div className={styles.container}>
         <h1 className={styles.title}>恋愛相談</h1>
         <div>
-          <AllConsultationArea />
+          <ConsultationListArea />
         </div>
         <div className={styles.nextButton}>
           <MoreConsultationButton />

@@ -7,16 +7,10 @@ import {
   TweetList,
 } from "src/type";
 
-// ローディングスピナーON,OFF(恋愛相談リストの取得)
+// ローディングスピナーON,OFF(恋愛相談リスト,つぶやきリストの取得)
 export const spinnerState = atom({
   key: "spinnerState",
   default: false,
-});
-
-// 恋愛相談用のもっと見るボタンの表示、非表示
-export const displayConsulMoreButtonState = atom({
-  key: "displayConsulMoreButtonState",
-  default: true,
 });
 
 // ユーザーのプロフィールデータ
@@ -118,7 +112,7 @@ export const multipurposeSuccessAlertState = atom({
   },
 });
 
-// 恋愛相談関連
+// ***************************恋愛相談関連***************************
 
 // カテゴリー(form)
 export const consultationCategoryState = atom({
@@ -149,7 +143,13 @@ export const consultationListState = atom<ConsultationList>({
   default: [],
 });
 
-// 恋愛相談詳細
+// 恋愛相談用のもっと見るボタンの表示、非表示
+export const displayConsulMoreButtonState = atom({
+  key: "displayConsulMoreButtonState",
+  default: true,
+});
+
+// ***************************恋愛相談詳細***************************
 
 // 補足フィールドの表示
 export const displaySupplementFieldState = atom({
@@ -215,7 +215,7 @@ export const showAnswerReplyFieldState = atom({
   default: false,
 });
 
-// つぶやき関連
+// ***************************つぶやき関連***************************
 
 // カテゴリー(form)
 export const tweetCategoryState = atom({
@@ -233,4 +233,10 @@ export const tweetContentState = atom({
 export const tweetListState = atom<TweetList>({
   key: "tweetListState",
   default: [],
+});
+
+// 恋愛相談用のもっと見るボタンの表示、非表示
+export const showTweetMoreButtonState = atom({
+  key: "showTweetMoreButtonState",
+  default: true,
 });

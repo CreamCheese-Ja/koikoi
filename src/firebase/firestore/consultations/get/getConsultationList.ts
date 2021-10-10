@@ -12,9 +12,9 @@ export const getConsultationList = async (
       .limit(10)
       .get();
     // 取得したリストにuserがいいねしているかどうかのフラグを付け加えて返す
-    const currentPage = await Promise.all(
+    const firstPage = await Promise.all(
       querySnapshot.docs.map(async (doc) => {
-        const good = await ref
+        const userLike = await ref
           .doc(doc.id)
           .collection("likes")
           .doc(userId)
@@ -37,11 +37,11 @@ export const getConsultationList = async (
           numberOfAnswer: doc.get("numberOfAnswer"),
           createdAt: doc.get("createdAt"),
           updatedAt: doc.get("updatedAt"),
-          userLike: good.exists,
+          userLike: userLike.exists,
         };
       })
     );
-    return currentPage;
+    return firstPage;
   } catch (error) {
     return "error";
   }

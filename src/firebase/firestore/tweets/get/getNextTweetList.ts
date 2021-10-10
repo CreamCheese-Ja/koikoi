@@ -1,12 +1,12 @@
 import firebase from "src/firebase/firebase";
-import { ConsultationList } from "src/type";
+import { TweetList } from "src/type";
 
-// 恋愛相談のリスト(次の10件)を取得し加工した値を返す関数
-export const getNextConsultationList = async (
+// つぶやきリスト(次の10件)を取得
+export const getNextTweetList = async (
   userId: string,
   cursor: firebase.firestore.Timestamp
-): Promise<ConsultationList | string> => {
-  const ref = firebase.firestore().collection("consultations");
+): Promise<TweetList | null> => {
+  const ref = firebase.firestore().collection("tweets");
   try {
     const querySnapshot = await ref
       .orderBy("createdAt", "desc")
@@ -16,7 +16,7 @@ export const getNextConsultationList = async (
     // 取得したリストにuserがいいねしているかどうかのフラグを付け加えて返す
     const nextPage = await Promise.all(
       querySnapshot.docs.map(async (doc) => {
-        const good = await ref
+        const like = await ref
           .doc(doc.id)
           .collection("likes")
           .doc(userId)
@@ -28,22 +28,19 @@ export const getNextConsultationList = async (
             name: userData.get("name"),
             photoURL: userData.get("photoURL"),
           },
-          consultationId: doc.id,
+          tweetId: doc.id,
           category: doc.get("category"),
-          title: doc.get("title"),
           content: doc.get("content"),
-          supplement: doc.get("supplement"),
-          solution: doc.get("solution"),
           numberOfLikes: doc.get("numberOfLikes"),
-          numberOfAnswer: doc.get("numberOfAnswer"),
+          numberOfComments: doc.get("numberOfComments"),
           createdAt: doc.get("createdAt"),
           updatedAt: doc.get("updatedAt"),
-          userLike: good.exists,
+          userLike: like.exists,
         };
       })
     );
     return nextPage;
   } catch (error) {
-    return "error";
+    return null;
   }
 };

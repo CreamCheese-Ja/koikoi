@@ -1,71 +1,52 @@
 import React from "react";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import {
-  consultationListState,
   defaultErrorAlertState,
   loginAndSignUpFormState,
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
-  userProfileState,
 } from "src/atoms/atom";
-import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/firestore";
+import { writeListLike } from "src/firebase/firestore/common/write/writeListLike";
+import { ProfileItem } from "src/type";
 
 type Props = {
   userId: string;
-  consultationId: string;
+  collectionId: string;
+  docId: string;
+  userProfile: ProfileItem;
+  updateList: (likeDocId: string) => void;
 };
 
-const ConsulListLikeButton = (props: Props) => {
-  // ユーザープロフィールの値
-  const userProfile = useRecoilValue(userProfileState);
-
+const ListLikeButton = (props: Props) => {
   // 共通のエラー、サクセスアラートの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
-
   // デフォルトエラーの変更関数
   const setDefaultError = useSetRecoilState(defaultErrorAlertState);
-
   // ログイン、新規登録フォーム用の変更関数
   const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
-
-  // 恋愛相談リストのstate
-  const [consultationList, setConsultationList] = useRecoilState(
-    consultationListState
-  );
 
   // 相談に対するいいね機能
   const like = async () => {
     // 自分の投稿にはいいねをさせない
-    if (props.userId === userProfile.id) {
+    if (props.userId === props.userProfile.id) {
       return;
     }
-    const operationPossible = userOperationPossibleCheck(userProfile.name);
+    const operationPossible = userOperationPossibleCheck(
+      props.userProfile.name
+    );
     if (typeof operationPossible !== "string") {
-      const createLike = await writeConsulAndTweetLike(
-        "consultations",
-        props.consultationId,
+      const createLike = await writeListLike(
+        props.collectionId,
+        props.docId,
         props.userId,
-        userProfile.id
+        props.userProfile.id
       );
       if (createLike !== "error") {
         // 現在の恋愛相談リストのデータを更新する
-        const dataList = consultationList;
-        const newDataList = dataList.map((data) => {
-          if (data.consultationId === props.consultationId) {
-            const newData = {
-              ...data,
-              numberOfLikes: data.numberOfLikes + 1,
-              userLike: true,
-            };
-            return newData;
-          } else {
-            return data;
-          }
-        });
-        setConsultationList(newDataList);
+        props.updateList(props.docId);
         // サクセスメッセージ
         setSuccess({ status: true, message: createLike });
       } else {
@@ -93,4 +74,4 @@ const ConsulListLikeButton = (props: Props) => {
   );
 };
 
-export default ConsulListLikeButton;
+export default ListLikeButton;

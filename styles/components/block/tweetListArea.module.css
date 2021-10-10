@@ -1,0 +1,52 @@
+.tweetArea {
+  padding: 10px;
+}
+.tweetArea > * {
+  margin: 10px 0;
+}
+.tweetTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.userArea {
+  display: flex;
+  align-items: center;
+}
+.userName {
+  margin-left: 10px;
+}
+.date {
+  padding-right: 5px;
+}
+.likeButtonArea {
+  display: flex;
+  align-items: center;
+}
+.likeCount {
+  margin-left: 5px;
+}
+.numberOfCommentArea {
+  display: flex;
+  align-items: center;
+}
+.commentCount {
+  margin-left: 5px;
+}
+.category {
+  display: inline-block;
+  color: #fff;
+  margin: 0 0;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.likeAndComment {
+  display: flex;
+  align-items: center;
+}
+.likeAndComment > * {
+  margin-right: 15px;
+}
+.commentIcon {
+  margin-top: 5px;
+}

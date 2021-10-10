@@ -5,7 +5,6 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined";
 import Divider from "@material-ui/core/Divider";
 import styles from "styles/components/block/consultationArea.module.css";
-
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   authCheckState,
@@ -16,27 +15,40 @@ import {
 } from "src/atoms/atom";
 import { useEffect } from "react";
 import { changeDateFormat } from "src/commonFunctions/changeDateFormat";
-import ConsulListLikeButton from "../modules/buttons/ConsulListLikeButton";
+import ListLikeButton from "../modules/buttons/ListLikeButton";
 import { getConsultationList } from "src/firebase/firestore/consultations/get/getConsultationList";
 import Category from "../atoms/others/Category";
 
-const ConsultationArea = () => {
+const ConsultationListArea = () => {
   // 恋愛相談Listのstate
   const [consultationList, setConsultationList] = useRecoilState(
     consultationListState
   );
-
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
-
   // onAuthStateChangedでチェック有無の値
   const authCheck = useRecoilValue(authCheckState);
-
   // ローディングの変更関数
   const setRunning = useSetRecoilState(spinnerState);
-
   // もっと見るボタン表示の変更関数
-  const setMoreButtonDisplay = useSetRecoilState(displayConsulMoreButtonState);
+  const setShowMoreButton = useSetRecoilState(displayConsulMoreButtonState);
+
+  // いいね後に恋愛相談リストを更新する関数
+  const updateConsulList = (likeDocId: string) => {
+    const newDataList = consultationList.map((data) => {
+      if (data.consultationId === likeDocId) {
+        const newData = {
+          ...data,
+          numberOfLikes: data.numberOfLikes + 1,
+          userLike: true,
+        };
+        return newData;
+      } else {
+        return data;
+      }
+    });
+    setConsultationList(newDataList);
+  };
 
   useEffect(() => {
     if (consultationList.length === 0) {
@@ -54,12 +66,13 @@ const ConsultationArea = () => {
     if (!consultationList.length && authCheck) {
       get(userProfile.id);
       // もっと見るボタンの表示
-      setMoreButtonDisplay(true);
+      setShowMoreButton(true);
     }
   }, [authCheck]);
 
   return (
     <div>
+      <Divider />
       {consultationList.map((consul) => (
         <div key={consul.consultationId}>
           <div className={styles.consultationArea}>
@@ -109,9 +122,12 @@ const ConsultationArea = () => {
                       <FavoriteIcon color="primary" />
                     </div>
                   ) : (
-                    <ConsulListLikeButton
+                    <ListLikeButton
                       userId={consul.user.id}
-                      consultationId={consul.consultationId}
+                      collectionId="consultations"
+                      docId={consul.consultationId}
+                      userProfile={userProfile}
+                      updateList={updateConsulList}
                     />
                   )}
                   <div className={styles.goodCount}>{consul.numberOfLikes}</div>
@@ -139,4 +155,4 @@ const ConsultationArea = () => {
   );
 };
 
-export default ConsultationArea;
+export default ConsultationListArea;
