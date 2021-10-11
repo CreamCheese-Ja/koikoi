@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 import { supplementsState, userProfileState } from "src/atoms/atom";
 import SupplementButton from "src/components/atoms/buttons/SupplementButton";
 import SupplementField from "src/components/modules/textFields/SupplementField";
-import ConsulDetailLike from "src/components/atoms/others/ConsulDetailLike";
+import ConsulDetailLikeButton from "src/components/modules/buttons/ConsulDetailLikeButton";
 import SupplementArea from "src/components/block/SupplementArea";
 import NumberOfAnswer from "src/components/atoms/others/NumberOfAnswer";
 import AnswerArea from "src/components/block/AnswerArea";
@@ -77,10 +77,11 @@ export default function Consultation({ post }: SSRProps) {
         <div className={styles.content}>{content}</div>
         <div className={styles.likeAndSupplementArea}>
           <div className={styles.likeButtonArea}>
-            <ConsulDetailLike
+            <ConsulDetailLikeButton
               numberOfLikes={numberOfLikes}
-              consultationId={consultationId}
+              docId={consultationId}
               userId={user.id}
+              userProfile={userProfile}
             />
           </div>
           {user.id === userProfile.id &&

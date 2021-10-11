@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import noProfile from "public/images/no-profile.png";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined";
@@ -101,7 +102,12 @@ const TweetListArea = () => {
                 ? tweet.content
                 : tweet.content.slice(0, 100) + "..."}
             </p>
-            <Category categoryLabel={tweet.category} />
+            <Link href={`/tweets/${tweet.tweetId}`}>
+              <a className={styles.detailLink}>詳しく見る</a>
+            </Link>
+            <div>
+              <Category categoryLabel={tweet.category} />
+            </div>
             <div className={styles.likeAndSolution}>
               <div className={styles.likeAndComment}>
                 <div className={styles.likeButtonArea}>

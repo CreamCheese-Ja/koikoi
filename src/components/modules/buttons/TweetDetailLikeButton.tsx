@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   authCheckState,
-  consultationListState,
   defaultErrorAlertState,
   loginAndSignUpFormState,
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
+  tweetListState,
 } from "src/atoms/atom";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { checkUserLike } from "src/firebase/firestore/common/get/firestore";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
+import { checkUserLike } from "src/firebase/firestore/common/get/firestore";
 import { writeListLike } from "src/firebase/firestore/common/write/writeListLike";
 import { ProfileItem } from "src/type";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 type Props = {
   numberOfLikes: number;
@@ -22,7 +22,7 @@ type Props = {
   userProfile: ProfileItem;
 };
 
-const ConsulDetailLikeButton = (props: Props) => {
+const TweetDetailLikeButton = (props: Props) => {
   // いいね数のstate
   const [likeCount, setLikeCount] = useState(props.numberOfLikes);
   // ユーザーがいいねしているかどうかのstate
@@ -36,10 +36,8 @@ const ConsulDetailLikeButton = (props: Props) => {
   const setDefaultError = useSetRecoilState(defaultErrorAlertState);
   // ログイン、新規登録フォーム用の変更関数
   const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
-  // 恋愛相談リストのstate
-  const [consultationList, setConsultationList] = useRecoilState(
-    consultationListState
-  );
+  // つぶやきリストのstate
+  const [tweetList, setTweetList] = useRecoilState(tweetListState);
 
   // 相談に対するいいね機能
   const like = async () => {
@@ -52,7 +50,7 @@ const ConsulDetailLikeButton = (props: Props) => {
     );
     if (typeof operationPossible !== "string") {
       const createLike = await writeListLike(
-        "consultations",
+        "tweets",
         props.docId,
         props.userId,
         props.userProfile.id
@@ -63,9 +61,9 @@ const ConsulDetailLikeButton = (props: Props) => {
         // いいね済みにする
         setUserLike({ check: true, status: true });
         // 恋愛相談リストのデータを更新する
-        if (consultationList.length !== 0) {
-          const newDataList = consultationList.map((data) => {
-            if (data.consultationId === props.docId) {
+        if (tweetList.length !== 0) {
+          const newDataList = tweetList.map((data) => {
+            if (data.tweetId === props.docId) {
               const newData = {
                 ...data,
                 numberOfLikes: data.numberOfLikes + 1,
@@ -76,7 +74,7 @@ const ConsulDetailLikeButton = (props: Props) => {
               return data;
             }
           });
-          setConsultationList(newDataList);
+          setTweetList(newDataList);
         }
         // サクセスメッセージ
         setSuccess({ status: true, message: createLike });
@@ -102,7 +100,7 @@ const ConsulDetailLikeButton = (props: Props) => {
     const get = async () => {
       const userLike = await checkUserLike(
         props.userProfile.id,
-        "consultations",
+        "tweets",
         props.docId
       );
       if (userLike) {
@@ -132,4 +130,4 @@ const ConsulDetailLikeButton = (props: Props) => {
   );
 };
 
-export default ConsulDetailLikeButton;
+export default TweetDetailLikeButton;
