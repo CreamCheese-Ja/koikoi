@@ -1,4 +1,4 @@
-import firebase from "src/firebase/firebase";
+import { db } from "src/firebase/firebase";
 import { TweetCommentList } from "src/type";
 
 // つぶやき詳細に対するコメントリストを取得(つぶやき詳細ページCSR用)
@@ -7,11 +7,7 @@ export const getCommentList = async (
   userId: string
 ): Promise<TweetCommentList | null> => {
   // コメントへのリファレンス
-  const commentsRef = firebase
-    .firestore()
-    .collection("tweets")
-    .doc(docId)
-    .collection("comments");
+  const commentsRef = db.collection("tweets").doc(docId).collection("comments");
   try {
     // 取得
     const commentsSnapshot = await commentsRef

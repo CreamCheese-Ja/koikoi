@@ -1,10 +1,10 @@
-import firebase from "src/firebase/firebase";
+import { db } from "src/firebase/firebase";
 import { TweetData } from "src/type";
 
 export const getNewTweetData = async (
   docId: string
 ): Promise<TweetData | null> => {
-  const ref = firebase.firestore().collection("tweets").doc(docId);
+  const ref = db.collection("tweets").doc(docId);
   try {
     const doc = await ref.get();
     if (doc) {

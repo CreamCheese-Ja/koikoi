@@ -1,4 +1,4 @@
-import firebase from "src/firebase/firebase";
+import { db, timeStamp } from "src/firebase/firebase";
 
 // つぶやきのcreate関数(後でデータを取得するためdocumentIdを返す)
 export const createTweet = async (
@@ -6,9 +6,9 @@ export const createTweet = async (
   content: string,
   userId: string
 ): Promise<string | boolean> => {
-  const userRef = firebase.firestore().doc(`users/${userId}`);
+  const userRef = db.doc(`users/${userId}`);
   try {
-    const ref = firebase.firestore().collection("tweets").doc();
+    const ref = db.collection("tweets").doc();
     await ref.set({
       user: {
         ref: userRef,
@@ -17,8 +17,8 @@ export const createTweet = async (
       content: content,
       numberOfLikes: 0,
       numberOfComments: 0,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: timeStamp,
+      updatedAt: timeStamp,
     });
     const tweetId = ref.id;
     return tweetId;

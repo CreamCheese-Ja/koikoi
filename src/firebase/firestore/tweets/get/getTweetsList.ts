@@ -1,10 +1,10 @@
-import firebase from "src/firebase/firebase";
+import { db } from "src/firebase/firebase";
 import { TweetList } from "src/type";
 
 export const getTweetsList = async (
   userId: string
 ): Promise<TweetList | null> => {
-  const ref = firebase.firestore().collection("tweets");
+  const ref = db.collection("tweets");
   try {
     const querySnapshot = await ref
       .orderBy("createdAt", "desc")

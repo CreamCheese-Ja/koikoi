@@ -1,5 +1,5 @@
 import { TweetDetails } from "src/type";
-import firebase from "src/firebase/firebase";
+import { db } from "src/firebase/firebase";
 import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
 
 // 恋愛相談詳細を1件取得(恋愛相談詳細ページSSR用)
@@ -7,7 +7,7 @@ export const getTweetDetails = async (
   docId: string
 ): Promise<TweetDetails | null> => {
   // 恋愛相談ドキュメントのリファレンス
-  const consulRef = firebase.firestore().collection("tweets").doc(docId);
+  const consulRef = db.collection("tweets").doc(docId);
   try {
     // 恋愛相談ドキュメントを取得
     const doc = await consulRef.get();

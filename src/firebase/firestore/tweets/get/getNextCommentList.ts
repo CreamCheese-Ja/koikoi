@@ -1,4 +1,4 @@
-import firebase from "src/firebase/firebase";
+import firebase, { db } from "src/firebase/firebase";
 import { TweetCommentList } from "src/type";
 
 // コメントリスト(次の5件)を取得する関数
@@ -7,11 +7,7 @@ export const getNextCommentList = async (
   userId: string,
   cursor: firebase.firestore.Timestamp
 ): Promise<TweetCommentList | null> => {
-  const ref = firebase
-    .firestore()
-    .collection("tweets")
-    .doc(tweetId)
-    .collection("comments");
+  const ref = db.collection("tweets").doc(tweetId).collection("comments");
   try {
     const querySnapshot = await ref
       .orderBy("createdAt", "desc")

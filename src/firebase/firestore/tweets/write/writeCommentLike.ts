@@ -1,4 +1,4 @@
-import firebase from "src/firebase/firebase";
+import firebase, { db, timeStamp } from "src/firebase/firebase";
 
 // 回答のいいね機能
 export const writeCommentLike = async (
@@ -7,11 +7,10 @@ export const writeCommentLike = async (
   likeUserId: string,
   requestUserId: string
 ): Promise<boolean> => {
-  const batch = firebase.firestore().batch();
+  const batch = db.batch();
 
   // いいねのcreate処理
-  const likeRef = firebase
-    .firestore()
+  const likeRef = db
     .collection("tweets")
     .doc(tweetDocId)
     .collection("comments")
@@ -19,7 +18,7 @@ export const writeCommentLike = async (
     .collection("likes")
     .doc(requestUserId);
   batch.set(likeRef, {
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    createdAt: timeStamp,
   });
 
   // documentのいいね数のインクリメント処理
@@ -31,7 +30,7 @@ export const writeCommentLike = async (
     .doc(commentDocId);
   batch.update(documentLikesIncrementRef, {
     numberOfLikes: firebase.firestore.FieldValue.increment(1),
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: timeStamp,
   });
 
   // userのいいね数のインクリメント処理
@@ -41,7 +40,7 @@ export const writeCommentLike = async (
     .doc(likeUserId);
   batch.update(userLikesIncrementRef, {
     numberOfLikes: firebase.firestore.FieldValue.increment(1),
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: timeStamp,
   });
 
   try {

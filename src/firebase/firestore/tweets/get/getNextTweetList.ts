@@ -1,4 +1,4 @@
-import firebase from "src/firebase/firebase";
+import firebase, { db } from "src/firebase/firebase";
 import { TweetList } from "src/type";
 
 // つぶやきリスト(次の10件)を取得
@@ -6,7 +6,7 @@ export const getNextTweetList = async (
   userId: string,
   cursor: firebase.firestore.Timestamp
 ): Promise<TweetList | null> => {
-  const ref = firebase.firestore().collection("tweets");
+  const ref = db.collection("tweets");
   try {
     const querySnapshot = await ref
       .orderBy("createdAt", "desc")

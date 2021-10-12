@@ -1,4 +1,4 @@
-import firebase from "src/firebase/firebase";
+import { db } from "src/firebase/firebase";
 import { TweetCommentData } from "src/type";
 
 // ユーザーが投稿した新規の回答を１件取得する
@@ -6,8 +6,7 @@ export const getNewCommentData = async (
   tweetId: string,
   commentId: string
 ): Promise<TweetCommentData | null> => {
-  const ref = firebase
-    .firestore()
+  const ref = db
     .collection("tweets")
     .doc(tweetId)
     .collection("comments")
