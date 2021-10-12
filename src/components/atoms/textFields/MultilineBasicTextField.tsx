@@ -10,7 +10,7 @@ type Props = {
   value: string;
   setValue: SetterOrUpdater<string>;
   running: boolean;
-  post: () => void;
+  onClick: () => void;
 };
 
 const MultilineBasicTextField = (props: Props) => {
@@ -37,7 +37,7 @@ const MultilineBasicTextField = (props: Props) => {
               <SendButton
                 value={props.value}
                 setValue={props.setValue}
-                post={props.post}
+                onClick={props.onClick}
                 running={props.running}
               />
             </InputAdornment>

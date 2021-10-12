@@ -17,4 +17,7 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
+export const db = firebase.firestore();
+export const timeStamp = firebase.firestore.FieldValue.serverTimestamp();
+
 export default firebase;

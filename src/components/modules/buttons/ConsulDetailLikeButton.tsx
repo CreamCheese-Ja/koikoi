@@ -12,7 +12,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { checkUserLike } from "src/firebase/firestore/common/get/firestore";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
-import { writeListLike } from "src/firebase/firestore/common/write/writeListLike";
+import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/writeConsulAndTweetLike";
 import { ProfileItem } from "src/type";
 
 type Props = {
@@ -51,7 +51,7 @@ const ConsulDetailLikeButton = (props: Props) => {
       props.userProfile.name
     );
     if (typeof operationPossible !== "string") {
-      const createLike = await writeListLike(
+      const createLike = await writeConsulAndTweetLike(
         "consultations",
         props.docId,
         props.userId,

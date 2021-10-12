@@ -37,7 +37,7 @@ const SupplementField = (props: Props) => {
   const userProfile = useRecoilValue(userProfileState);
 
   const post = async () => {
-    setRunning((running) => !running);
+    setRunning(true);
     // 恋愛相談の作成者と補足の追加者が同じこと、500文字以内であることを確認
     if (props.userId === userProfile.id && value.length <= 500) {
       const postData = await writeSupplement(props.docId, value);
@@ -58,7 +58,7 @@ const SupplementField = (props: Props) => {
     } else {
       setError({ status: true, message: "エラーが発生しました。" });
     }
-    setRunning((running) => !running);
+    setRunning(false);
   };
 
   return (
@@ -71,7 +71,7 @@ const SupplementField = (props: Props) => {
             value={value}
             setValue={setValue}
             running={running}
-            post={post}
+            onClick={post}
           />
         </div>
       ) : (

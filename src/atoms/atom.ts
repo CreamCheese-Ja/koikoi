@@ -4,6 +4,7 @@ import {
   AnswerList,
   ConsultationList,
   ProfileItem,
+  TweetCommentList,
   TweetList,
 } from "src/type";
 
@@ -232,6 +233,12 @@ export const tweetContentState = atom({
 // つぶやきリスト
 export const tweetListState = atom<TweetList>({
   key: "tweetListState",
+  default: [],
+});
+
+// コメントリスト
+export const tweetCommentListState = atom<TweetCommentList>({
+  key: "tweetCommentListState",
   default: [],
 });
 

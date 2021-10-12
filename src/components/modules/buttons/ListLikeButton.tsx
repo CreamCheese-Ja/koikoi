@@ -8,7 +8,7 @@ import {
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
 } from "src/atoms/atom";
-import { writeListLike } from "src/firebase/firestore/common/write/writeListLike";
+import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/writeConsulAndTweetLike";
 import { ProfileItem } from "src/type";
 
 type Props = {
@@ -38,7 +38,7 @@ const ListLikeButton = (props: Props) => {
       props.userProfile.name
     );
     if (typeof operationPossible !== "string") {
-      const createLike = await writeListLike(
+      const createLike = await writeConsulAndTweetLike(
         props.collectionId,
         props.docId,
         props.userId,

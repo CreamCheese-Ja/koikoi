@@ -19,9 +19,9 @@ import BestAnswerArea from "src/components/block/BestAnswerArea";
 import { getConsultationDetails } from "src/firebase/firestore/consultations/get/getConsultationDetails";
 import Category from "src/components/atoms/others/Category";
 
-interface SSRProps {
+type SSRProps = {
   post: ConsultationDetails;
-}
+};
 
 export default function Consultation({ post }: SSRProps) {
   const {

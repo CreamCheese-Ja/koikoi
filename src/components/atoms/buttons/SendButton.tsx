@@ -5,7 +5,7 @@ import { IconButton } from "@material-ui/core";
 type Props = {
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
-  post: () => void;
+  onClick: () => void;
   running: boolean;
 };
 
@@ -14,7 +14,7 @@ const SendButton = (props: Props) => {
     <IconButton
       disabled={props.value === "" || props.running}
       style={{ marginBottom: "25px", marginRight: "-10px" }}
-      onClick={props.post}
+      onClick={props.onClick}
     >
       <SendIcon color={props.value === "" ? "disabled" : "primary"} />
     </IconButton>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   authCheckState,
@@ -10,7 +10,7 @@ import {
 } from "src/atoms/atom";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
 import { checkUserLike } from "src/firebase/firestore/common/get/firestore";
-import { writeListLike } from "src/firebase/firestore/common/write/writeListLike";
+import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/writeConsulAndTweetLike";
 import { ProfileItem } from "src/type";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
@@ -22,7 +22,7 @@ type Props = {
   userProfile: ProfileItem;
 };
 
-const TweetDetailLikeButton = (props: Props) => {
+const TweetDetailLikeButton = memo((props: Props) => {
   // いいね数のstate
   const [likeCount, setLikeCount] = useState(props.numberOfLikes);
   // ユーザーがいいねしているかどうかのstate
@@ -49,7 +49,7 @@ const TweetDetailLikeButton = (props: Props) => {
       props.userProfile.name
     );
     if (typeof operationPossible !== "string") {
-      const createLike = await writeListLike(
+      const createLike = await writeConsulAndTweetLike(
         "tweets",
         props.docId,
         props.userId,
@@ -128,6 +128,6 @@ const TweetDetailLikeButton = (props: Props) => {
       <div style={{ marginLeft: "5px" }}>{likeCount}</div>
     </>
   );
-};
+});
 
 export default TweetDetailLikeButton;

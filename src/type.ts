@@ -154,6 +154,7 @@ export type TweetCommentData = {
   commentId: string;
   content: string;
   createdAt: TimeStamp;
+  updatedAt: TimeStamp;
   numberOfLikes: number;
   userLike: boolean;
 };

@@ -1,7 +1,7 @@
 import firebase from "src/firebase/firebase";
 
 // 恋愛相談、つぶやきのいいね機能
-export const writeListLike = async (
+export const writeConsulAndTweetLike = async (
   collectionId: string,
   documentId: string,
   likeUserId: string,
