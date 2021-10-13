@@ -204,7 +204,7 @@ export const bestAnswerState = atom<AnswerData | {}>({
   default: {},
 });
 
-// 実行中(回答リストget)
+// 実行中(回答リストget、もっと見るボタン押下時にspinnerを表示)
 export const getAnswerListRunningState = atom({
   key: "getAnswerListRunningState",
   default: false,
@@ -242,8 +242,20 @@ export const tweetCommentListState = atom<TweetCommentList>({
   default: [],
 });
 
+// コメント数
+export const tweetCommentCountState = atom({
+  key: "tweetCommentCountState",
+  default: 0,
+});
+
 // 恋愛相談用のもっと見るボタンの表示、非表示
 export const showTweetMoreButtonState = atom({
   key: "showTweetMoreButtonState",
   default: true,
+});
+
+// 実行中(コメントリストget、もっと見るボタン押下時にspinnerを表示)
+export const getTweetCommentListRunningState = atom({
+  key: "getTweetCommentListRunningState",
+  default: false,
 });

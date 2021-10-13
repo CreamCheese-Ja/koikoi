@@ -3,6 +3,8 @@ import Head from "next/head";
 import { getTweetDetails } from "src/firebase/firestore/tweets/get/getTweetDetails";
 import { TweetDetails } from "src/type";
 import TweetDetailArea from "src/components/block/TweetDetailArea";
+import TweetCommentArea from "src/components/block/TweetCommentArea";
+import styles from "styles/consultation.module.css";
 
 type SSRProps = {
   post: TweetDetails;
@@ -35,6 +37,12 @@ export default function Tweet({ post }: SSRProps) {
         numberOfLikes={numberOfLikes}
         createdAt={createdAt}
       />
+      <div className={styles.container}>
+        <TweetCommentArea
+          tweetId={tweetId}
+          numberOfComments={numberOfComments}
+        />
+      </div>
     </div>
   );
 }

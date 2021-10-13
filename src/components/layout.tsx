@@ -11,6 +11,7 @@ import {
   consultationListState,
   defaultErrorAlertState,
   multipurposeErrorAlertState,
+  tweetListState,
   userProfileState,
 } from "src/atoms/atom";
 import { useEffect } from "react";
@@ -24,16 +25,14 @@ type Props = {
 export default function Layout({ children, ...props }: Props) {
   // ユーザープロフィール用の変更関数
   const setUserProfile = useSetRecoilState(userProfileState);
-
   // 恋愛相談リストの変更関数
   const setConsultationList = useSetRecoilState(consultationListState);
-
+  // つぶやきリストの変更関数
+  const setTweetList = useSetRecoilState(tweetListState);
   // onAuthStateChangedでチェック有無の変更関数
   const setAuthCheck = useSetRecoilState(authCheckState);
-
   // 共通のエラーアラート用の変更関数
   const setDefaultErrorAlert = useSetRecoilState(defaultErrorAlertState);
-
   // 多目的エラーアラート用の変更関数
   const setMultipurposeErrorAlert = useSetRecoilState(
     multipurposeErrorAlertState
@@ -45,8 +44,9 @@ export default function Layout({ children, ...props }: Props) {
       if (user) {
         // ログインしたら、最初にauthCheckを空にする
         setAuthCheck(false);
-        // ログインしたら恋愛相談リストを空にする(ユーザのリセット処理なので必要)
+        // ログインしたら恋愛相談リスト、つぶやきリストを空にする(ユーザのリセット処理なので必要)
         setConsultationList([]);
+        setTweetList([]);
         // ユーザー情報をfirestoreから取得する
         const profileData = await getUserProfile(user.uid);
         if (typeof profileData !== "string") {

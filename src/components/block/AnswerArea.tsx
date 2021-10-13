@@ -27,17 +27,14 @@ type Props = {
 const AnswerArea = (props: Props) => {
   // 回答リストのstate
   const [answerList, setAnswerList] = useRecoilState(answerListState);
-
   // 回答数の値
   const numberOfAnswer = useRecoilValue(numberOfAnswerState);
-
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
-
   // onAuthStateChangedでチェック有無の値
   const authCheck = useRecoilValue(authCheckState);
 
-  // 回答リスト取得の実行中
+  // 実行中
   const setRunning = useSetRecoilState(getAnswerListRunningState);
 
   useEffect(() => {
@@ -46,13 +43,13 @@ const AnswerArea = (props: Props) => {
     setRunning(true);
     // 回答リストを取得する関数
     const get = async (docId: string, userId: string) => {
-      const answerData = await getAnswerList(docId, userId);
-      if (typeof answerData !== "string") {
+      const answerListData = await getAnswerList(docId, userId);
+      if (typeof answerListData !== "string") {
         // ベストアンサーを振り分ける処理
-        const newAnswerData = answerData.filter((data) => {
+        const newAnswerListData = answerListData.filter((data) => {
           return data.bestAnswer === false;
         });
-        setAnswerList(newAnswerData);
+        setAnswerList(newAnswerListData);
         setRunning(false);
       }
     };
@@ -94,7 +91,7 @@ const AnswerArea = (props: Props) => {
                     userProfile={userProfile}
                     answerList={answerList}
                     setAnswerList={setAnswerList}
-                    useLike={answer.userLike}
+                    userLike={answer.userLike}
                     numberOfLikes={answer.numberOfLikes}
                   />
                   {props.consulUserId === userProfile.id &&

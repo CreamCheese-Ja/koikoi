@@ -3,6 +3,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
+  tweetCommentCountState,
   tweetCommentListState,
 } from "src/atoms/atom";
 import MultilineBasicTextField from "src/components/atoms/textFields/MultilineBasicTextField";
@@ -24,8 +25,10 @@ const TweetCommentField = (props: Props) => {
   // アラート系stateの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
-  // コメントリストの変更関数
+  // コメントリストのstate
   const [commentList, setCommentList] = useRecoilState(tweetCommentListState);
+  // コメント数の変更関数
+  const setTweetCommentCount = useSetRecoilState(tweetCommentCountState);
 
   const post = async () => {
     setRunning(true);
@@ -35,6 +38,7 @@ const TweetCommentField = (props: Props) => {
         const newCommentData = await getNewCommentData(tweetId, commentDataId);
         if (newCommentData) {
           setCommentList([newCommentData, ...commentList]);
+          setTweetCommentCount((count) => count + 1);
           setValue("");
           setSuccess({ status: true, message: "コメントしました。" });
         } else {

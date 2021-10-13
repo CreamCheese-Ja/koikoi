@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  SetterOrUpdater,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import {
   defaultErrorAlertState,
+  getAnswerListRunningState,
   isSolutionState,
   numberOfAnswerState,
 } from "src/atoms/atom";
@@ -18,7 +24,7 @@ type Props = {
 };
 
 const MoreAnswerButton = (props: Props) => {
-  const [running, setRunning] = useState(false);
+  const [running, setRunning] = useRecoilState(getAnswerListRunningState);
   const [isButtonDisplay, setIsButtonDisplay] = useState(false);
   // 回答数のstate
   const answerCount = useRecoilValue(numberOfAnswerState);

@@ -11,7 +11,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import styles from "styles/components/modules/buttons/answerLikeButton.module.css";
 import { AnswerData, AnswerList, ProfileItem } from "src/type";
-import { writeAnswerLike } from "src/firebase/firestore/consultations/write/writeAnswerLike";
+import { writeAnswerAndCommentLike } from "src/firebase/firestore/common/write/writeAnswerAndCommentLike";
 
 type Props = {
   consulDocId: string;
@@ -22,7 +22,7 @@ type Props = {
   setAnswerList?: SetterOrUpdater<AnswerList>;
   bestAnswer?: AnswerData;
   setBestAnswer?: SetterOrUpdater<AnswerData | {}>;
-  useLike: boolean;
+  userLike: boolean;
   numberOfLikes: number;
 };
 
@@ -48,13 +48,15 @@ const AnswerLikeButton = (props: Props) => {
     );
     if (typeof operationPossible !== "string") {
       // 「いいね!」のwrite処理
-      const createLike = await writeAnswerLike(
+      const isCreateLike = await writeAnswerAndCommentLike(
+        "consultations",
+        "answers",
         props.consulDocId,
         props.answerDocId,
         props.likeUserId,
         props.userProfile.id
       );
-      if (createLike !== "error") {
+      if (isCreateLike) {
         if (props.answerList && props.setAnswerList) {
           // 回答リストstateのデータを更新
           const newDataList = props.answerList.map((data) => {
@@ -78,7 +80,7 @@ const AnswerLikeButton = (props: Props) => {
           });
         }
         // サクセスメッセージ
-        setSuccess({ status: true, message: createLike });
+        setSuccess({ status: true, message: "「いいね！」しました。" });
       } else {
         // エラーメッセージ
         setDefaultError(true);
@@ -99,7 +101,7 @@ const AnswerLikeButton = (props: Props) => {
 
   return (
     <div className={styles.area}>
-      {!props.useLike ? (
+      {!props.userLike ? (
         <div onClick={like} className={styles.likeButton}>
           <FavoriteBorderIcon />
         </div>
