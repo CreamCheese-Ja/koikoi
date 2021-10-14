@@ -3,7 +3,7 @@ import firebase from "src/firebase/firebase";
 // ユーザーのプロフィール情報を取得する関数
 export const getUserProfile = async (
   userUid: string | undefined
-): Promise<string | firebase.firestore.DocumentData> => {
+): Promise<firebase.firestore.DocumentData | null> => {
   try {
     const doc = await firebase
       .firestore()
@@ -12,15 +12,15 @@ export const getUserProfile = async (
       .get();
     if (doc.exists) {
       const profile = doc.data();
-      if (profile !== undefined) {
+      if (profile) {
         return profile;
       } else {
-        return "error";
+        return null;
       }
     } else {
-      return "ユーザー情報を取得出来ませんでした。";
+      return null;
     }
   } catch (error) {
-    return "ユーザー情報を取得出来ませんでした。";
+    return null;
   }
 };

@@ -34,7 +34,7 @@ const TweetCommentField = (props: Props) => {
     setRunning(true);
     if (value.length <= 150) {
       const commentDataId = await createComment(tweetId, userProfile.id, value);
-      if (typeof commentDataId === "string") {
+      if (commentDataId) {
         const newCommentData = await getNewCommentData(tweetId, commentDataId);
         if (newCommentData) {
           setCommentList([newCommentData, ...commentList]);

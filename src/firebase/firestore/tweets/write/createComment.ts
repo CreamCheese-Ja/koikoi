@@ -5,7 +5,7 @@ export const createComment = async (
   tweetId: string,
   userId: string,
   content: string
-): Promise<string | boolean> => {
+): Promise<string | null> => {
   const batch = db.batch();
   const userRef = db.doc(`users/${userId}`);
   // コメントのcreate処理
@@ -34,6 +34,6 @@ export const createComment = async (
     const commentID = commentRef.id;
     return commentID;
   } catch (error) {
-    return false;
+    return null;
   }
 };

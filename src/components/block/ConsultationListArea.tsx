@@ -57,7 +57,7 @@ const ConsultationListArea = () => {
     // 恋愛相談リストを取得する関数
     const get = async (userId: string) => {
       const data = await getConsultationList(userId);
-      if (typeof data !== "string") {
+      if (data) {
         setConsultationList(data);
         setRunning(false);
       }

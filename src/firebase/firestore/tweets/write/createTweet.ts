@@ -5,7 +5,7 @@ export const createTweet = async (
   category: string,
   content: string,
   userId: string
-): Promise<string | boolean> => {
+): Promise<string | null> => {
   const userRef = db.doc(`users/${userId}`);
   try {
     const ref = db.collection("tweets").doc();
@@ -23,6 +23,6 @@ export const createTweet = async (
     const tweetId = ref.id;
     return tweetId;
   } catch (error) {
-    return false;
+    return null;
   }
 };

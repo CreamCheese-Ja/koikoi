@@ -1,12 +1,12 @@
-import firebase from "src/firebase/firebase";
+import firebase, { db, timeStamp } from "src/firebase/firebase";
 import { ConsultationList } from "src/type";
 
 // 恋愛相談のリスト(次の10件)を取得し加工した値を返す関数
 export const getNextConsultationList = async (
   userId: string,
   cursor: firebase.firestore.Timestamp
-): Promise<ConsultationList | string> => {
-  const ref = firebase.firestore().collection("consultations");
+): Promise<ConsultationList | null> => {
+  const ref = db.collection("consultations");
   try {
     const querySnapshot = await ref
       .orderBy("createdAt", "desc")
@@ -16,7 +16,7 @@ export const getNextConsultationList = async (
     // 取得したリストにuserがいいねしているかどうかのフラグを付け加えて返す
     const nextPage = await Promise.all(
       querySnapshot.docs.map(async (doc) => {
-        const good = await ref
+        const like = await ref
           .doc(doc.id)
           .collection("likes")
           .doc(userId)
@@ -38,12 +38,12 @@ export const getNextConsultationList = async (
           numberOfAnswer: doc.get("numberOfAnswer"),
           createdAt: doc.get("createdAt"),
           updatedAt: doc.get("updatedAt"),
-          userLike: good.exists,
+          userLike: like.exists,
         };
       })
     );
     return nextPage;
   } catch (error) {
-    return "error";
+    return null;
   }
 };

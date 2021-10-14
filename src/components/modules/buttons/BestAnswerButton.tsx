@@ -61,12 +61,12 @@ const BestAnswerButton = (props: Props) => {
       return;
     }
     // firestoreに書き込み
-    const resultMessage = await writeBestAnswer(
+    const postResult = await writeBestAnswer(
       props.consulId,
       props.answerId,
       props.answerUserId
     );
-    if (resultMessage !== "error") {
+    if (postResult) {
       // ベストアンサーstateの更新
       const bestAnswerData = props.answerList.find(
         (data) => data.answerId === props.answerId
@@ -91,7 +91,7 @@ const BestAnswerButton = (props: Props) => {
       props.setAnswerList(newAnswerList);
 
       setIsSolution(true);
-      setSuccess({ status: true, message: resultMessage });
+      setSuccess({ status: true, message: "ベストアンサーを決定しました。" });
       dialogClose();
     } else {
       setError({ status: true, message: "エラーが発生しました。" });

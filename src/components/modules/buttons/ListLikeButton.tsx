@@ -38,17 +38,17 @@ const ListLikeButton = (props: Props) => {
       props.userProfile.name
     );
     if (typeof operationPossible !== "string") {
-      const createLike = await writeConsulAndTweetLike(
+      const isCreateLike = await writeConsulAndTweetLike(
         props.collectionId,
         props.docId,
         props.userId,
         props.userProfile.id
       );
-      if (createLike !== "error") {
+      if (isCreateLike) {
         // 現在の恋愛相談リストのデータを更新する
         props.updateList(props.docId);
         // サクセスメッセージ
-        setSuccess({ status: true, message: createLike });
+        setSuccess({ status: true, message: "「いいね！」しました。" });
       } else {
         // エラーメッセージ
         setDefaultError(true);

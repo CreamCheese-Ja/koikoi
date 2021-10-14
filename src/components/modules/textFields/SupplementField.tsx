@@ -40,8 +40,8 @@ const SupplementField = (props: Props) => {
     setRunning(true);
     // 恋愛相談の作成者と補足の追加者が同じこと、500文字以内であることを確認
     if (props.userId === userProfile.id && value.length <= 500) {
-      const postData = await writeSupplement(props.docId, value);
-      if (postData !== "error") {
+      const postResult = await writeSupplement(props.docId, value);
+      if (postResult) {
         // 成功
         const docId: keyof Supplements = props.docId;
         setSupplements({ ...supplements, [docId]: value });

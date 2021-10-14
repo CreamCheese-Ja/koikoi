@@ -9,7 +9,7 @@ import {
   tweetListState,
 } from "src/atoms/atom";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
-import { checkUserLike } from "src/firebase/firestore/common/get/firestore";
+import { checkUserLike } from "src/firebase/firestore/common/get/checkUserLike";
 import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/writeConsulAndTweetLike";
 import { ProfileItem } from "src/type";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -49,13 +49,13 @@ const TweetDetailLikeButton = memo((props: Props) => {
       props.userProfile.name
     );
     if (typeof operationPossible !== "string") {
-      const createLike = await writeConsulAndTweetLike(
+      const isCreateLike = await writeConsulAndTweetLike(
         "tweets",
         props.docId,
         props.userId,
         props.userProfile.id
       );
-      if (createLike !== "error") {
+      if (isCreateLike) {
         // 詳細ページのいいね数をインクリメント
         setLikeCount((likeCount) => likeCount + 1);
         // いいね済みにする
@@ -77,7 +77,7 @@ const TweetDetailLikeButton = memo((props: Props) => {
           setTweetList(newDataList);
         }
         // サクセスメッセージ
-        setSuccess({ status: true, message: createLike });
+        setSuccess({ status: true, message: "「いいね！」しました。" });
       } else {
         // エラーメッセージ
         setDefaultError(true);

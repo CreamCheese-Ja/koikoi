@@ -37,13 +37,13 @@ const MoreConsultationButton = () => {
       userProfile.id,
       consultationList[consultationList.length - 1].createdAt
     );
-    if (typeof nextPage !== "string") {
+    if (nextPage) {
       setConsultationList([...consultationList, ...nextPage]);
     } else {
       setError(true);
     }
     // 取得数が10未満であればボタンを非表示にする
-    if (nextPage.length !== 10) {
+    if (nextPage?.length !== 10) {
       setButtonDisplay(false);
     }
     setRunning(false);

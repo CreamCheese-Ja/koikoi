@@ -1,13 +1,12 @@
-import firebase from "src/firebase/firebase";
+import firebase, { db, timeStamp } from "src/firebase/firebase";
 
 // 回答に返信する機能
 export const writeAnswerComment = async (
   consulId: string,
   answerId: string,
   comment: string
-): Promise<string> => {
-  const ref = firebase
-    .firestore()
+): Promise<boolean> => {
+  const ref = db
     .collection("consultations")
     .doc(consulId)
     .collection("answers")
@@ -15,10 +14,10 @@ export const writeAnswerComment = async (
   try {
     await ref.update({
       comment: comment,
-      commentCreatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      commentCreatedAt: timeStamp,
     });
-    return "回答に返信しました。";
+    return true;
   } catch (error) {
-    return "error";
+    return false;
   }
 };

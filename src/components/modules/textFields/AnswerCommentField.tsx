@@ -31,15 +31,15 @@ const AnswerCommentField = (props: Props) => {
 
   // 返信を登録する
   const post = async () => {
-    setRunning((running) => !running);
+    setRunning(true);
     // 恋愛相談者と返信者が同じであること、500文字以内であることを確認
     if (props.consulUserId === props.userProfile.id && value.length <= 500) {
-      const postMessage = await writeAnswerComment(
+      const postResult = await writeAnswerComment(
         props.consulId,
         props.answerId,
         value
       );
-      if (postMessage !== "error") {
+      if (postResult) {
         // 成功
         // answerリストにコメントを追加(日時を表示させないため、commentCreatedAtには1度nullを入れる)
         const newAnswerList = props.answerList.map((data) => {
@@ -52,7 +52,7 @@ const AnswerCommentField = (props: Props) => {
         props.setAnswerList(newAnswerList);
         setValue("");
         setShowAnswerReplyField(false);
-        setSuccess({ status: true, message: postMessage });
+        setSuccess({ status: true, message: "回答に返信しました。" });
       } else {
         // 失敗
         setError({ status: true, message: "エラーが発生しました。" });
@@ -62,7 +62,7 @@ const AnswerCommentField = (props: Props) => {
     } else {
       setError({ status: true, message: "エラーが発生しました。" });
     }
-    setRunning((running) => !running);
+    setRunning(false);
   };
 
   return (
@@ -75,7 +75,7 @@ const AnswerCommentField = (props: Props) => {
             value={value}
             setValue={setValue}
             running={running}
-            post={post}
+            onClick={post}
           />
         </div>
       ) : (

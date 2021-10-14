@@ -2,13 +2,13 @@ import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import InputField from "../../atoms/textFields/InputField";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import { loginEmailAndPassword } from "src/firebase/authentication";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   defaultErrorAlertState,
   loginAlertState,
   loginAndSignUpFormState,
 } from "src/atoms/atom";
+import { loginEmailAndPassword } from "src/firebase/authentication/loginEmailAndPassword";
 
 const useStyles = makeStyles(() =>
   createStyles({

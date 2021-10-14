@@ -1,4 +1,4 @@
-import firebase from "src/firebase/firebase";
+import firebase, { db, timeStamp } from "src/firebase/firebase";
 
 // 恋愛相談、つぶやきのいいね機能
 export const writeConsulAndTweetLike = async (
@@ -6,8 +6,8 @@ export const writeConsulAndTweetLike = async (
   documentId: string,
   likeUserId: string,
   requestUserId: string
-): Promise<string> => {
-  const batch = firebase.firestore().batch();
+): Promise<boolean> => {
+  const batch = db.batch();
 
   // いいねのcreate処理
   const likeRef = firebase
@@ -17,7 +17,7 @@ export const writeConsulAndTweetLike = async (
     .collection("likes")
     .doc(requestUserId);
   batch.set(likeRef, {
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    createdAt: timeStamp,
   });
 
   // documentのいいね数のインクリメント処理
@@ -27,7 +27,7 @@ export const writeConsulAndTweetLike = async (
     .doc(documentId);
   batch.update(documentLikesIncrementRef, {
     numberOfLikes: firebase.firestore.FieldValue.increment(1),
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: timeStamp,
   });
 
   // userのいいね数のインクリメント処理
@@ -37,13 +37,13 @@ export const writeConsulAndTweetLike = async (
     .doc(likeUserId);
   batch.update(userLikesIncrementRef, {
     numberOfLikes: firebase.firestore.FieldValue.increment(1),
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: timeStamp,
   });
 
   try {
     await batch.commit();
-    return "「いいね!」しました。";
+    return true;
   } catch (error) {
-    return "error";
+    return false;
   }
 };

@@ -1,12 +1,12 @@
-import firebase from "src/firebase/firebase";
+import firebase, { db, timeStamp } from "src/firebase/firebase";
 
 // ベストアンサーを決定する機能
 export const writeBestAnswer = async (
   consulId: string,
   answerId: string,
   answerUserId: string
-) => {
-  const batch = firebase.firestore().batch();
+): Promise<boolean> => {
+  const batch = db.batch();
 
   // 回答をベストアンサーにする
   const answerRef = firebase
@@ -17,7 +17,7 @@ export const writeBestAnswer = async (
     .doc(answerId);
   batch.update(answerRef, {
     bestAnswer: true,
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: timeStamp,
   });
 
   // 相談を解決済みにする
@@ -27,18 +27,18 @@ export const writeBestAnswer = async (
     .doc(consulId);
   batch.update(consulRef, {
     solution: true,
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: timeStamp,
   });
 
   // ユーザーのベストアンサー数を更新
-  const userRef = firebase.firestore().collection("users").doc(answerUserId);
+  const userRef = db.collection("users").doc(answerUserId);
   batch.update(userRef, {
     numberOfBestAnswer: firebase.firestore.FieldValue.increment(1),
   });
   try {
     await batch.commit();
-    return "ベストアンサーを決定しました。";
+    return true;
   } catch (error) {
-    return "error";
+    return false;
   }
 };

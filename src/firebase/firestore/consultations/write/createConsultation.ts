@@ -1,4 +1,4 @@
-import firebase from "src/firebase/firebase";
+import firebase, { db, timeStamp } from "src/firebase/firebase";
 
 // 恋愛相談のcreate関数(後でデータを取得するためdocumentIdを返す)
 export const createConsultation = async (
@@ -6,10 +6,10 @@ export const createConsultation = async (
   title: string,
   content: string,
   userId: string
-): Promise<string> => {
-  const userRef = firebase.firestore().doc(`users/${userId}`);
+): Promise<string | null> => {
+  const userRef = db.doc(`users/${userId}`);
   try {
-    const ref = firebase.firestore().collection("consultations").doc();
+    const ref = db.collection("consultations").doc();
     await ref.set({
       user: {
         ref: userRef,
@@ -21,13 +21,13 @@ export const createConsultation = async (
       solution: false,
       numberOfLikes: 0,
       numberOfAnswer: 0,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      supplementCreatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: timeStamp,
+      updatedAt: timeStamp,
+      supplementCreatedAt: timeStamp,
     });
     const consulId = ref.id;
     return consulId;
   } catch (error) {
-    return "error";
+    return null;
   }
 };

@@ -49,7 +49,7 @@ export default function Layout({ children, ...props }: Props) {
         setTweetList([]);
         // ユーザー情報をfirestoreから取得する
         const profileData = await getUserProfile(user.uid);
-        if (typeof profileData !== "string") {
+        if (profileData) {
           setUserProfile({
             id: user.uid,
             name: profileData.name,
@@ -67,7 +67,10 @@ export default function Layout({ children, ...props }: Props) {
           setDefaultErrorAlert(true);
         } else {
           if (firebase.auth().currentUser?.emailVerified) {
-            setMultipurposeErrorAlert({ status: true, message: profileData });
+            setMultipurposeErrorAlert({
+              status: true,
+              message: "ユーザー情報を取得できませんでした。",
+            });
           }
         }
       }

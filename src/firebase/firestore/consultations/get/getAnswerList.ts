@@ -1,14 +1,13 @@
-import firebase from "src/firebase/firebase";
+import { db } from "src/firebase/firebase";
 import { AnswerList } from "src/type";
 
 // 恋愛相談詳細に対する回答リストを取得(恋愛相談詳細ページCSR用)
 export const getAnswerList = async (
   docId: string,
   userId: string
-): Promise<AnswerList | string> => {
+): Promise<AnswerList | null> => {
   // 回答へのリファレンス
-  const answersRef = firebase
-    .firestore()
+  const answersRef = db
     .collection("consultations")
     .doc(docId)
     .collection("answers");
@@ -49,6 +48,6 @@ export const getAnswerList = async (
     );
     return answersList;
   } catch (error) {
-    return "error";
+    return null;
   }
 };

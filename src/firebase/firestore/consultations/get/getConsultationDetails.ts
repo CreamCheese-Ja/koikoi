@@ -1,20 +1,19 @@
 import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
-import firebase from "src/firebase/firebase";
+import { db } from "src/firebase/firebase";
 import { ConsultationDetails } from "src/type";
 
 // 恋愛相談詳細を1件取得(恋愛相談詳細ページSSR用)
 export const getConsultationDetails = async (
   docId: string
-): Promise<ConsultationDetails | string> => {
+): Promise<ConsultationDetails | null> => {
   // 恋愛相談ドキュメントのリファレンス
-  const consulRef = firebase.firestore().collection("consultations").doc(docId);
+  const consulRef = db.collection("consultations").doc(docId);
 
   try {
     // 恋愛相談ドキュメントを取得
     const doc = await consulRef.get();
-    if (doc !== undefined) {
+    if (doc) {
       const userData = await doc.get("user.ref").get();
-
       // SSRでTimestampを扱うときは先にstingに変換する必要がある
       return {
         user: {
@@ -37,9 +36,9 @@ export const getConsultationDetails = async (
         ),
       };
     } else {
-      return "error";
+      return null;
     }
   } catch (error) {
-    return "error";
+    return null;
   }
 };

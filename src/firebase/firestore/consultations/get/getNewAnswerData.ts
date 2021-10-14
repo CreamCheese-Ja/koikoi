@@ -1,13 +1,12 @@
-import firebase from "src/firebase/firebase";
+import { db } from "src/firebase/firebase";
 import { AnswerData } from "src/type";
 
 // ユーザーが投稿した新規の回答を１件取得する
 export const getNewAnswerData = async (
   userId: string,
   consultationId: string
-): Promise<AnswerData | string> => {
-  const ref = firebase
-    .firestore()
+): Promise<AnswerData | null> => {
+  const ref = db
     .collection("consultations")
     .doc(consultationId)
     .collection("answers")
@@ -33,9 +32,9 @@ export const getNewAnswerData = async (
         userLike: false,
       };
     } else {
-      return "error";
+      return null;
     }
   } catch (error) {
-    return "error";
+    return null;
   }
 };

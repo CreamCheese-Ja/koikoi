@@ -138,7 +138,7 @@ export const getServerSideProps: GetServerSideProps<SSRProps> = async (
   const postId = params.id;
 
   const post = await getConsultationDetails(postId);
-  if (typeof post !== "string") {
+  if (post) {
     return {
       props: {
         post,

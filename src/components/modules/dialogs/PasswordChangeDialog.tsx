@@ -14,9 +14,10 @@ import {
 } from "src/atoms/atom";
 import InputField from "../../atoms/textFields/InputField";
 import Linear from "../../atoms/progress/Linear";
-import { sendPasswordResetEmail } from "../../../firebase/authentication";
+
 import { useEffect } from "react";
 import BasicAlert from "../../atoms/alerts/BasicAlert";
+import { sendPasswordResetEmail } from "src/firebase/authentication/sendPasswordResetEmail";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -61,14 +62,14 @@ const PasswordChangeDialog = () => {
   // パスワード再設定メールの送信メソッド
   const sendPasswordChangeEmail = async () => {
     setRunning(true);
-    const message = await sendPasswordResetEmail(email);
-    if (message === "completion") {
+    const result = await sendPasswordResetEmail(email);
+    if (result) {
       setEmail("");
       setSuccess(true);
       handleClose();
-    } else if (message !== "error") {
+    } else if (result !== false) {
       setInputError(true);
-      setErrorMessage(message);
+      setErrorMessage(result);
     } else {
       setDefaultErrorAlert(true);
     }

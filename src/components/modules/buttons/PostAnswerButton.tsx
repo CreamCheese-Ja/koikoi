@@ -26,31 +26,23 @@ type Props = {
 const PostAnswerButton = (props: Props) => {
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
-
   // 回答数のstate
   const setNumberOfAnswer = useSetRecoilState(numberOfAnswerState);
-
   // 回答内容のstate
   const [answer, setAnswer] = useRecoilState(answerState);
-
   // 回答リストのstate
   const [answerList, setAnswerList] = useRecoilState(answerListState);
-
   // 恋愛相談リストのstate
   const [consultationList, setConsultationList] = useRecoilState(
     consultationListState
   );
-
   // 共通のエラー、サクセスアラートの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
-
   // デフォルトエラーの変更関数
   const setDefaultError = useSetRecoilState(defaultErrorAlertState);
-
   // ログイン、新規登録フォーム用の変更関数
   const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
-
   // 実行中のstate
   const [running, setRunning] = useRecoilState(postAnswerRunningState);
 
@@ -73,13 +65,13 @@ const PostAnswerButton = (props: Props) => {
             userProfile.id,
             answer.text
           );
-          if (create !== "error") {
+          if (create) {
             // 新規の回答を取得
             const newAnswerData = await getNewAnswerData(
               userProfile.id,
               props.consultationId
             );
-            if (typeof newAnswerData !== "string") {
+            if (newAnswerData) {
               // 回答リストstateに追加
               setAnswerList([newAnswerData, ...answerList]);
               // 回答数stateをインクリメントする
@@ -102,7 +94,7 @@ const PostAnswerButton = (props: Props) => {
               // ダイアログを閉じる
               props.openCloseDialog();
               // ※アンサーの数よりリストが少なかったらもっと見るボタンを表示(もっと見るのコンポーネントにて)
-              setSuccess({ status: true, message: create });
+              setSuccess({ status: true, message: "投稿しました" });
             }
           } else {
             setDefaultError(true);

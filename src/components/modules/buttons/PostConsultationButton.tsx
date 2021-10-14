@@ -28,25 +28,19 @@ const PostConsultationButton = (props: Props) => {
 
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
-
   // 共通のエラー、サクセスアラートの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
-
   // デフォルトエラーの変更関数
   const setDefaultError = useSetRecoilState(defaultErrorAlertState);
-
   // ログイン、新規登録フォーム用の変更関数
   const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
-
   // 実行中のstate
   const [running, setRunning] = useRecoilState(postConsultationRunning);
-
   // 恋愛相談リストのstate
   const [consultationList, setConsultationList] = useRecoilState(
     consultationListState
   );
-
   // 投稿メニューの変更関数
   const setPostMenu = useSetRecoilState(postMenuState);
 
@@ -70,11 +64,11 @@ const PostConsultationButton = (props: Props) => {
           content.text,
           userProfile.id
         );
-        if (create !== "error") {
+        if (create) {
           // 恋愛相談リストが空ではない場合、新しいデータを取得
           if (consultationList.length !== 0) {
             const newData = await getNewConsultationData(create);
-            if (typeof newData !== "string") {
+            if (newData) {
               setConsultationList([newData, ...consultationList]);
             }
             // 投稿完了操作

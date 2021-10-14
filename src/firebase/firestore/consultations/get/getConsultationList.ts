@@ -1,11 +1,11 @@
-import firebase from "src/firebase/firebase";
+import firebase, { db, timeStamp } from "src/firebase/firebase";
 import { ConsultationList } from "src/type";
 
 // 恋愛相談のリスト(最初の10件)を取得し加工した値を返す関数
 export const getConsultationList = async (
   userId: string
-): Promise<ConsultationList | string> => {
-  const ref = firebase.firestore().collection("consultations");
+): Promise<ConsultationList | null> => {
+  const ref = db.collection("consultations");
   try {
     const querySnapshot = await ref
       .orderBy("createdAt", "desc")
@@ -19,7 +19,6 @@ export const getConsultationList = async (
           .collection("likes")
           .doc(userId)
           .get();
-
         const userData = await doc.get("user.ref").get();
         return {
           user: {
@@ -43,6 +42,6 @@ export const getConsultationList = async (
     );
     return firstPage;
   } catch (error) {
-    return "error";
+    return null;
   }
 };

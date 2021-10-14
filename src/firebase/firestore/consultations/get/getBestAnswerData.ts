@@ -1,4 +1,4 @@
-import firebase from "src/firebase/firebase";
+import { db } from "src/firebase/firebase";
 import { AnswerData } from "src/type";
 
 // ベストアンサーの取得
@@ -6,8 +6,7 @@ export const getBestAnswerData = async (
   consulId: string,
   userId: string
 ): Promise<AnswerData | null> => {
-  const ref = firebase
-    .firestore()
+  const ref = db
     .collection("consultations")
     .doc(consulId)
     .collection("answers");

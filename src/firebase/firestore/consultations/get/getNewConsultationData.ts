@@ -1,11 +1,11 @@
-import firebase from "src/firebase/firebase";
+import { db } from "src/firebase/firebase";
 import { ConsultationData } from "src/type";
 
 // ユーザーが投稿した最新の恋愛相談を1件取得
 export const getNewConsultationData = async (
   docId: string
-): Promise<ConsultationData | string> => {
-  const ref = firebase.firestore().collection("consultations").doc(docId);
+): Promise<ConsultationData | null> => {
+  const ref = db.collection("consultations").doc(docId);
   try {
     const doc = await ref.get();
     if (doc) {
@@ -29,9 +29,9 @@ export const getNewConsultationData = async (
         userLike: false,
       };
     } else {
-      return "error";
+      return null;
     }
   } catch (error) {
-    return "error";
+    return null;
   }
 };

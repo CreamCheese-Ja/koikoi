@@ -44,7 +44,7 @@ const AnswerArea = (props: Props) => {
     // 回答リストを取得する関数
     const get = async (docId: string, userId: string) => {
       const answerListData = await getAnswerList(docId, userId);
-      if (typeof answerListData !== "string") {
+      if (answerListData) {
         // ベストアンサーを振り分ける処理
         const newAnswerListData = answerListData.filter((data) => {
           return data.bestAnswer === false;

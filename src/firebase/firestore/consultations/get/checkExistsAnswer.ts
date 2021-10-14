@@ -1,12 +1,11 @@
-import firebase from "src/firebase/firebase";
+import { db } from "src/firebase/firebase";
 
 // ユーザーがすでに回答を投稿しているかどうかチェックする
 export const checkExistsAnswer = async (
   userId: string,
   consulDocId: string
 ): Promise<boolean> => {
-  const ref = firebase
-    .firestore()
+  const ref = db
     .collection("consultations")
     .doc(consulDocId)
     .collection("answers")

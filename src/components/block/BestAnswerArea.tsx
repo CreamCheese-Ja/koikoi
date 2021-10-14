@@ -87,7 +87,7 @@ const BestAnswerArea = (props: Props) => {
                     userProfile={props.userProfile}
                     bestAnswer={bestAnswer}
                     setBestAnswer={setBestAnswer}
-                    useLike={bestAnswer.userLike}
+                    userLike={bestAnswer.userLike}
                     numberOfLikes={bestAnswer.numberOfLikes}
                   />
                 </div>
