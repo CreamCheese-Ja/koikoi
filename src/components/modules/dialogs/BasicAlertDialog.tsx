@@ -19,34 +19,28 @@ type Props = {
 };
 
 const BasicAlertDialog = (props: Props) => {
+  const { open, dialogClose, title, content, mainMethod, running } = props;
+
   return (
     <div>
       <Dialog
-        open={props.open}
-        onClose={props.dialogClose}
+        open={open}
+        onClose={dialogClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <Linear running={props.running} />
-        <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
+        <Linear running={running} />
+        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {props.content}
+            {content}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={props.dialogClose}
-            color="primary"
-            disabled={props.running}
-          >
+          <Button onClick={dialogClose} color="primary" disabled={running}>
             いいえ
           </Button>
-          <Button
-            onClick={props.mainMethod}
-            color="primary"
-            disabled={props.running}
-          >
+          <Button onClick={mainMethod} color="primary" disabled={running}>
             はい
           </Button>
         </DialogActions>

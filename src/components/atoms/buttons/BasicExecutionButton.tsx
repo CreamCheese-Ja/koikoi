@@ -19,6 +19,8 @@ type Props = {
 };
 
 const BasicExecutionButton = (props: Props) => {
+  const { onClick, buttonLabel, disabled } = props;
+
   const classes = useStyles();
   return (
     <>
@@ -26,10 +28,10 @@ const BasicExecutionButton = (props: Props) => {
         variant="contained"
         color="primary"
         className={classes.root}
-        onClick={props.onClick}
-        disabled={props.disabled}
+        onClick={onClick}
+        disabled={disabled}
       >
-        {props.buttonLabel}
+        {buttonLabel}
       </Button>
     </>
   );

@@ -24,6 +24,8 @@ type Props = {
 };
 
 const MoreAnswerButton = (props: Props) => {
+  const { answerList, setAnswerList, consultationId, userProfileId } = props;
+
   const [running, setRunning] = useRecoilState(getAnswerListRunningState);
   const [isButtonDisplay, setIsButtonDisplay] = useState(false);
   // 回答数のstate
@@ -35,26 +37,26 @@ const MoreAnswerButton = (props: Props) => {
 
   // もっと見るボタンの表示、非表示
   useEffect(() => {
-    if (isSolution && props.answerList.length < answerCount - 1) {
+    if (isSolution && answerList.length < answerCount - 1) {
       setIsButtonDisplay(true);
-    } else if (!isSolution && props.answerList.length < answerCount) {
+    } else if (!isSolution && answerList.length < answerCount) {
       setIsButtonDisplay(true);
     } else {
       setIsButtonDisplay(false);
     }
-  }, [props.answerList]);
+  }, [answerList]);
 
   // 次のページの取得
   const fetchNextPage = async () => {
     setRunning(true);
     // 次の5件を取得
     const nextPage = await getNextAnswerList(
-      props.consultationId,
-      props.userProfileId,
-      props.answerList[props.answerList.length - 1].createdAt
+      consultationId,
+      userProfileId,
+      answerList[answerList.length - 1].createdAt
     );
     if (nextPage) {
-      props.setAnswerList([...props.answerList, ...nextPage]);
+      setAnswerList([...answerList, ...nextPage]);
     } else {
       setError(true);
     }

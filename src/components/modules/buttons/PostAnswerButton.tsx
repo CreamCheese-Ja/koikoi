@@ -24,6 +24,8 @@ type Props = {
 };
 
 const PostAnswerButton = (props: Props) => {
+  const { consultationId, openCloseDialog } = props;
+
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
   // 回答数のstate
@@ -56,12 +58,12 @@ const PostAnswerButton = (props: Props) => {
         // ここですでに投稿しているかどうかをチェックする。投稿していれば投稿させない
         const answerExists = await checkExistsAnswer(
           userProfile.id,
-          props.consultationId
+          consultationId
         );
         if (!answerExists) {
           // 回答を登録
           const create = await createAnswer(
-            props.consultationId,
+            consultationId,
             userProfile.id,
             answer.text
           );
@@ -69,7 +71,7 @@ const PostAnswerButton = (props: Props) => {
             // 新規の回答を取得
             const newAnswerData = await getNewAnswerData(
               userProfile.id,
-              props.consultationId
+              consultationId
             );
             if (newAnswerData) {
               // 回答リストstateに追加
@@ -78,7 +80,7 @@ const PostAnswerButton = (props: Props) => {
               setNumberOfAnswer((numberOfAnswer) => numberOfAnswer + 1);
               // 恋愛相談リストの回答数を変更
               const newConsulList = consultationList.map((data) => {
-                if (data.consultationId === props.consultationId) {
+                if (data.consultationId === consultationId) {
                   const newData = {
                     ...data,
                     numberOfAnswer: data.numberOfAnswer + 1,
@@ -92,7 +94,7 @@ const PostAnswerButton = (props: Props) => {
               // 回答内容フィールドを消す
               setAnswer({ text: "", errorStatus: false, errorMessage: "" });
               // ダイアログを閉じる
-              props.openCloseDialog();
+              openCloseDialog();
               // ※アンサーの数よりリストが少なかったらもっと見るボタンを表示(もっと見るのコンポーネントにて)
               setSuccess({ status: true, message: "投稿しました" });
             }

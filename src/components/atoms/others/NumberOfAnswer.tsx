@@ -8,11 +8,13 @@ type Props = {
 };
 
 const NumberOfAnswer = (props: Props) => {
+  const { initialNumberOfAnswer } = props;
+
   const [numberOfAnswer, setNumberOfAnswer] =
     useRecoilState(numberOfAnswerState);
 
   useEffect(() => {
-    setNumberOfAnswer(props.initialNumberOfAnswer);
+    setNumberOfAnswer(initialNumberOfAnswer);
   }, []);
 
   return (

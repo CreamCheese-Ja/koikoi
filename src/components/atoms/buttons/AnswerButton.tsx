@@ -9,6 +9,8 @@ type Props = {
 };
 
 const AnswerButton = (props: Props) => {
+  const { consultationId } = props;
+
   const [open, setOpen] = useState(false);
 
   const openCloseDialog = () => {
@@ -31,7 +33,7 @@ const AnswerButton = (props: Props) => {
       <CreateAnswerDialog
         open={open}
         openCloseDialog={openCloseDialog}
-        consultationId={props.consultationId}
+        consultationId={consultationId}
       />
     </>
   );

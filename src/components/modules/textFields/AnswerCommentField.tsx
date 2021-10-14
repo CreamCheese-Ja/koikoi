@@ -18,6 +18,15 @@ type Props = {
   setAnswerList: SetterOrUpdater<AnswerList>;
 };
 const AnswerCommentField = (props: Props) => {
+  const {
+    userProfile,
+    consulId,
+    answerId,
+    consulUserId,
+    answerList,
+    setAnswerList,
+  } = props;
+
   const [value, setValue] = useState("");
   const [running, setRunning] = useState(false);
 
@@ -33,23 +42,19 @@ const AnswerCommentField = (props: Props) => {
   const post = async () => {
     setRunning(true);
     // 恋愛相談者と返信者が同じであること、500文字以内であることを確認
-    if (props.consulUserId === props.userProfile.id && value.length <= 500) {
-      const postResult = await writeAnswerComment(
-        props.consulId,
-        props.answerId,
-        value
-      );
+    if (consulUserId === userProfile.id && value.length <= 500) {
+      const postResult = await writeAnswerComment(consulId, answerId, value);
       if (postResult) {
         // 成功
         // answerリストにコメントを追加(日時を表示させないため、commentCreatedAtには1度nullを入れる)
-        const newAnswerList = props.answerList.map((data) => {
-          if (data.answerId === props.answerId) {
+        const newAnswerList = answerList.map((data) => {
+          if (data.answerId === answerId) {
             return { ...data, comment: value, commentCreatedAt: null };
           } else {
             return data;
           }
         });
-        props.setAnswerList(newAnswerList);
+        setAnswerList(newAnswerList);
         setValue("");
         setShowAnswerReplyField(false);
         setSuccess({ status: true, message: "回答に返信しました。" });

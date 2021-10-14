@@ -15,25 +15,23 @@ type Props = {
 };
 
 const BasicDialog = (props: Props) => {
+  const { title, open, onClick, content, running } = props;
+
   return (
     <>
       <Dialog
-        open={props.open}
-        onClose={props.onClick}
+        open={open}
+        onClose={onClick}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <Linear running={props.running} />
+        <Linear running={running} />
         <DialogTitle id="alert-dialog-title">
-          <p style={{ textAlign: "center" }}>{props.title}</p>
+          <p style={{ textAlign: "center" }}>{title}</p>
         </DialogTitle>
-        <DialogContent>{props.content}</DialogContent>
+        <DialogContent>{content}</DialogContent>
         <DialogActions>
-          <Button
-            onClick={props.onClick}
-            color="primary"
-            disabled={props.running}
-          >
+          <Button onClick={onClick} color="primary" disabled={running}>
             キャンセル
           </Button>
         </DialogActions>

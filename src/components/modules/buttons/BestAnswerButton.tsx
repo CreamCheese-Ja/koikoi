@@ -22,6 +22,15 @@ type Props = {
 };
 
 const BestAnswerButton = (props: Props) => {
+  const {
+    consulId,
+    answerId,
+    answerUserId,
+    answerList,
+    setAnswerList,
+    answerComment,
+  } = props;
+
   const [open, setOpen] = useState(false);
   const [running, setRunning] = useState(false);
 
@@ -52,7 +61,7 @@ const BestAnswerButton = (props: Props) => {
   const postBestAnswer = async () => {
     setRunning(true);
     // 返信コメントが入力されているかどうか
-    if (props.answerComment === "") {
+    if (answerComment === "") {
       setError({
         status: true,
         message: "ベストアンサーにするにはコメントを入力してください。",
@@ -61,21 +70,17 @@ const BestAnswerButton = (props: Props) => {
       return;
     }
     // firestoreに書き込み
-    const postResult = await writeBestAnswer(
-      props.consulId,
-      props.answerId,
-      props.answerUserId
-    );
+    const postResult = await writeBestAnswer(consulId, answerId, answerUserId);
     if (postResult) {
       // ベストアンサーstateの更新
-      const bestAnswerData = props.answerList.find(
-        (data) => data.answerId === props.answerId
+      const bestAnswerData = answerList.find(
+        (data) => data.answerId === answerId
       );
       setBestAnswer({ ...bestAnswerData, bestAnswer: true });
 
       // 恋愛相談リストの更新
       const newConsultationList = consultationList.map((data) => {
-        if (data.consultationId === props.consulId) {
+        if (data.consultationId === consulId) {
           const newData = { ...data, solution: true };
           return newData;
         } else {
@@ -85,10 +90,10 @@ const BestAnswerButton = (props: Props) => {
       setConsultationList(newConsultationList);
 
       // アンサーリストstateの更新
-      const newAnswerList = props.answerList.filter((data) => {
-        return data.answerId !== props.answerId;
+      const newAnswerList = answerList.filter((data) => {
+        return data.answerId !== answerId;
       });
-      props.setAnswerList(newAnswerList);
+      setAnswerList(newAnswerList);
 
       setIsSolution(true);
       setSuccess({ status: true, message: "ベストアンサーを決定しました。" });

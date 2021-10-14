@@ -27,6 +27,7 @@ type Props = {
 };
 
 const LoginForm = (props: Props) => {
+  const { running, setRunning } = props;
   const classes = useStyles();
 
   const [email, setEmail] = useState("");
@@ -70,7 +71,7 @@ const LoginForm = (props: Props) => {
 
   // ログイン一連メソッド
   const loginUser = async () => {
-    props.setRunning(true);
+    setRunning(true);
     // ログイン処理
     const user = await loginEmailAndPassword(email, password);
     if (typeof user !== "string") {
@@ -91,7 +92,7 @@ const LoginForm = (props: Props) => {
         setDefaultErrorAlert(true);
       }
     }
-    props.setRunning(false);
+    setRunning(false);
   };
 
   return (
@@ -103,7 +104,7 @@ const LoginForm = (props: Props) => {
         onChange={setEmail}
         error={inputError.email}
         errorMessage={errorMessage.email}
-        disabled={props.running}
+        disabled={running}
       />
       <InputField
         label="パスワード"
@@ -112,7 +113,7 @@ const LoginForm = (props: Props) => {
         onChange={setPassword}
         error={inputError.password}
         errorMessage={errorMessage.password}
-        disabled={props.running}
+        disabled={running}
       />
       <div style={{ textAlign: "center", marginTop: "15px" }}>
         <Button
@@ -120,7 +121,7 @@ const LoginForm = (props: Props) => {
           color="primary"
           className={classes.root}
           onClick={loginUser}
-          disabled={props.running}
+          disabled={running}
         >
           ログイン
         </Button>

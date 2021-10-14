@@ -9,6 +9,7 @@ type Props = {
 };
 
 const AnswerTextField = (props: Props) => {
+  const { running } = props;
   const [answer, setAnswer] = useRecoilState(answerState);
 
   // 内容の消去
@@ -37,13 +38,13 @@ const AnswerTextField = (props: Props) => {
         setValue={setAnswer}
         error={answer.errorStatus}
         errorMessage={answer.errorMessage}
-        disabled={props.running}
+        disabled={running}
       />
       <div style={{ textAlign: "right" }}>
         <Button
           color="primary"
           onClick={deleteContent}
-          disabled={answer.text === "" || props.running}
+          disabled={answer.text === "" || running}
         >
           内容を消去
         </Button>

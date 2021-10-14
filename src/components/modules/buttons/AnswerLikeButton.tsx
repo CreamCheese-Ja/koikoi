@@ -27,6 +27,19 @@ type Props = {
 };
 
 const AnswerLikeButton = (props: Props) => {
+  const {
+    consulDocId,
+    answerDocId,
+    likeUserId,
+    userProfile,
+    answerList,
+    setAnswerList,
+    bestAnswer,
+    setBestAnswer,
+    userLike,
+    numberOfLikes,
+  } = props;
+
   // 共通のエラー、サクセスアラートの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
@@ -40,27 +53,25 @@ const AnswerLikeButton = (props: Props) => {
   // 回答に対する「いいね!」機能
   const like = async () => {
     // 自分の投稿には「いいね!」をさせない
-    if (props.likeUserId === props.userProfile.id) {
+    if (likeUserId === userProfile.id) {
       return;
     }
-    const operationPossible = userOperationPossibleCheck(
-      props.userProfile.name
-    );
+    const operationPossible = userOperationPossibleCheck(userProfile.name);
     if (typeof operationPossible !== "string") {
       // 「いいね!」のwrite処理
       const isCreateLike = await writeAnswerAndCommentLike(
         "consultations",
         "answers",
-        props.consulDocId,
-        props.answerDocId,
-        props.likeUserId,
-        props.userProfile.id
+        consulDocId,
+        answerDocId,
+        likeUserId,
+        userProfile.id
       );
       if (isCreateLike) {
-        if (props.answerList && props.setAnswerList) {
+        if (answerList && setAnswerList) {
           // 回答リストstateのデータを更新
-          const newDataList = props.answerList.map((data) => {
-            if (data.answerId === props.answerDocId) {
+          const newDataList = answerList.map((data) => {
+            if (data.answerId === answerDocId) {
               const newData = {
                 ...data,
                 numberOfLikes: data.numberOfLikes + 1,
@@ -71,12 +82,12 @@ const AnswerLikeButton = (props: Props) => {
               return data;
             }
           });
-          props.setAnswerList(newDataList);
-        } else if (props.setBestAnswer && props.bestAnswer) {
+          setAnswerList(newDataList);
+        } else if (setBestAnswer && bestAnswer) {
           // ベストアンサーstateのデータを更新
-          props.setBestAnswer({
-            ...props.bestAnswer,
-            numberOfLikes: props.bestAnswer.numberOfLikes + 1,
+          setBestAnswer({
+            ...bestAnswer,
+            numberOfLikes: bestAnswer.numberOfLikes + 1,
           });
         }
         // サクセスメッセージ
@@ -101,7 +112,7 @@ const AnswerLikeButton = (props: Props) => {
 
   return (
     <div className={styles.area}>
-      {!props.userLike ? (
+      {!userLike ? (
         <div onClick={like} className={styles.likeButton}>
           <FavoriteBorderIcon />
         </div>
@@ -110,7 +121,7 @@ const AnswerLikeButton = (props: Props) => {
           <FavoriteIcon color="primary" />
         </div>
       )}
-      <div className={styles.numberOfLikes}>{props.numberOfLikes}</div>
+      <div className={styles.numberOfLikes}>{numberOfLikes}</div>
     </div>
   );
 };

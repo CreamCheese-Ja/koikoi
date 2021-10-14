@@ -19,10 +19,12 @@ type Props = {
 };
 
 const Linear = (props: Props) => {
+  const { running } = props;
+
   const classes = useStyles();
 
   return (
-    <div className={props.running ? classes.root : styles.hideLinear}>
+    <div className={running ? classes.root : styles.hideLinear}>
       <LinearProgress />
     </div>
   );

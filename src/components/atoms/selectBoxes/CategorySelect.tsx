@@ -27,10 +27,12 @@ type Props = {
 };
 
 const CategorySelect = (props: Props) => {
+  const { value, setValue, error, errorMessage, disabled } = props;
+
   const classes = useStyles();
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    props.setValue((value) => ({
+    setValue((value) => ({
       ...value,
       text: event.target.value as string,
     }));
@@ -41,8 +43,8 @@ const CategorySelect = (props: Props) => {
       <FormControl
         variant="outlined"
         className={classes.formControl}
-        error={props.error}
-        disabled={props.disabled}
+        error={error}
+        disabled={disabled}
       >
         <InputLabel id="demo-simple-select-outlined-label">
           カテゴリー
@@ -50,7 +52,7 @@ const CategorySelect = (props: Props) => {
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          value={props.value}
+          value={value}
           onChange={handleChange}
           label="カテゴリー"
         >
@@ -64,10 +66,10 @@ const CategorySelect = (props: Props) => {
           <MenuItem value="不倫">不倫</MenuItem>
           <MenuItem value="その他">その他</MenuItem>
         </Select>
-        {props.errorMessage === "" ? (
+        {errorMessage === "" ? (
           <div></div>
         ) : (
-          <FormHelperText>{props.errorMessage}</FormHelperText>
+          <FormHelperText>{errorMessage}</FormHelperText>
         )}
       </FormControl>
     </>

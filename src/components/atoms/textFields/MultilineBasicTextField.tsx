@@ -14,31 +14,33 @@ type Props = {
 };
 
 const MultilineBasicTextField = (props: Props) => {
+  const { label, placeholder, value, setValue, running, onClick } = props;
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.setValue(() => event.target.value);
+    setValue(() => event.target.value);
   };
   return (
     <>
-      <Linear running={props.running} />
+      <Linear running={running} />
       <TextField
         id="standard-textarea"
-        label={props.label}
-        placeholder={props.placeholder}
+        label={label}
+        placeholder={placeholder}
         multiline
         variant="filled"
-        value={props.value}
+        value={value}
         onChange={handleChange}
-        disabled={props.running}
+        disabled={running}
         style={{ width: "100%" }}
         InputProps={{
           style: { alignItems: "flex-end" },
           endAdornment: (
             <InputAdornment position="end">
               <SendButton
-                value={props.value}
-                setValue={props.setValue}
-                onClick={props.onClick}
-                running={props.running}
+                value={value}
+                setValue={setValue}
+                onClick={onClick}
+                running={running}
               />
             </InputAdornment>
           ),

@@ -17,6 +17,7 @@ type Props = {
 };
 
 const SupplementField = (props: Props) => {
+  const { userId, docId } = props;
   const [value, setValue] = useState("");
 
   // 補足入力フィールド表示のstate
@@ -39,12 +40,12 @@ const SupplementField = (props: Props) => {
   const post = async () => {
     setRunning(true);
     // 恋愛相談の作成者と補足の追加者が同じこと、500文字以内であることを確認
-    if (props.userId === userProfile.id && value.length <= 500) {
-      const postResult = await writeSupplement(props.docId, value);
+    if (userId === userProfile.id && value.length <= 500) {
+      const postResult = await writeSupplement(docId, value);
       if (postResult) {
         // 成功
-        const docId: keyof Supplements = props.docId;
-        setSupplements({ ...supplements, [docId]: value });
+        const id: keyof Supplements = docId;
+        setSupplements({ ...supplements, [id]: value });
         setValue("");
         setDisplaySupplementField(false);
         setSuccess({ status: true, message: "補足を追加しました。" });

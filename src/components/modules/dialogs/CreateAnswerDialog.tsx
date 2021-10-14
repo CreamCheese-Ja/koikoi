@@ -12,14 +12,16 @@ type Props = {
 };
 
 const CreateAnswerDialog = (props: Props) => {
+  const { open, consultationId, openCloseDialog } = props;
+
   const running = useRecoilValue(postAnswerRunningState);
 
   return (
     <>
       <BasicDialog
         title="回答"
-        open={props.open}
-        onClick={props.openCloseDialog}
+        open={open}
+        onClick={openCloseDialog}
         content={
           <div>
             <div style={{ marginBottom: "10px" }}>
@@ -27,8 +29,8 @@ const CreateAnswerDialog = (props: Props) => {
             </div>
             <div style={{ textAlign: "center" }}>
               <PostAnswerButton
-                consultationId={props.consultationId}
-                openCloseDialog={props.openCloseDialog}
+                consultationId={consultationId}
+                openCloseDialog={openCloseDialog}
               />
             </div>
           </div>

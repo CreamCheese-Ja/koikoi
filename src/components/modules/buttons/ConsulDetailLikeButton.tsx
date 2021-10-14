@@ -23,8 +23,10 @@ type Props = {
 };
 
 const ConsulDetailLikeButton = (props: Props) => {
+  const { numberOfLikes, docId, userId, userProfile } = props;
+
   // いいね数のstate
-  const [likeCount, setLikeCount] = useState(props.numberOfLikes);
+  const [likeCount, setLikeCount] = useState(numberOfLikes);
   // ユーザーがいいねしているかどうかのstate
   const [userLike, setUserLike] = useState({ check: false, status: false });
   // onAuthStateChangedでチェック有無の値
@@ -44,18 +46,16 @@ const ConsulDetailLikeButton = (props: Props) => {
   // 相談に対するいいね機能
   const like = async () => {
     // 自分の投稿にはいいねをさせない
-    if (props.userId === props.userProfile.id) {
+    if (userId === userProfile.id) {
       return;
     }
-    const operationPossible = userOperationPossibleCheck(
-      props.userProfile.name
-    );
+    const operationPossible = userOperationPossibleCheck(userProfile.name);
     if (typeof operationPossible !== "string") {
       const isCreateLike = await writeConsulAndTweetLike(
         "consultations",
-        props.docId,
-        props.userId,
-        props.userProfile.id
+        docId,
+        userId,
+        userProfile.id
       );
       if (isCreateLike) {
         // 詳細ページのいいね数をインクリメント
@@ -65,7 +65,7 @@ const ConsulDetailLikeButton = (props: Props) => {
         // 恋愛相談リストのデータを更新する
         if (consultationList.length !== 0) {
           const newDataList = consultationList.map((data) => {
-            if (data.consultationId === props.docId) {
+            if (data.consultationId === docId) {
               const newData = {
                 ...data,
                 numberOfLikes: data.numberOfLikes + 1,
@@ -101,9 +101,9 @@ const ConsulDetailLikeButton = (props: Props) => {
   useEffect(() => {
     const get = async () => {
       const userLike = await checkUserLike(
-        props.userProfile.id,
+        userProfile.id,
         "consultations",
-        props.docId
+        docId
       );
       if (userLike) {
         setUserLike({ check: true, status: true });

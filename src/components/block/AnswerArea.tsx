@@ -25,6 +25,8 @@ type Props = {
 };
 
 const AnswerArea = (props: Props) => {
+  const { consultationId, consulUserId } = props;
+
   // 回答リストのstate
   const [answerList, setAnswerList] = useRecoilState(answerListState);
   // 回答数の値
@@ -54,7 +56,7 @@ const AnswerArea = (props: Props) => {
       }
     };
     if (authCheck) {
-      get(props.consultationId, userProfile.id);
+      get(consultationId, userProfile.id);
     }
   }, [authCheck]);
 
@@ -85,7 +87,7 @@ const AnswerArea = (props: Props) => {
               <div className={styles.likeAndAnswerArea}>
                 <div className={styles.iconArea}>
                   <AnswerLikeButton
-                    consulDocId={props.consultationId}
+                    consulDocId={consultationId}
                     answerDocId={answer.answerId}
                     likeUserId={answer.user.id}
                     userProfile={userProfile}
@@ -94,10 +96,10 @@ const AnswerArea = (props: Props) => {
                     userLike={answer.userLike}
                     numberOfLikes={answer.numberOfLikes}
                   />
-                  {props.consulUserId === userProfile.id &&
+                  {consulUserId === userProfile.id &&
                   answer.bestAnswer === false ? (
                     <BestAnswerButton
-                      consulId={props.consultationId}
+                      consulId={consultationId}
                       answerId={answer.answerId}
                       answerUserId={answer.user.id}
                       answerList={answerList}
@@ -109,21 +111,19 @@ const AnswerArea = (props: Props) => {
                   )}
                 </div>
 
-                {props.consulUserId === userProfile.id &&
-                answer.comment === "" ? (
+                {consulUserId === userProfile.id && answer.comment === "" ? (
                   <AnswerReplyButton />
                 ) : (
                   <div></div>
                 )}
               </div>
-              {props.consulUserId === userProfile.id &&
-              answer.comment === "" ? (
+              {consulUserId === userProfile.id && answer.comment === "" ? (
                 <div>
                   <AnswerCommentField
                     userProfile={userProfile}
-                    consulId={props.consultationId}
+                    consulId={consultationId}
                     answerId={answer.answerId}
-                    consulUserId={props.consulUserId}
+                    consulUserId={consulUserId}
                     answerList={answerList}
                     setAnswerList={setAnswerList}
                   />
@@ -157,7 +157,7 @@ const AnswerArea = (props: Props) => {
         <MoreAnswerButton
           answerList={answerList}
           setAnswerList={setAnswerList}
-          consultationId={props.consultationId}
+          consultationId={consultationId}
           userProfileId={userProfile.id}
         />
       </div>

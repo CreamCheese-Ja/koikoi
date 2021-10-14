@@ -6,8 +6,9 @@ type Props = {
 };
 
 const Category = memo((props: Props) => {
+  const { categoryLabel } = props;
   let style = null;
-  switch (props.categoryLabel) {
+  switch (categoryLabel) {
     case "出会い":
       style = { backgroundColor: "#ffb74d" };
       break;
@@ -41,7 +42,7 @@ const Category = memo((props: Props) => {
   }
   return (
     <div {...{ style }} className={styles.category}>
-      {props.categoryLabel}
+      {categoryLabel}
     </div>
   );
 });

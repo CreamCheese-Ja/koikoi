@@ -12,18 +12,20 @@ type Props = {
 };
 
 const InputField = (props: Props) => {
+  const { label, type, value, onChange, error, errorMessage, disabled } = props;
+
   return (
     <div>
       <TextField
-        error={props.error}
-        helperText={props.error === true ? props.errorMessage : ""}
-        label={props.label}
+        error={error}
+        helperText={error === true ? errorMessage : ""}
+        label={label}
         variant="outlined"
-        type={props.type}
-        value={props.value}
-        disabled={props.disabled}
+        type={type}
+        value={value}
+        disabled={disabled}
         onChange={(e) => {
-          props.onChange(() => e.target.value);
+          onChange(() => e.target.value);
         }}
         style={{ width: "230px", marginTop: "10px", marginBottom: "10px" }}
       />

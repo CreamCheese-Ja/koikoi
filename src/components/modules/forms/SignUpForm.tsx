@@ -25,6 +25,7 @@ type Props = {
 };
 
 const SignUpForm = (props: Props) => {
+  const { openEmailConfirmationDialog, running, setRunning } = props;
   const classes = useStyles();
 
   const [name, setName] = useState("");
@@ -124,7 +125,7 @@ const SignUpForm = (props: Props) => {
         setLoginAndSignUpForm({ ...loginAndSignUpForm, status: false });
 
         // メール確認フォームを開く
-        props.openEmailConfirmationDialog();
+        openEmailConfirmationDialog();
       }
     } catch (e) {
       const error = e as firebase.FirebaseError;
@@ -221,7 +222,7 @@ const SignUpForm = (props: Props) => {
 
   // 新規登録一連メソッド
   const signUpUser = async () => {
-    props.setRunning(true);
+    setRunning(true);
     if (name !== "") {
       // ここでユーザー名の存在確認
       const register = await sameNameVerification();
@@ -244,7 +245,7 @@ const SignUpForm = (props: Props) => {
         });
       }
     }
-    props.setRunning(false);
+    setRunning(false);
   };
 
   return (
@@ -258,7 +259,7 @@ const SignUpForm = (props: Props) => {
             onChange={setName}
             error={inputError.name}
             errorMessage={errorMessage.name}
-            disabled={props.running}
+            disabled={running}
           />
           <InputField
             label="メールアドレス"
@@ -267,7 +268,7 @@ const SignUpForm = (props: Props) => {
             onChange={setEmail}
             error={inputError.email}
             errorMessage={errorMessage.email}
-            disabled={props.running}
+            disabled={running}
           />
           <InputField
             label="パスワード(6文字以上)"
@@ -276,7 +277,7 @@ const SignUpForm = (props: Props) => {
             onChange={setPassword}
             error={inputError.password}
             errorMessage={errorMessage.password}
-            disabled={props.running}
+            disabled={running}
           />
         </div>
         <div style={{ textAlign: "center", marginTop: "15px" }}>
@@ -285,7 +286,7 @@ const SignUpForm = (props: Props) => {
             color="primary"
             className={classes.root}
             onClick={() => signUpUser()}
-            disabled={props.running}
+            disabled={running}
           >
             新規登録
           </Button>

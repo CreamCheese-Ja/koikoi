@@ -10,13 +10,15 @@ type Props = {
 };
 
 const SendButton = (props: Props) => {
+  const { value, setValue, onClick, running } = props;
+
   return (
     <IconButton
-      disabled={props.value === "" || props.running}
+      disabled={value === "" || running}
       style={{ marginBottom: "25px", marginRight: "-10px" }}
-      onClick={props.onClick}
+      onClick={onClick}
     >
-      <SendIcon color={props.value === "" ? "disabled" : "primary"} />
+      <SendIcon color={value === "" ? "disabled" : "primary"} />
     </IconButton>
   );
 };

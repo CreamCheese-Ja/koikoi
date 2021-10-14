@@ -15,17 +15,19 @@ type Props = {
 
 // 消す予定、使わない(Alertsと新規登録フォームで使用中)
 const BasicAlert = (props: Props) => {
+  const { alert, setAlert, message, warningType } = props;
+
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
 
-    props.setAlert(false);
+    setAlert(false);
   };
 
   return (
-    <Snackbar open={props.alert} autoHideDuration={6000} onClose={handleClose}>
-      <Alert severity={props.warningType}>{props.message}</Alert>
+    <Snackbar open={alert} autoHideDuration={6000} onClose={handleClose}>
+      <Alert severity={warningType}>{message}</Alert>
     </Snackbar>
   );
 };

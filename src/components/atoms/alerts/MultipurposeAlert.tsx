@@ -14,17 +14,19 @@ type Props = {
 };
 
 const MultipurposeAlert = (props: Props) => {
+  const { alert, setAlert, message, warningType } = props;
+
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
 
-    props.setAlert({ status: false, message: "" });
+    setAlert({ status: false, message: "" });
   };
 
   return (
-    <Snackbar open={props.alert} autoHideDuration={6000} onClose={handleClose}>
-      <Alert severity={props.warningType}>{props.message}</Alert>
+    <Snackbar open={alert} autoHideDuration={6000} onClose={handleClose}>
+      <Alert severity={warningType}>{message}</Alert>
     </Snackbar>
   );
 };

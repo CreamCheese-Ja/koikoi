@@ -10,27 +10,29 @@ type Props = {
 };
 
 const SupplementArea = (props: Props) => {
+  const { supplement, consulId, supplementCreatedAt } = props;
+
   const supplements = useRecoilValue(supplementsState);
 
   return (
     <>
-      {props.supplement === "" ? (
-        !(props.consulId in supplements) ? (
+      {supplement === "" ? (
+        !(consulId in supplements) ? (
           <div></div>
         ) : (
           <div className={styles.supplementArea}>
             <div className={styles.supplement}>補足</div>
-            <p className={styles.content}>{supplements[props.consulId]}</p>
+            <p className={styles.content}>{supplements[consulId]}</p>
           </div>
         )
       ) : (
         <div className={styles.supplementArea}>
           <div className={styles.top}>
             <div className={styles.supplement}>補足</div>
-            <div className={styles.date}>{props.supplementCreatedAt}</div>
+            <div className={styles.date}>{supplementCreatedAt}</div>
           </div>
 
-          <p className={styles.content}>{props.supplement}</p>
+          <p className={styles.content}>{supplement}</p>
         </div>
       )}
     </>

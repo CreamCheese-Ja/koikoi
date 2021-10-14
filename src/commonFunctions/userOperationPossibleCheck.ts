@@ -1,4 +1,4 @@
-import { checkEmailVerified } from "src/firebase/authentication";
+import { checkEmailVerified } from "src/firebase/authentication/checkEmailVerified";
 
 // ユーザー操作が可能かどうかチェックする関数
 export const userOperationPossibleCheck = (

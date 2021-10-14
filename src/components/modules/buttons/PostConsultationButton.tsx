@@ -22,6 +22,8 @@ type Props = {
 };
 
 const PostConsultationButton = (props: Props) => {
+  const { handleClose } = props;
+
   const [category, setCategory] = useRecoilState(consultationCategoryState);
   const [title, setTitle] = useRecoilState(consultationTitleState);
   const [content, setContent] = useRecoilState(consultationContentState);
@@ -76,7 +78,7 @@ const PostConsultationButton = (props: Props) => {
             setCategory((category) => ({ ...category, text: "" }));
             setTitle((title) => ({ ...title, text: "" }));
             setContent((content) => ({ ...content, text: "" }));
-            props.handleClose();
+            handleClose();
             setPostMenu(null);
           } else {
             setDefaultError(true);

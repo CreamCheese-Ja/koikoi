@@ -8,10 +8,11 @@ type Props = {
 };
 
 const Solution = (props: Props) => {
+  const { solution } = props;
   const [isSolution, setIsSolution] = useRecoilState(isSolutionState);
 
   useEffect(() => {
-    setIsSolution(props.solution);
+    setIsSolution(solution);
   }, []);
 
   return (

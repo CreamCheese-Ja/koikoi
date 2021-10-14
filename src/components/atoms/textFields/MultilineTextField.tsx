@@ -16,24 +16,26 @@ type Props = {
 };
 
 const MultilineTextField = (props: Props) => {
+  const { label, value, setValue, error, errorMessage, disabled } = props;
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.setValue((value) => ({ ...value, text: event.target.value }));
+    setValue((value) => ({ ...value, text: event.target.value }));
   };
 
   return (
     <div>
       <TextField
         id="outlined-multiline-flexible"
-        error={props.error}
-        helperText={props.error === true ? props.errorMessage : ""}
-        label={props.label}
+        error={error}
+        helperText={error === true ? errorMessage : ""}
+        label={label}
         multiline
         maxRows={10}
-        value={props.value}
+        value={value}
         onChange={handleChange}
         variant="outlined"
         style={{ width: "250px" }}
-        disabled={props.disabled}
+        disabled={disabled}
       />
     </div>
   );

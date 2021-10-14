@@ -27,6 +27,8 @@ type Props = {
 };
 
 const EmailConfirmationDialog = (props: Props) => {
+  const { emailConfirmation, closeEmailConfirmationDialog } = props;
+
   const classes = useStyles();
 
   const [error, setError] = useState(false);
@@ -40,7 +42,7 @@ const EmailConfirmationDialog = (props: Props) => {
     // メール確認のチェック
     const user = firebase.auth().currentUser;
     if (user?.emailVerified) {
-      props.closeEmailConfirmationDialog();
+      closeEmailConfirmationDialog();
       setSuccess(true);
     } else {
       setError(true);
@@ -57,7 +59,7 @@ const EmailConfirmationDialog = (props: Props) => {
   return (
     <>
       <Dialog
-        open={props.emailConfirmation}
+        open={emailConfirmation}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >

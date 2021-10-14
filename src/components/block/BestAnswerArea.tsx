@@ -22,6 +22,8 @@ type Props = {
 };
 
 const BestAnswerArea = (props: Props) => {
+  const { consulId, solution, userProfile } = props;
+
   // 解決済み、回答待ちstateの値
   const isSolution = useRecoilValue(isSolutionState);
 
@@ -36,16 +38,13 @@ const BestAnswerArea = (props: Props) => {
     setBestAnswer({});
     // ベストアンサー取得の関数
     const get = async (consulId: string) => {
-      const bestAnswerData = await getBestAnswerData(
-        consulId,
-        props.userProfile.id
-      );
+      const bestAnswerData = await getBestAnswerData(consulId, userProfile.id);
       if (bestAnswerData) {
         setBestAnswer(bestAnswerData);
       }
     };
-    if (authCheck && props.solution) {
-      get(props.consulId);
+    if (authCheck && solution) {
+      get(consulId);
     }
   }, [authCheck]);
 
@@ -81,10 +80,10 @@ const BestAnswerArea = (props: Props) => {
               <div className={styles.likeAndAnswerArea}>
                 <div className={styles.iconArea}>
                   <AnswerLikeButton
-                    consulDocId={props.consulId}
+                    consulDocId={consulId}
                     answerDocId={bestAnswer.answerId}
                     likeUserId={bestAnswer.user.id}
-                    userProfile={props.userProfile}
+                    userProfile={userProfile}
                     bestAnswer={bestAnswer}
                     setBestAnswer={setBestAnswer}
                     userLike={bestAnswer.userLike}

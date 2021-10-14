@@ -20,6 +20,8 @@ type Props = {
 };
 
 const ListLikeButton = (props: Props) => {
+  const { userId, collectionId, docId, userProfile, updateList } = props;
+
   // 共通のエラー、サクセスアラートの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
@@ -31,22 +33,20 @@ const ListLikeButton = (props: Props) => {
   // 相談に対するいいね機能
   const like = async () => {
     // 自分の投稿にはいいねをさせない
-    if (props.userId === props.userProfile.id) {
+    if (userId === userProfile.id) {
       return;
     }
-    const operationPossible = userOperationPossibleCheck(
-      props.userProfile.name
-    );
+    const operationPossible = userOperationPossibleCheck(userProfile.name);
     if (typeof operationPossible !== "string") {
       const isCreateLike = await writeConsulAndTweetLike(
-        props.collectionId,
-        props.docId,
-        props.userId,
-        props.userProfile.id
+        collectionId,
+        docId,
+        userId,
+        userProfile.id
       );
       if (isCreateLike) {
         // 現在の恋愛相談リストのデータを更新する
-        props.updateList(props.docId);
+        updateList(docId);
         // サクセスメッセージ
         setSuccess({ status: true, message: "「いいね！」しました。" });
       } else {
