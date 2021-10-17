@@ -1,6 +1,4 @@
 import { Divider } from "@material-ui/core";
-import Image from "next/image";
-import noProfile from "public/images/no-profile.png";
 import React, { useEffect } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -18,6 +16,7 @@ import AnswerCommentField from "src/components/modules/textFields/AnswerCommentF
 import { getAnswerList } from "src/firebase/firestore/consultations/get/getAnswerList";
 import styles from "styles/components/block/answerArea.module.css";
 import MoreAnswerButton from "../modules/buttons/MoreAnswerButton";
+import UserPhoto from "../atoms/others/UserPhoto";
 
 type Props = {
   consultationId: string;
@@ -35,7 +34,6 @@ const AnswerArea = (props: Props) => {
   const userProfile = useRecoilValue(userProfileState);
   // onAuthStateChangedでチェック有無の値
   const authCheck = useRecoilValue(authCheckState);
-
   // 実行中
   const setRunning = useSetRecoilState(getAnswerListRunningState);
 
@@ -72,11 +70,12 @@ const AnswerArea = (props: Props) => {
             <div className={styles.answerArea}>
               <div className={styles.answerTop}>
                 <div className={styles.userArea}>
-                  {answer.user.photoURL === "noImage" ? (
-                    <Image src={noProfile} width={30} height={30} />
-                  ) : (
-                    <Image src={answer.user.photoURL} width={30} height={30} />
-                  )}
+                  <UserPhoto
+                    photoURL={answer.user.photoURL}
+                    width={30}
+                    height={30}
+                    userId={answer.user.id}
+                  />
                   <div className={styles.userName}>{answer.user.name}</div>
                 </div>
                 <div className={styles.date}>
@@ -110,7 +109,6 @@ const AnswerArea = (props: Props) => {
                     <div></div>
                   )}
                 </div>
-
                 {consulUserId === userProfile.id && answer.comment === "" ? (
                   <AnswerReplyButton />
                 ) : (

@@ -1,6 +1,4 @@
 import { Divider } from "@material-ui/core";
-import Image from "next/image";
-import noProfile from "public/images/no-profile.png";
 import React, { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -14,6 +12,7 @@ import styles from "styles/components/block/bestAnswerArea.module.css";
 import AnswerLikeButton from "../modules/buttons/AnswerLikeButton";
 import StarIcon from "@material-ui/icons/Star";
 import { getBestAnswerData } from "src/firebase/firestore/consultations/get/getBestAnswerData";
+import UserPhoto from "../atoms/others/UserPhoto";
 
 type Props = {
   consulId: string;
@@ -26,10 +25,8 @@ const BestAnswerArea = (props: Props) => {
 
   // 解決済み、回答待ちstateの値
   const isSolution = useRecoilValue(isSolutionState);
-
   // ベストアンサーの変更関数
   const [bestAnswer, setBestAnswer] = useRecoilState(bestAnswerState);
-
   // onAuthStateChangedでチェック有無の値
   const authCheck = useRecoilValue(authCheckState);
 
@@ -61,15 +58,12 @@ const BestAnswerArea = (props: Props) => {
             <div className={styles.answerArea}>
               <div className={styles.answerTop}>
                 <div className={styles.userArea}>
-                  {bestAnswer.user.photoURL === "noImage" ? (
-                    <Image src={noProfile} width={30} height={30} />
-                  ) : (
-                    <Image
-                      src={bestAnswer.user.photoURL}
-                      width={30}
-                      height={30}
-                    />
-                  )}
+                  <UserPhoto
+                    photoURL={bestAnswer.user.photoURL}
+                    width={30}
+                    height={30}
+                    userId={bestAnswer.user.id}
+                  />
                   <div className={styles.userName}>{bestAnswer.user.name}</div>
                 </div>
                 <div className={styles.date}>

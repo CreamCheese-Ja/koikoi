@@ -47,7 +47,7 @@ export default function Consultation({ post }: SSRProps) {
   return (
     <div>
       <Head>
-        <title>{title} | 恋愛相談SNS</title>
+        <title>{title} | 恋々(恋愛相談SNS)</title>
       </Head>
       <div className={styles.container}>
         <div className={styles.dateAndUserArea}>

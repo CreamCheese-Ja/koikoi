@@ -1,6 +1,4 @@
-import Image from "next/image";
 import Link from "next/link";
-import noProfile from "public/images/no-profile.png";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined";
 import Divider from "@material-ui/core/Divider";
@@ -18,6 +16,7 @@ import { changeDateFormat } from "src/commonFunctions/changeDateFormat";
 import ListLikeButton from "../modules/buttons/ListLikeButton";
 import { getConsultationList } from "src/firebase/firestore/consultations/get/getConsultationList";
 import Category from "../atoms/others/Category";
+import UserPhoto from "../atoms/others/UserPhoto";
 
 const ConsultationListArea = () => {
   // 恋愛相談Listのstate
@@ -78,21 +77,12 @@ const ConsultationListArea = () => {
           <div className={styles.consultationArea}>
             <div className={styles.consultationTop}>
               <div className={styles.userArea}>
-                {consul.user.photoURL === "noImage" ? (
-                  <Image
-                    src={noProfile}
-                    width={30}
-                    height={30}
-                    alt="userPhoto"
-                  />
-                ) : (
-                  <Image
-                    src={consul.user.photoURL}
-                    width={30}
-                    height={30}
-                    alt="userPhoto"
-                  />
-                )}
+                <UserPhoto
+                  photoURL={consul.user.photoURL}
+                  width={30}
+                  height={30}
+                  userId={consul.user.id}
+                />
                 <div className={styles.userName}>{consul.user.name}</div>
               </div>
               <div className={styles.date}>

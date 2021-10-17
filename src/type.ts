@@ -26,11 +26,7 @@ export type ProfileItem = {
 
 // 恋愛相談リストの型
 export type ConsultationList = {
-  user: {
-    id: string;
-    name: string;
-    photoURL: string;
-  };
+  user: UserData;
   consultationId: string;
   category: string;
   title: string;
@@ -46,11 +42,7 @@ export type ConsultationList = {
 
 // 恋愛相談1件の型
 export type ConsultationData = {
-  user: {
-    id: string;
-    name: string;
-    photoURL: string;
-  };
+  user: UserData;
   consultationId: string;
   category: string;
   title: string;
@@ -66,11 +58,7 @@ export type ConsultationData = {
 
 // 恋愛相談詳細(SSR)の型
 export type ConsultationDetails = {
-  user: {
-    id: string;
-    name: string;
-    photoURL: string;
-  };
+  user: UserData;
   consultationId: string;
   category: string;
   title: string;
@@ -86,11 +74,7 @@ export type ConsultationDetails = {
 
 // 回答リストの型
 export type AnswerList = {
-  user: {
-    id: string;
-    name: string;
-    photoURL: string;
-  };
+  user: UserData;
   answerId: string;
   content: string;
   createdAt: TimeStamp;
@@ -104,11 +88,7 @@ export type AnswerList = {
 
 // 回答1件の型
 export type AnswerData = {
-  user: {
-    id: string;
-    name: string;
-    photoURL: string;
-  };
+  user: UserData;
   answerId: string;
   content: string;
   createdAt: TimeStamp;

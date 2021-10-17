@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import noProfile from "public/images/no-profile.png";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -18,6 +16,7 @@ import Category from "../atoms/others/Category";
 import { Divider } from "@material-ui/core";
 import styles from "styles/components/block/tweetListArea.module.css";
 import ListLikeButton from "../modules/buttons/ListLikeButton";
+import UserPhoto from "../atoms/others/UserPhoto";
 
 const TweetListArea = () => {
   // つぶやきリストのstate
@@ -76,21 +75,12 @@ const TweetListArea = () => {
           <div className={styles.tweetArea}>
             <div className={styles.tweetTop}>
               <div className={styles.userArea}>
-                {tweet.user.photoURL === "noImage" ? (
-                  <Image
-                    src={noProfile}
-                    width={30}
-                    height={30}
-                    alt="userPhoto"
-                  />
-                ) : (
-                  <Image
-                    src={tweet.user.photoURL}
-                    width={30}
-                    height={30}
-                    alt="userPhoto"
-                  />
-                )}
+                <UserPhoto
+                  photoURL={tweet.user.photoURL}
+                  width={30}
+                  height={30}
+                  userId={tweet.user.id}
+                />
                 <div className={styles.userName}>{tweet.user.name}</div>
               </div>
               <div className={styles.date}>

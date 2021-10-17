@@ -1,3 +1,9 @@
+.container {
+  padding: 10px 20px 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
 .areaTitle {
   padding-bottom: 20px;
   color: #f48fb1;

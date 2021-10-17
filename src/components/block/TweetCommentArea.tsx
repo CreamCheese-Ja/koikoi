@@ -1,7 +1,5 @@
 import { Divider } from "@material-ui/core";
 import { useEffect } from "react";
-import Image from "next/image";
-import noProfile from "public/images/no-profile.png";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   authCheckState,
@@ -15,6 +13,7 @@ import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
 import TweetCommentLikeButton from "../modules/buttons/TweetCommentLikeButton";
 import styles from "styles/components/block/answerArea.module.css";
 import MoreTweetCommentButton from "../modules/buttons/MoreTweetCommentButton";
+import UserPhoto from "../atoms/others/UserPhoto";
 
 type Props = {
   tweetId: string;
@@ -58,7 +57,7 @@ const TweetCommentArea = (props: Props) => {
   }, [authCheck]);
 
   return (
-    <div>
+    <div className={styles.container}>
       <h2 className={styles.areaTitle}>コメント({tweetCommentCount}件)</h2>
       <Divider />
       <div>
@@ -67,11 +66,12 @@ const TweetCommentArea = (props: Props) => {
             <div className={styles.answerArea}>
               <div className={styles.answerTop}>
                 <div className={styles.userArea}>
-                  {comment.user.photoURL === "noImage" ? (
-                    <Image src={noProfile} width={30} height={30} />
-                  ) : (
-                    <Image src={comment.user.photoURL} width={30} height={30} />
-                  )}
+                  <UserPhoto
+                    photoURL={comment.user.photoURL}
+                    width={30}
+                    height={30}
+                    userId={comment.user.id}
+                  />
                   <div className={styles.userName}>{comment.user.name}</div>
                 </div>
                 <div className={styles.date}>

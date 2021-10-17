@@ -1,8 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { UserData } from "src/type";
 import styles from "styles/consultation.module.css";
-import Image from "next/image";
-import noProfile from "public/images/no-profile.png";
 import Category from "../atoms/others/Category";
 import { Divider } from "@material-ui/core";
 import TweetDetailLikeButton from "../modules/buttons/TweetDetailLikeButton";
@@ -10,6 +8,7 @@ import { useRecoilValue } from "recoil";
 import { userProfileState } from "src/atoms/atom";
 import ShowTextFieldButton from "../atoms/buttons/ShowTextFieldButton";
 import TweetCommentField from "../modules/textFields/TweetCommentField";
+import UserPhoto from "../atoms/others/UserPhoto";
 
 type Props = {
   user: UserData;
@@ -22,10 +21,11 @@ type Props = {
 
 const TweetDetailArea = (props: Props) => {
   const { user, tweetId, category, content, numberOfLikes, createdAt } = props;
+
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
+  // コメント欄の表示
   const [isShowField, setIsShowField] = useState(false);
-
   // コメント入力欄開閉
   const openAndCloseField = useCallback(() => {
     setIsShowField((isShowField) => !isShowField);
@@ -35,11 +35,12 @@ const TweetDetailArea = (props: Props) => {
     <div className={styles.container}>
       <div className={styles.dateAndUserArea}>
         <div className={styles.userArea}>
-          {user.photoURL === "noImage" ? (
-            <Image src={noProfile} width={30} height={30} />
-          ) : (
-            <Image src={user.photoURL} width={30} height={30} />
-          )}
+          <UserPhoto
+            photoURL={user.photoURL}
+            width={30}
+            height={30}
+            userId={user.id}
+          />
           <div className={styles.name}>{user.name}</div>
         </div>
         <div>{createdAt}</div>

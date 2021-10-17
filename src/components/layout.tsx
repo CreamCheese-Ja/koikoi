@@ -9,7 +9,6 @@ import firebase from "../firebase/firebase";
 import {
   authCheckState,
   consultationListState,
-  defaultErrorAlertState,
   multipurposeErrorAlertState,
   tweetListState,
   userProfileState,
@@ -31,8 +30,6 @@ export default function Layout({ children, ...props }: Props) {
   const setTweetList = useSetRecoilState(tweetListState);
   // onAuthStateChangedでチェック有無の変更関数
   const setAuthCheck = useSetRecoilState(authCheckState);
-  // 共通のエラーアラート用の変更関数
-  const setDefaultErrorAlert = useSetRecoilState(defaultErrorAlertState);
   // 多目的エラーアラート用の変更関数
   const setMultipurposeErrorAlert = useSetRecoilState(
     multipurposeErrorAlertState
@@ -50,21 +47,7 @@ export default function Layout({ children, ...props }: Props) {
         // ユーザー情報をfirestoreから取得する
         const profileData = await getUserProfile(user.uid);
         if (profileData) {
-          setUserProfile({
-            id: user.uid,
-            name: profileData.name,
-            photoURL: profileData.photoURL,
-            gender: profileData.gender,
-            age: profileData.age,
-            job: profileData.job,
-            bloodType: profileData.bloodType,
-            sign: profileData.sign,
-            message: profileData.message,
-            numberOfBestAnswer: profileData.numberOfBestAnswer,
-            numberOfLikes: profileData.numberOfLikes,
-          });
-        } else if (profileData === "error") {
-          setDefaultErrorAlert(true);
+          setUserProfile(profileData);
         } else {
           if (firebase.auth().currentUser?.emailVerified) {
             setMultipurposeErrorAlert({
