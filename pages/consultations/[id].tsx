@@ -18,6 +18,7 @@ import Solution from "src/components/atoms/others/Solution";
 import BestAnswerArea from "src/components/block/BestAnswerArea";
 import { getConsultationDetails } from "src/firebase/firestore/consultations/get/getConsultationDetails";
 import Category from "src/components/atoms/others/Category";
+import UserPhoto from "src/components/atoms/others/UserPhoto";
 
 type SSRProps = {
   post: ConsultationDetails;
@@ -52,11 +53,12 @@ export default function Consultation({ post }: SSRProps) {
       <div className={styles.container}>
         <div className={styles.dateAndUserArea}>
           <div className={styles.userArea}>
-            {user.photoURL === "noImage" ? (
-              <Image src={noProfile} width={30} height={30} />
-            ) : (
-              <Image src={user.photoURL} width={30} height={30} />
-            )}
+            <UserPhoto
+              photoURL={user.photoURL}
+              width={30}
+              height={30}
+              userId={user.id}
+            />
             <div className={styles.name}>{user.name}</div>
           </div>
           <div>{createdAt}に投稿</div>

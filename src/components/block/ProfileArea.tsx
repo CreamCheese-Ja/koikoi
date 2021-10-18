@@ -49,7 +49,7 @@ const ProfileArea = (props: Props) => {
           <div>BA</div>
         </div>
       </div>
-      <p>{message}</p>
+      <p className={styles.message}>{message}</p>
       <div className={styles.detailArea}>
         <div>
           <span>性別:</span>

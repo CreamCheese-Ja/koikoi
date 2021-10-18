@@ -1,0 +1,76 @@
+.container {
+  padding: 0px 20px 10px 20px;
+  margin-top: 1px;
+  background-color: #fff;
+  border-radius: 0 0 5px 5px;
+  margin-bottom: 20px;
+}
+.dataArea {
+  padding: 5px 0 10px;
+}
+.title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 3px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+.title:hover {
+  color: #f48fb1;
+  transition: 0.2s;
+}
+.tweetContent {
+  margin-bottom: 5px;
+}
+.tweetLink {
+  color: #f48fb1;
+  font-size: 0.8rem;
+}
+.tweetLinkArea {
+  margin-bottom: 10px;
+}
+.date {
+  text-align: right;
+}
+.pointAndSolutionArea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pointArea {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.pointArea > * {
+  margin-right: 5px;
+}
+.point {
+  display: flex;
+  align-items: center;
+}
+.point > * {
+  margin-right: 3px;
+}
+.answerCount {
+  margin-top: 2px;
+}
+.solution {
+  color: red;
+  border: red solid 1px;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.noSolution {
+  color: #000;
+  border: #000 solid 1px;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.answerArea {
+  margin: 5px 0 10px 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  border-left: #e0e0e0 5px solid;
+  word-break: break-all;
+}

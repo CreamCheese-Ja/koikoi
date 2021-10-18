@@ -141,3 +141,47 @@ export type TweetCommentData = {
 
 // つぶやきコメントリストの型
 export type TweetCommentList = TweetCommentData[];
+
+// ユーザーページの恋愛相談1件の型
+export type UserConsulData = {
+  consultationId: string;
+  category: string;
+  title: string;
+  content: string;
+  supplement: string;
+  solution: string;
+  numberOfLikes: number;
+  numberOfAnswer: number;
+  createdAt: TimeStamp;
+  updatedAt: TimeStamp;
+};
+
+// ユーザーページの恋愛相談リストの型
+export type UserConsulList = UserConsulData[];
+
+// ユーザーページのつぶやき1件の型
+export type UserTweetData = {
+  tweetId: string;
+  category: string;
+  content: string;
+  numberOfLikes: number;
+  numberOfComments: number;
+  createdAt: TimeStamp;
+  updatedAt: TimeStamp;
+};
+
+// ユーザーページのつぶやきリストの型
+export type UserTweetList = UserTweetData[];
+
+// ユーザーページの回答1件の型
+export type UserAnswerData = {
+  consultationId: string;
+  consultationTitle: string;
+  answerId: string;
+  content: string;
+  createdAt: TimeStamp;
+  numberOfLikes: number;
+};
+
+// ユーザーページの回答リストの型
+export type UserAnswerList = UserAnswerData[];
