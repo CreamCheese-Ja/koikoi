@@ -115,23 +115,6 @@ export const multipurposeSuccessAlertState = atom({
 
 // ***************************恋愛相談関連***************************
 
-// カテゴリー(form)
-export const consultationCategoryState = atom({
-  key: "consultationCategoryState",
-  default: { text: "", errorStatus: false, errorMessage: "" },
-});
-
-// タイトル(form)
-export const consultationTitleState = atom({
-  key: "consultationTitleState",
-  default: { text: "", errorStatus: false, errorMessage: "" },
-});
-
-// 内容(form)
-export const consultationContentState = atom({
-  key: "consultationContentState",
-  default: { text: "", errorStatus: false, errorMessage: "" },
-});
 // 実行中(恋愛相談create)
 export const postConsultationRunning = atom({
   key: "postConsultationRunning",
@@ -180,12 +163,6 @@ export const numberOfAnswerState = atom({
   default: 0,
 });
 
-// 回答内容(form)
-export const answerState = atom({
-  key: "answerState",
-  default: { text: "", errorStatus: false, errorMessage: "" },
-});
-
 // 実行中(回答create)
 export const postAnswerRunningState = atom({
   key: "postAnswerRunning",
@@ -217,18 +194,6 @@ export const showAnswerReplyFieldState = atom({
 });
 
 // ***************************つぶやき関連***************************
-
-// カテゴリー(form)
-export const tweetCategoryState = atom({
-  key: "consultationCategoryState",
-  default: { text: "", errorStatus: false, errorMessage: "" },
-});
-
-// 内容(form)
-export const tweetContentState = atom({
-  key: "consultationContentState",
-  default: { text: "", errorStatus: false, errorMessage: "" },
-});
 
 // つぶやきリスト
 export const tweetListState = atom<TweetList>({

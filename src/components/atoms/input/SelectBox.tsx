@@ -5,6 +5,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { SetterOrUpdater } from "recoil";
+import { memo } from "react";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -24,10 +25,20 @@ type Props = {
   error: boolean;
   errorMessage: string;
   disabled: boolean;
+  selectLabel: string;
+  selectItem: Array<string>;
 };
 
-const CategorySelect = (props: Props) => {
-  const { value, setValue, error, errorMessage, disabled } = props;
+const SelectBox = memo((props: Props) => {
+  const {
+    value,
+    setValue,
+    error,
+    errorMessage,
+    disabled,
+    selectLabel,
+    selectItem,
+  } = props;
 
   const classes = useStyles();
 
@@ -47,24 +58,20 @@ const CategorySelect = (props: Props) => {
         disabled={disabled}
       >
         <InputLabel id="demo-simple-select-outlined-label">
-          カテゴリー
+          {selectLabel}
         </InputLabel>
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
           value={value}
           onChange={handleChange}
-          label="カテゴリー"
+          label={selectLabel}
         >
-          <MenuItem value="出会い">出会い</MenuItem>
-          <MenuItem value="片想い">片想い</MenuItem>
-          <MenuItem value="恋人未満">恋人未満</MenuItem>
-          <MenuItem value="恋人">恋人</MenuItem>
-          <MenuItem value="復縁">復縁</MenuItem>
-          <MenuItem value="結婚">結婚</MenuItem>
-          <MenuItem value="浮気">浮気</MenuItem>
-          <MenuItem value="不倫">不倫</MenuItem>
-          <MenuItem value="その他">その他</MenuItem>
+          {selectItem.map((item, index) => (
+            <MenuItem key={index} value={item}>
+              {item}
+            </MenuItem>
+          ))}
         </Select>
         {errorMessage === "" ? (
           <div></div>
@@ -74,6 +81,6 @@ const CategorySelect = (props: Props) => {
       </FormControl>
     </>
   );
-};
+});
 
-export default CategorySelect;
+export default SelectBox;

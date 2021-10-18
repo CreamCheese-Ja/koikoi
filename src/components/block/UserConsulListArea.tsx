@@ -13,19 +13,28 @@ type Props = {
   userId: string;
   userConsulList: UserConsulList;
   setUserConsulList: Dispatch<SetStateAction<UserConsulList>>;
+  isFetchConsul: boolean;
+  setIsFetchConsul: Dispatch<SetStateAction<boolean>>;
 };
 
 const UserConsulListArea = (props: Props) => {
-  const { userId, userConsulList, setUserConsulList } = props;
+  const {
+    userId,
+    userConsulList,
+    setUserConsulList,
+    isFetchConsul,
+    setIsFetchConsul,
+  } = props;
 
   useEffect(() => {
     const getPage = async () => {
       const firstPage = await getUserConsultationList(userId);
       if (firstPage) {
         setUserConsulList(firstPage);
+        setIsFetchConsul(true);
       }
     };
-    if (userConsulList.length === 0) {
+    if (!isFetchConsul) {
       getPage();
     }
   }, []);
@@ -79,6 +88,11 @@ const UserConsulListArea = (props: Props) => {
           <Divider />
         </div>
       ))}
+      {userConsulList.length === 0 && isFetchConsul ? (
+        <p className={styles.noneMessage}>恋愛相談はありません</p>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

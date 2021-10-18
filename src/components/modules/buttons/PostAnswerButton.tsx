@@ -1,8 +1,7 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   answerListState,
-  answerState,
   consultationListState,
   defaultErrorAlertState,
   loginAndSignUpFormState,
@@ -18,20 +17,26 @@ import { getNewAnswerData } from "src/firebase/firestore/consultations/get/getNe
 import { createAnswer } from "src/firebase/firestore/consultations/write/createAnswer";
 import BasicExecutionButton from "../../atoms/buttons/BasicExecutionButton";
 
+type Field = {
+  text: string;
+  errorStatus: boolean;
+  errorMessage: string;
+};
+
 type Props = {
   consultationId: string;
   openCloseDialog: () => void;
+  answer: Field;
+  setAnswer: Dispatch<SetStateAction<Field>>;
 };
 
 const PostAnswerButton = (props: Props) => {
-  const { consultationId, openCloseDialog } = props;
+  const { consultationId, openCloseDialog, answer, setAnswer } = props;
 
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
   // 回答数のstate
   const setNumberOfAnswer = useSetRecoilState(numberOfAnswerState);
-  // 回答内容のstate
-  const [answer, setAnswer] = useRecoilState(answerState);
   // 回答リストのstate
   const [answerList, setAnswerList] = useRecoilState(answerListState);
   // 恋愛相談リストのstate

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -7,15 +7,43 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { useRecoilState } from "recoil";
 import { createTweetDialogState } from "src/atoms/atom";
 import Linear from "src/components/atoms/progress/Linear";
-import TweetCategorySelect from "src/components/atoms/selectBoxes/TweetCategorySelect";
 import styles from "styles/components/modules/dialogs/createConsulAndTweetDialog.module.css";
-import TweetContentField from "../textFields/TweetContentField";
 import PostTweetButton from "../buttons/PostTweetButton";
+import SelectBox from "src/components/atoms/input/SelectBox";
+import { categoryItem } from "src/commonFunctions/selectItems";
+import MultilineTextField from "src/components/atoms/textFields/MultilineTextField";
 
 const CreateTweetDialog = () => {
   const [open, setOpen] = useRecoilState(createTweetDialogState);
-
   const [running, setRunning] = useState(false);
+
+  const [category, setCategory] = useState({
+    text: "",
+    errorStatus: false,
+    errorMessage: "",
+  });
+
+  const [content, setContent] = useState({
+    text: "",
+    errorStatus: false,
+    errorMessage: "",
+  });
+
+  useEffect(() => {
+    setCategory((category) => ({
+      ...category,
+      errorStatus: false,
+      errorMessage: "",
+    }));
+  }, [category.text]);
+
+  useEffect(() => {
+    setContent((content) => ({
+      ...content,
+      errorStatus: false,
+      errorMessage: "",
+    }));
+  }, [content.text]);
 
   const handleClose = () => {
     setOpen(false);
@@ -35,16 +63,35 @@ const CreateTweetDialog = () => {
         </DialogTitle>
         <DialogContent>
           <div className={styles.inputArea}>
-            <TweetCategorySelect running={running} />
+            <SelectBox
+              value={category.text}
+              setValue={setCategory}
+              error={category.errorStatus}
+              errorMessage={category.errorMessage}
+              disabled={running}
+              selectLabel="カテゴリー"
+              selectItem={categoryItem}
+            />
           </div>
           <div className={styles.inputArea}>
-            <TweetContentField running={running} />
+            <MultilineTextField
+              label="内容"
+              value={content.text}
+              setValue={setContent}
+              error={content.errorStatus}
+              errorMessage={content.errorMessage}
+              disabled={running}
+            />
           </div>
           <div className={styles.buttonArea}>
             <PostTweetButton
               handleClose={handleClose}
               running={running}
               setRunning={setRunning}
+              category={category}
+              content={content}
+              setCategory={setCategory}
+              setContent={setContent}
             />
           </div>
         </DialogContent>

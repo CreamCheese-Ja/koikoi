@@ -11,19 +11,28 @@ type Props = {
   userId: string;
   userAnswerList: UserAnswerList;
   setUserAnswerList: Dispatch<SetStateAction<UserAnswerList>>;
+  isFetchAnswer: boolean;
+  setIsFetchAnswer: Dispatch<SetStateAction<boolean>>;
 };
 
 const UserAnswerListArea = (props: Props) => {
-  const { userId, userAnswerList, setUserAnswerList } = props;
+  const {
+    userId,
+    userAnswerList,
+    setUserAnswerList,
+    isFetchAnswer,
+    setIsFetchAnswer,
+  } = props;
 
   useEffect(() => {
     const getPage = async () => {
       const firstPage = await getUserAnswerList(userId);
       if (firstPage) {
         setUserAnswerList(firstPage);
+        setIsFetchAnswer(true);
       }
     };
-    if (userAnswerList.length === 0) {
+    if (!isFetchAnswer) {
       getPage();
     }
   }, []);
@@ -66,6 +75,11 @@ const UserAnswerListArea = (props: Props) => {
         ) : (
           <div></div>
         )
+      )}
+      {userAnswerList.length === 0 && isFetchAnswer ? (
+        <p className={styles.noneMessage}>恋愛相談の回答はありません</p>
+      ) : (
+        <div></div>
       )}
     </div>
   );

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { postAnswerRunningState } from "src/atoms/atom";
 import PostAnswerButton from "../buttons/PostAnswerButton";
-import AnswerTextField from "../textFields/AnswerTextField";
-import BasicDialog from "./BasicDialog";
+import Button from "@material-ui/core/Button";
+import BasicDialog from "../../atoms/dialogs/BasicDialog";
+import MultilineTextField from "src/components/atoms/textFields/MultilineTextField";
 
 type Props = {
   open: boolean;
@@ -14,7 +15,31 @@ type Props = {
 const CreateAnswerDialog = (props: Props) => {
   const { open, consultationId, openCloseDialog } = props;
 
+  const [answer, setAnswer] = useState({
+    text: "",
+    errorStatus: false,
+    errorMessage: "",
+  });
+
   const running = useRecoilValue(postAnswerRunningState);
+
+  // エラーのリセット
+  useEffect(() => {
+    setAnswer((answer) => ({
+      ...answer,
+      errorStatus: false,
+      errorMessage: "",
+    }));
+  }, [answer.text]);
+
+  // 内容の消去
+  const deleteContent = () => {
+    setAnswer(() => ({
+      text: "",
+      errorStatus: false,
+      errorMessage: "",
+    }));
+  };
 
   return (
     <>
@@ -25,12 +50,30 @@ const CreateAnswerDialog = (props: Props) => {
         content={
           <div>
             <div style={{ marginBottom: "10px" }}>
-              <AnswerTextField running={running} />
+              <MultilineTextField
+                label="内容"
+                value={answer.text}
+                setValue={setAnswer}
+                error={answer.errorStatus}
+                errorMessage={answer.errorMessage}
+                disabled={running}
+              />
+              <div style={{ textAlign: "right" }}>
+                <Button
+                  color="primary"
+                  onClick={deleteContent}
+                  disabled={answer.text === "" || running}
+                >
+                  内容を消去
+                </Button>
+              </div>
             </div>
             <div style={{ textAlign: "center" }}>
               <PostAnswerButton
                 consultationId={consultationId}
                 openCloseDialog={openCloseDialog}
+                answer={answer}
+                setAnswer={setAnswer}
               />
             </div>
           </div>

@@ -26,8 +26,11 @@ const PostListArea = (props: Props) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [userConsulList, setUserConsulList] = useState<UserConsulList>([]);
+  const [isFetchConsul, setIsFetchConsul] = useState(false);
   const [userTweetList, setUserTweetList] = useState<UserTweetList>([]);
+  const [isFetchTweet, setIsFetchTweet] = useState(false);
   const [userAnswerList, setUserAnswerList] = useState<UserAnswerList>([]);
+  const [isFetchAnswer, setIsFetchAnswer] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -60,6 +63,8 @@ const PostListArea = (props: Props) => {
           userId={userId}
           userConsulList={userConsulList}
           setUserConsulList={setUserConsulList}
+          isFetchConsul={isFetchConsul}
+          setIsFetchConsul={setIsFetchConsul}
         />
       ) : (
         <div></div>
@@ -69,6 +74,8 @@ const PostListArea = (props: Props) => {
           userId={userId}
           userAnswerList={userAnswerList}
           setUserAnswerList={setUserAnswerList}
+          isFetchAnswer={isFetchAnswer}
+          setIsFetchAnswer={setIsFetchAnswer}
         />
       ) : (
         <div></div>
@@ -78,6 +85,8 @@ const PostListArea = (props: Props) => {
           userId={userId}
           userTweetList={userTweetList}
           setUserTweetList={setUserTweetList}
+          isFetchTweet={isFetchTweet}
+          setIsFetchTweet={setIsFetchTweet}
         />
       ) : (
         <div></div>

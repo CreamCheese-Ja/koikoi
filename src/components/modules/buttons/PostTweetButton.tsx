@@ -5,8 +5,6 @@ import {
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
   postMenuState,
-  tweetCategoryState,
-  tweetContentState,
   tweetListState,
   userProfileState,
 } from "src/atoms/atom";
@@ -15,17 +13,32 @@ import BasicExecutionButton from "src/components/atoms/buttons/BasicExecutionBut
 import { getNewTweetData } from "src/firebase/firestore/tweets/get/getNewTweetData";
 import { createTweet } from "src/firebase/firestore/tweets/write/createTweet";
 
+type Field = {
+  text: string;
+  errorStatus: boolean;
+  errorMessage: string;
+};
+
 type Props = {
   handleClose: () => void;
   running: boolean;
   setRunning: Dispatch<SetStateAction<boolean>>;
+  category: Field;
+  content: Field;
+  setCategory: Dispatch<SetStateAction<Field>>;
+  setContent: Dispatch<SetStateAction<Field>>;
 };
 
 const PostTweetButton = (props: Props) => {
-  const { handleClose, running, setRunning } = props;
-
-  const [category, setCategory] = useRecoilState(tweetCategoryState);
-  const [content, setContent] = useRecoilState(tweetContentState);
+  const {
+    handleClose,
+    running,
+    setRunning,
+    category,
+    content,
+    setCategory,
+    setContent,
+  } = props;
 
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);

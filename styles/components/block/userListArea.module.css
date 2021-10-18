@@ -74,3 +74,7 @@
   border-left: #e0e0e0 5px solid;
   word-break: break-all;
 }
+.noneMessage {
+  text-align: center;
+  padding-top: 10px;
+}

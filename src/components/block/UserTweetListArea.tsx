@@ -1,6 +1,6 @@
 import { Divider } from "@material-ui/core";
 import Link from "next/link";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
 import { getUserTweetList } from "src/firebase/firestore/tweets/get/getUserTweetList";
 import { UserTweetList } from "src/type";
@@ -13,19 +13,28 @@ type Props = {
   userId: string;
   userTweetList: UserTweetList;
   setUserTweetList: Dispatch<SetStateAction<UserTweetList>>;
+  isFetchTweet: boolean;
+  setIsFetchTweet: Dispatch<SetStateAction<boolean>>;
 };
 
 const UserTweetListArea = (props: Props) => {
-  const { userId, userTweetList, setUserTweetList } = props;
+  const {
+    userId,
+    userTweetList,
+    setUserTweetList,
+    isFetchTweet,
+    setIsFetchTweet,
+  } = props;
 
   useEffect(() => {
     const getPage = async () => {
       const firstPage = await getUserTweetList(userId);
       if (firstPage) {
         setUserTweetList(firstPage);
+        setIsFetchTweet(true);
       }
     };
-    if (userTweetList.length === 0) {
+    if (!isFetchTweet) {
       getPage();
     }
   }, []);
@@ -77,6 +86,11 @@ const UserTweetListArea = (props: Props) => {
           <Divider />
         </div>
       ))}
+      {userTweetList.length === 0 && isFetchTweet ? (
+        <p className={styles.noneMessage}>つぶやきはありません</p>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

@@ -1,10 +1,11 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { ProfileItem } from "src/type";
 import UserPhoto from "../atoms/others/UserPhoto";
 import styles from "styles/components/block/profileArea.module.css";
 import BasicButton from "../atoms/buttons/BasicButton";
 import { useRecoilValue } from "recoil";
 import { userProfileState } from "src/atoms/atom";
+import BasicDialog from "../atoms/dialogs/BasicDialog";
 
 type Props = {
   userData: ProfileItem;
@@ -26,6 +27,14 @@ const ProfileArea = (props: Props) => {
   } = props.userData;
   // ユーザー情報
   const userProfile = useRecoilValue(userProfileState);
+  // プロフィール編集ダイアログ開閉
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  // ダイアログ開閉
+  const openCloseDialog = () => {
+    setIsDialogOpen((isOpen) => !isOpen);
+  };
+  // プロフィール編集処理の実行
+  const [editProfileRunning, setEditProfileRunning] = useState(false);
 
   const editProfile = useCallback(() => {}, []);
 
@@ -34,7 +43,7 @@ const ProfileArea = (props: Props) => {
       <h1 className={styles.name}>{name}</h1>
       <div className={styles.photoArea}>
         <UserPhoto
-          photoURL={props.userData.photoURL}
+          photoURL={userProfile.id === id ? userProfile.photoURL : photoURL}
           width={150}
           height={150}
         />
@@ -49,35 +58,46 @@ const ProfileArea = (props: Props) => {
           <div>BA</div>
         </div>
       </div>
-      <p className={styles.message}>{message}</p>
+      <p className={styles.message}>
+        {userProfile.id === id ? userProfile.message : message}
+      </p>
       <div className={styles.detailArea}>
         <div>
           <span>性別:</span>
-          {gender}
+          {userProfile.id === id ? userProfile.gender : gender}
         </div>
         <div>
           <span>年齢:</span>
-          {age}
+          {userProfile.id === id ? userProfile.age : age}
         </div>
         <div>
           <span>職業:</span>
-          {job}
+          {userProfile.id === id ? userProfile.job : job}
         </div>
         <div>
           <span>血液型:</span>
-          {bloodType}
+          {userProfile.id === id ? userProfile.bloodType : bloodType}
         </div>
         <div>
           <span>星座:</span>
-          {sign}
+          {userProfile.id === id ? userProfile.sign : sign}
         </div>
       </div>
-      {id === userProfile.id ? (
-        <div className={styles.buttonArea}>
-          <BasicButton
-            onClick={editProfile}
-            buttonLabel="プロフィールを編集する"
-            variant="text"
+      {userProfile.id === id ? (
+        <div>
+          <div className={styles.buttonArea}>
+            <BasicButton
+              onClick={openCloseDialog}
+              buttonLabel="プロフィールを編集する"
+              variant="text"
+            />
+          </div>
+          <BasicDialog
+            title="プロフィール編集"
+            open={isDialogOpen}
+            onClick={openCloseDialog}
+            running={editProfileRunning}
+            content={<div></div>}
           />
         </div>
       ) : (

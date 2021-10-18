@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import TextField from "@material-ui/core/TextField";
 import { SetterOrUpdater } from "recoil";
 
@@ -15,7 +15,7 @@ type Props = {
   disabled: boolean;
 };
 
-const MultilineTextField = (props: Props) => {
+const MultilineTextField = memo((props: Props) => {
   const { label, value, setValue, error, errorMessage, disabled } = props;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +39,6 @@ const MultilineTextField = (props: Props) => {
       />
     </div>
   );
-};
+});
 
 export default MultilineTextField;

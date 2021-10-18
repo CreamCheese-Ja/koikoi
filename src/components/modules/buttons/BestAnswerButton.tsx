@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import StarBorder from "@material-ui/icons/StarBorder";
-import BasicAlertDialog from "../dialogs/BasicAlertDialog";
+import BasicAlertDialog from "../../atoms/dialogs/BasicAlertDialog";
 import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
 import {
   bestAnswerState,

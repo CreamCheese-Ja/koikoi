@@ -1,8 +1,6 @@
+import { Dispatch, SetStateAction } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
-  consultationContentState,
-  consultationCategoryState,
-  consultationTitleState,
   userProfileState,
   multipurposeErrorAlertState,
   defaultErrorAlertState,
@@ -17,16 +15,32 @@ import { getNewConsultationData } from "src/firebase/firestore/consultations/get
 import { createConsultation } from "src/firebase/firestore/consultations/write/createConsultation";
 import BasicExecutionButton from "../../atoms/buttons/BasicExecutionButton";
 
+type Field = {
+  text: string;
+  errorStatus: boolean;
+  errorMessage: string;
+};
+
 type Props = {
   handleClose: () => void;
+  category: Field;
+  title: Field;
+  content: Field;
+  setCategory: Dispatch<SetStateAction<Field>>;
+  setTitle: Dispatch<SetStateAction<Field>>;
+  setContent: Dispatch<SetStateAction<Field>>;
 };
 
 const PostConsultationButton = (props: Props) => {
-  const { handleClose } = props;
-
-  const [category, setCategory] = useRecoilState(consultationCategoryState);
-  const [title, setTitle] = useRecoilState(consultationTitleState);
-  const [content, setContent] = useRecoilState(consultationContentState);
+  const {
+    handleClose,
+    category,
+    title,
+    content,
+    setCategory,
+    setTitle,
+    setContent,
+  } = props;
 
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
