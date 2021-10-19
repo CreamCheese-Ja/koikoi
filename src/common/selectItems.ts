@@ -10,6 +10,10 @@ export const categoryItem = [
   "その他",
 ];
 
+export const genderItem = ["男性", "女性", "その他"];
+
+export const ageItem = [];
+
 export const jobItem = [
   "未設定",
   "会社員",
@@ -46,3 +50,7 @@ export const jobItem = [
   "無職",
   "その他",
 ];
+
+export const bloodTypeItem = ["A型", "B型", "O型", "AB型"];
+
+export const signItem = [];
