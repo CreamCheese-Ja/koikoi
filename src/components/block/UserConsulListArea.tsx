@@ -1,6 +1,6 @@
 import { Divider } from "@material-ui/core";
 import React, { Dispatch, SetStateAction, useEffect } from "react";
-import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
+import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import { getUserConsultationList } from "src/firebase/firestore/consultations/get/getUserConsultationList";
 import { UserConsulList } from "src/type";
 import styles from "styles/components/block/userListArea.module.css";

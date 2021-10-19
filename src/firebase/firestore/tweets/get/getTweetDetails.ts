@@ -1,6 +1,6 @@
 import { TweetDetails } from "src/type";
 import { db } from "src/firebase/firebase";
-import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
+import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 
 // 恋愛相談詳細を1件取得(恋愛相談詳細ページSSR用)
 export const getTweetDetails = async (

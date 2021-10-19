@@ -11,7 +11,7 @@ import {
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { getIsUserLike } from "src/firebase/firestore/common/get/getIsUserLike";
-import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
+import { userOperationPossibleCheck } from "src/common/userOperationPossibleCheck";
 import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/writeConsulAndTweetLike";
 import { ProfileItem } from "src/type";
 

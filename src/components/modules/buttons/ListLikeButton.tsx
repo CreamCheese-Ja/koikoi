@@ -1,6 +1,6 @@
 import React from "react";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
+import { userOperationPossibleCheck } from "src/common/userOperationPossibleCheck";
 import { useSetRecoilState } from "recoil";
 import {
   defaultErrorAlertState,

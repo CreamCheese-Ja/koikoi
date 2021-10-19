@@ -8,7 +8,7 @@ import {
   tweetListState,
   userProfileState,
 } from "src/atoms/atom";
-import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
+import { userOperationPossibleCheck } from "src/common/userOperationPossibleCheck";
 import BasicExecutionButton from "src/components/atoms/buttons/BasicExecutionButton";
 import { getNewTweetData } from "src/firebase/firestore/tweets/get/getNewTweetData";
 import { createTweet } from "src/firebase/firestore/tweets/write/createTweet";

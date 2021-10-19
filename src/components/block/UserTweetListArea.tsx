@@ -1,7 +1,7 @@
 import { Divider } from "@material-ui/core";
 import Link from "next/link";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
+import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import { getUserTweetList } from "src/firebase/firestore/tweets/get/getUserTweetList";
 import { UserTweetList } from "src/type";
 import styles from "styles/components/block/userListArea.module.css";

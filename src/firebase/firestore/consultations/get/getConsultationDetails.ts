@@ -1,4 +1,4 @@
-import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
+import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import { db } from "src/firebase/firebase";
 import { ConsultationDetails } from "src/type";
 

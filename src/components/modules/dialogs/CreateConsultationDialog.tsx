@@ -13,7 +13,7 @@ import styles from "styles/components/modules/dialogs/createConsulAndTweetDialog
 import PostConsultationButton from "../buttons/PostConsultationButton";
 import Linear from "../../atoms/progress/Linear";
 import SelectBox from "src/components/atoms/input/SelectBox";
-import { categoryItem } from "src/commonFunctions/selectItems";
+import { categoryItem } from "src/common/selectItems";
 import MultilineTextField from "src/components/atoms/textFields/MultilineTextField";
 
 const CreateConsultationDialog = () => {

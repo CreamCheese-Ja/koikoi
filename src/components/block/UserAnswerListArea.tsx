@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
+import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import { getUserAnswerList } from "src/firebase/firestore/consultations/get/getUserAnswerList";
 import { UserAnswerList } from "src/type";
 import styles from "styles/components/block/userListArea.module.css";

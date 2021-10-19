@@ -13,7 +13,7 @@ import { getIsNameAvailable } from "src/firebase/firestore/users/get/getIsNameAv
 import { createNewProfile } from "src/firebase/firestore/users/write/createNewProfile";
 import { updateDisplayName } from "src/firebase/authentication/updateDisplayName";
 import { sendConfirmationEmail } from "src/firebase/authentication/sendConfirmationEmail";
-import { signUpEmailAndPassword } from "src/firebase/authentication/SignUpEmailAndPassword";
+import { signUpEmailAndPassword } from "src/firebase/authentication/signUpEmailAndPassword";
 
 const useStyles = makeStyles(() =>
   createStyles({

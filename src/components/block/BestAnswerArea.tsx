@@ -6,7 +6,7 @@ import {
   bestAnswerState,
   isSolutionState,
 } from "src/atoms/atom";
-import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
+import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import { ProfileItem } from "src/type";
 import styles from "styles/components/block/bestAnswerArea.module.css";
 import AnswerLikeButton from "../modules/buttons/AnswerLikeButton";

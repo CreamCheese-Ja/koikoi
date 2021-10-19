@@ -10,7 +10,7 @@ import {
   consultationListState,
   postMenuState,
 } from "src/atoms/atom";
-import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
+import { userOperationPossibleCheck } from "src/common/userOperationPossibleCheck";
 import { getNewConsultationData } from "src/firebase/firestore/consultations/get/getNewConsultationData";
 import { createConsultation } from "src/firebase/firestore/consultations/write/createConsultation";
 import BasicExecutionButton from "../../atoms/buttons/BasicExecutionButton";

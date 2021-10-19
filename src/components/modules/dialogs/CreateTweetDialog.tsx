@@ -10,7 +10,7 @@ import Linear from "src/components/atoms/progress/Linear";
 import styles from "styles/components/modules/dialogs/createConsulAndTweetDialog.module.css";
 import PostTweetButton from "../buttons/PostTweetButton";
 import SelectBox from "src/components/atoms/input/SelectBox";
-import { categoryItem } from "src/commonFunctions/selectItems";
+import { categoryItem } from "src/common/selectItems";
 import MultilineTextField from "src/components/atoms/textFields/MultilineTextField";
 
 const CreateTweetDialog = () => {

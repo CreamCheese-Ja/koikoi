@@ -12,7 +12,7 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { useEffect } from "react";
-import { changeDateFormat } from "src/commonFunctions/changeDateFormat";
+import { changeDateFormat } from "src/common/changeDateFormat";
 import ListLikeButton from "../modules/buttons/ListLikeButton";
 import { getConsultationList } from "src/firebase/firestore/consultations/get/getConsultationList";
 import Category from "../atoms/others/Category";

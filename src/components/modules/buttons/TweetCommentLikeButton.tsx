@@ -9,7 +9,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import styles from "styles/components/modules/buttons/answerLikeButton.module.css";
 import { ProfileItem, TweetCommentList } from "src/type";
-import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
+import { userOperationPossibleCheck } from "src/common/userOperationPossibleCheck";
 import { writeAnswerAndCommentLike } from "src/firebase/firestore/common/write/writeAnswerAndCommentLike";
 
 type Props = {

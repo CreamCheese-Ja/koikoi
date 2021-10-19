@@ -9,7 +9,7 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { getCommentList } from "src/firebase/firestore/tweets/get/getCommentList";
-import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
+import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import TweetCommentLikeButton from "../modules/buttons/TweetCommentLikeButton";
 import styles from "styles/components/block/answerArea.module.css";
 import MoreTweetCommentButton from "../modules/buttons/MoreTweetCommentButton";

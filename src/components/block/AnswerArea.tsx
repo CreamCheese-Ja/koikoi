@@ -8,7 +8,7 @@ import {
   numberOfAnswerState,
   userProfileState,
 } from "src/atoms/atom";
-import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
+import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import AnswerLikeButton from "src/components/modules/buttons/AnswerLikeButton";
 import AnswerReplyButton from "src/components/atoms/buttons/AnswerReplyButton";
 import BestAnswerButton from "src/components/modules/buttons/BestAnswerButton";

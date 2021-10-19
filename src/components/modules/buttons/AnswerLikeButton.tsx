@@ -6,7 +6,7 @@ import {
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
 } from "src/atoms/atom";
-import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
+import { userOperationPossibleCheck } from "src/common/userOperationPossibleCheck";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import styles from "styles/components/modules/buttons/answerLikeButton.module.css";

@@ -11,7 +11,7 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { getTweetsList } from "src/firebase/firestore/tweets/get/getTweetsList";
-import { changeDateFormatAddTime } from "src/commonFunctions/changeDateFormat";
+import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import Category from "../atoms/others/Category";
 import { Divider } from "@material-ui/core";
 import styles from "styles/components/block/tweetListArea.module.css";

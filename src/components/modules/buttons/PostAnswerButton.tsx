@@ -11,7 +11,7 @@ import {
   postAnswerRunningState,
   userProfileState,
 } from "src/atoms/atom";
-import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
+import { userOperationPossibleCheck } from "src/common/userOperationPossibleCheck";
 import { getIsAnswered } from "src/firebase/firestore/consultations/get/getIsAnswered";
 import { getNewAnswerData } from "src/firebase/firestore/consultations/get/getNewAnswerData";
 import { createAnswer } from "src/firebase/firestore/consultations/write/createAnswer";

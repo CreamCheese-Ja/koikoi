@@ -8,7 +8,7 @@ import {
   multipurposeSuccessAlertState,
   tweetListState,
 } from "src/atoms/atom";
-import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
+import { userOperationPossibleCheck } from "src/common/userOperationPossibleCheck";
 import { getIsUserLike } from "src/firebase/firestore/common/get/getIsUserLike";
 import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/writeConsulAndTweetLike";
 import { ProfileItem } from "src/type";
