@@ -9,7 +9,7 @@ import {
   tweetListState,
 } from "src/atoms/atom";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
-import { checkUserLike } from "src/firebase/firestore/common/get/checkUserLike";
+import { getIsUserLike } from "src/firebase/firestore/common/get/getIsUserLike";
 import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/writeConsulAndTweetLike";
 import { ProfileItem } from "src/type";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -98,8 +98,8 @@ const TweetDetailLikeButton = memo((props: Props) => {
 
   useEffect(() => {
     const get = async () => {
-      const userLike = await checkUserLike(userProfile.id, "tweets", docId);
-      if (userLike) {
+      const isUserLike = await getIsUserLike(userProfile.id, "tweets", docId);
+      if (isUserLike) {
         setUserLike({ check: true, status: true });
       } else {
         setUserLike({ check: true, status: false });

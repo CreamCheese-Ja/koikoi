@@ -12,7 +12,7 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
-import { checkExistsAnswer } from "src/firebase/firestore/consultations/get/checkExistsAnswer";
+import { getIsAnswered } from "src/firebase/firestore/consultations/get/getIsAnswered";
 import { getNewAnswerData } from "src/firebase/firestore/consultations/get/getNewAnswerData";
 import { createAnswer } from "src/firebase/firestore/consultations/write/createAnswer";
 import BasicExecutionButton from "../../atoms/buttons/BasicExecutionButton";
@@ -61,11 +61,8 @@ const PostAnswerButton = (props: Props) => {
       const operationPossible = userOperationPossibleCheck(userProfile.name);
       if (typeof operationPossible !== "string") {
         // ここですでに投稿しているかどうかをチェックする。投稿していれば投稿させない
-        const answerExists = await checkExistsAnswer(
-          userProfile.id,
-          consultationId
-        );
-        if (!answerExists) {
+        const isAnswered = await getIsAnswered(userProfile.id, consultationId);
+        if (!isAnswered) {
           // 回答を登録
           const create = await createAnswer(
             consultationId,

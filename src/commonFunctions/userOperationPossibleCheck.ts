@@ -1,10 +1,10 @@
-import { checkEmailVerified } from "src/firebase/authentication/checkEmailVerified";
+import { getIsEmailVerified } from "src/firebase/authentication/getIsEmailVerified";
 
 // ユーザー操作が可能かどうかチェックする関数
 export const userOperationPossibleCheck = (
   userName: string
 ): boolean | string => {
-  const emailVerified = checkEmailVerified();
+  const emailVerified = getIsEmailVerified();
   if (userName !== "") {
     if (emailVerified) {
       return true;

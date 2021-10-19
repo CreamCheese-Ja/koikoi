@@ -3,9 +3,17 @@ import InputField from "../../atoms/textFields/InputField";
 import firebase from "../../../firebase/firebase";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import BasicAlert from "../../atoms/alerts/BasicAlert";
 import { useSetRecoilState, useRecoilState } from "recoil";
-import { loginAndSignUpFormState, userProfileState } from "src/atoms/atom";
+import {
+  loginAndSignUpFormState,
+  multipurposeErrorAlertState,
+  userProfileState,
+} from "src/atoms/atom";
+import { getIsNameAvailable } from "src/firebase/firestore/users/get/getIsNameAvailable";
+import { createNewProfile } from "src/firebase/firestore/users/write/createNewProfile";
+import { updateDisplayName } from "src/firebase/authentication/updateDisplayName";
+import { sendConfirmationEmail } from "src/firebase/authentication/sendConfirmationEmail";
+import { signUpEmailAndPassword } from "src/firebase/authentication/SignUpEmailAndPassword";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -41,14 +49,10 @@ const SignUpForm = (props: Props) => {
     email: "",
     password: "",
   });
-
-  // その他のエラー用のstate
-  const [othersError, setOthersError] = useState(false);
-  const [othersErrorMessage, setOthersErrorMessage] = useState("");
-
+  // 共通のエラーアラートの変更関数
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
   // ユーザープロフィール用の変更関数
   const setUserProfile = useSetRecoilState(userProfileState);
-
   // ログイン、新規登録フォーム用のstate
   const [loginAndSignUpForm, setLoginAndSignUpForm] = useRecoilState(
     loginAndSignUpFormState
@@ -79,145 +83,85 @@ const SignUpForm = (props: Props) => {
     });
   }, [password]);
 
-  // ユーザー名が使用できるかどうか確認するメソッド
-  const sameNameVerification = async () => {
-    try {
-      const doc = await firebase
-        .firestore()
-        .collection("users")
-        .where("name", "==", name)
-        .get();
-      if (doc.empty) {
-        return true;
-      } else {
-        setInputError({ ...inputError, name: true });
-        setErrorMessage({
-          ...errorMessage,
-          name: "このユーザー名は使用されています。",
+  // firebaseAuthに新規アカウントを登録するメソッド(それぞれのcatchは一旦無視)
+  const postNewUser = async () => {
+    // ①新規登録
+    const isSignUpOrMessage = await signUpEmailAndPassword(email, password);
+    if (isSignUpOrMessage === "このメールアドレスは既に使用されています。") {
+      setInputError({ ...inputError, email: true });
+      setErrorMessage({
+        ...errorMessage,
+        email: isSignUpOrMessage,
+      });
+      return;
+    }
+    if (isSignUpOrMessage === "正しい形式で入力してください。") {
+      setInputError({ ...inputError, email: true });
+      setErrorMessage({
+        ...errorMessage,
+        email: isSignUpOrMessage,
+      });
+      return;
+    }
+    if (isSignUpOrMessage === "パスワードは6文字以上です。") {
+      setInputError({ ...inputError, password: true });
+      setErrorMessage({
+        ...errorMessage,
+        password: isSignUpOrMessage,
+      });
+      return;
+    }
+    if (!isSignUpOrMessage) {
+      setError({ status: true, message: "エラーが発生しました。" });
+      return;
+    }
+
+    // ②authのdisplayNameに名前を登録(確認メールに名前を記述するために必要)
+    const isUpdateDisplayName = await updateDisplayName(name);
+    if (!isUpdateDisplayName) {
+      setError({ status: true, message: "エラーが発生しました。" });
+      return;
+    }
+
+    // ③firestoreにプロフィール情報を登録
+    const userId = firebase.auth().currentUser?.uid;
+    if (userId) {
+      const isCreateNewProfile = await createNewProfile(userId, name);
+      if (isCreateNewProfile) {
+        // userProfileStateにプロフィールデータをセット
+        setUserProfile({
+          id: userId,
+          name: name,
+          photoURL: "noImage",
+          gender: "未設定",
+          age: "未設定",
+          job: "未設定",
+          bloodType: "未設定",
+          sign: "未設定",
+          message: "",
+          numberOfBestAnswer: 0,
+          numberOfLikes: 0,
         });
-        return false;
+      } else {
+        setError({ status: true, message: "エラーが発生しました。" });
+        return;
       }
-    } catch (error) {
-      return false;
+    } else {
+      setError({ status: true, message: "エラーが発生しました。" });
+      return;
     }
-  };
 
-  // firebaseAuthに新規アカウントを登録するメソッド
-  const registerNewUser = async () => {
-    // その他のエラーをリセット
-    setOthersError(false);
-    try {
-      // 新規登録
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
-
-      // authのdisplayNameに名前を登録
-      await updateDisplayName();
-
-      // firestoreにプロフィール情報を登録
-      await createNewProfile();
-
-      // 確認メールの送信
-      await emailConfirmation();
-
-      // その他のエラーも出ていないことを確認し閉じる
-      if (othersError === false) {
-        // 新規登録フォームを閉じる
-        setLoginAndSignUpForm({ ...loginAndSignUpForm, status: false });
-
-        // メール確認フォームを開く
-        openEmailConfirmationDialog();
-      }
-    } catch (e) {
-      const error = e as firebase.FirebaseError;
-      const errorCode = error.code;
-
-      // errorLogに対してそれぞれの処理
-      switch (errorCode) {
-        case "auth/email-already-in-use":
-          setInputError({ ...inputError, email: true });
-          setErrorMessage({
-            ...errorMessage,
-            email: "このメールアドレスは既に使用されています。",
-          });
-          break;
-        case "auth/invalid-email":
-          setInputError({ ...inputError, email: true });
-          setErrorMessage({
-            ...errorMessage,
-            email: "正しい形式で入力してください。",
-          });
-          break;
-        case "auth/weak-password":
-          setInputError({ ...inputError, password: true });
-          setErrorMessage({
-            ...errorMessage,
-            password: "パスワードは6文字以上です。",
-          });
-          break;
-        default:
-          setOthersError(true);
-          setOthersErrorMessage(
-            "エラーが発生しました。もう1度やり直してください。"
-          );
-      }
+    // ④確認メールの送信
+    const isSendConfirmationEmail = await sendConfirmationEmail();
+    if (!isSendConfirmationEmail) {
+      setError({ status: true, message: "エラーが発生しました。" });
+      return;
     }
-  };
 
-  // firebaseAuthのdisplayNameを登録するメソッド
-  const updateDisplayName = async () => {
-    try {
-      await firebase.auth().currentUser?.updateProfile({
-        displayName: name,
-      });
-    } catch (error) {
-      // console.log(error.message);
-    }
-  };
-
-  // 確認メールを送信するメソッド
-  const emailConfirmation = async () => {
-    try {
-      await firebase.auth().currentUser?.sendEmailVerification();
-    } catch (error) {
-      // console.log(error.message);
-    }
-  };
-
-  // firestoreにプロフィールを登録するメソッド
-  const createNewProfile = async () => {
-    const user = firebase.auth().currentUser!;
-    try {
-      await firebase.firestore().doc(`users/${user.uid}`).set({
-        name: name,
-        photoURL: "noImage",
-        gender: "未設定",
-        age: "未設定",
-        job: "未設定",
-        bloodType: "未設定",
-        sign: "未設定",
-        message: "",
-        numberOfBestAnswer: 0,
-        numberOfLikes: 0,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      });
-      // userProfileStateにプロフィールデータをセット
-      setUserProfile({
-        id: user.uid,
-        name: name,
-        photoURL: "noImage",
-        gender: "未設定",
-        age: "未設定",
-        job: "未設定",
-        bloodType: "未設定",
-        sign: "未設定",
-        message: "",
-        numberOfBestAnswer: 0,
-        numberOfLikes: 0,
-      });
-    } catch (error) {
-      // console.log(error.message);
-    }
+    // 新規登録フォームを閉じる
+    setLoginAndSignUpForm({ ...loginAndSignUpForm, status: false });
+    // メール確認フォームを開く
+    openEmailConfirmationDialog();
   };
 
   // 新規登録一連メソッド
@@ -225,10 +169,19 @@ const SignUpForm = (props: Props) => {
     setRunning(true);
     if (name !== "") {
       // ここでユーザー名の存在確認
-      const register = await sameNameVerification();
-      if (register && name.length <= 20) {
+      const isNameAvailable = await getIsNameAvailable(name);
+      if (!isNameAvailable) {
+        setInputError({ ...inputError, name: true });
+        setErrorMessage({
+          ...errorMessage,
+          name: "このユーザー名は使用されています。",
+        });
+        setRunning(false);
+        return;
+      }
+      if (name.length <= 20) {
         // firebaseAuthに新規アカウントを登録
-        await registerNewUser();
+        await postNewUser();
       } else if (name.length >= 20) {
         setInputError({ ...inputError, name: true });
         setErrorMessage({
@@ -291,12 +244,6 @@ const SignUpForm = (props: Props) => {
             新規登録
           </Button>
         </div>
-        <BasicAlert
-          alert={othersError}
-          setAlert={setOthersError}
-          message={othersErrorMessage}
-          warningType="error"
-        />
       </div>
     </div>
   );

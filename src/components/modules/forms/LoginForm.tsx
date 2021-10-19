@@ -73,8 +73,8 @@ const LoginForm = (props: Props) => {
   const loginUser = async () => {
     setRunning(true);
     // ログイン処理
-    const user = await loginEmailAndPassword(email, password);
-    if (typeof user !== "string") {
+    const isLogionOrMessage = await loginEmailAndPassword(email, password);
+    if (typeof isLogionOrMessage === "boolean" && isLogionOrMessage) {
       // ログイン成功時の処理
       setEmail("");
       setPassword("");
@@ -82,11 +82,14 @@ const LoginForm = (props: Props) => {
       setLoginAndSignUpForm({ ...loginAndSignUpForm, status: false });
     } else {
       // ログイン失敗時の処理
-      if (user === "メールアドレスまたはパスワードが違います。") {
-        setErrorMessage({ email: user, password: user });
+      if (isLogionOrMessage === "メールアドレスまたはパスワードが違います。") {
+        setErrorMessage({
+          email: isLogionOrMessage,
+          password: isLogionOrMessage,
+        });
         setInputError({ email: true, password: true });
-      } else if (user !== "error") {
-        setErrorMessage({ ...errorMessage, email: user });
+      } else if (typeof isLogionOrMessage === "string") {
+        setErrorMessage({ ...errorMessage, email: isLogionOrMessage });
         setInputError({ email: true, password: false });
       } else {
         setDefaultErrorAlert(true);

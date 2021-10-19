@@ -1,7 +1,7 @@
 import { db } from "src/firebase/firebase";
 
 // ユーザーがすでに回答を投稿しているかどうかチェックする
-export const checkExistsAnswer = async (
+export const getIsAnswered = async (
   userId: string,
   consulDocId: string
 ): Promise<boolean> => {

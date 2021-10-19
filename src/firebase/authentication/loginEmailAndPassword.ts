@@ -4,16 +4,16 @@ import firebase from "src/firebase/firebase";
 export const loginEmailAndPassword = async (
   email: string,
   password: string
-): Promise<string | firebase.User> => {
+): Promise<string | boolean> => {
   try {
     const userCredential = await firebase
       .auth()
       .signInWithEmailAndPassword(email, password);
     const user = userCredential.user;
     if (user !== null) {
-      return user;
+      return true;
     } else {
-      return "error";
+      return false;
     }
   } catch (error) {
     const e = error as firebase.FirebaseError;
@@ -29,7 +29,7 @@ export const loginEmailAndPassword = async (
       case "auth/wrong-password":
         return "メールアドレスまたはパスワードが違います。";
       default:
-        return "error";
+        return false;
     }
   }
 };

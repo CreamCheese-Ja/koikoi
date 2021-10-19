@@ -10,7 +10,7 @@ import {
 } from "src/atoms/atom";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { checkUserLike } from "src/firebase/firestore/common/get/checkUserLike";
+import { getIsUserLike } from "src/firebase/firestore/common/get/getIsUserLike";
 import { userOperationPossibleCheck } from "src/commonFunctions/userOperationPossibleCheck";
 import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/writeConsulAndTweetLike";
 import { ProfileItem } from "src/type";
@@ -100,12 +100,12 @@ const ConsulDetailLikeButton = (props: Props) => {
 
   useEffect(() => {
     const get = async () => {
-      const userLike = await checkUserLike(
+      const isUserLike = await getIsUserLike(
         userProfile.id,
         "consultations",
         docId
       );
-      if (userLike) {
+      if (isUserLike) {
         setUserLike({ check: true, status: true });
       } else {
         setUserLike({ check: true, status: false });
