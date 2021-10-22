@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
-import InputField from "../../atoms/textFields/InputField";
+import InputField from "../../atoms/input/InputField";
 import firebase from "../../../firebase/firebase";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";

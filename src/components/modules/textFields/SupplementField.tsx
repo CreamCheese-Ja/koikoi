@@ -9,7 +9,7 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { writeSupplement } from "src/firebase/firestore/consultations/write/writeSupplement";
-import MultilineBasicTextField from "../../atoms/textFields/MultilineBasicTextField";
+import MultilineBasicTextField from "../../atoms/input/MultilineBasicTextField";
 
 type Props = {
   userId: string;

@@ -4,7 +4,7 @@ import { postAnswerRunningState } from "src/atoms/atom";
 import PostAnswerButton from "../buttons/PostAnswerButton";
 import Button from "@material-ui/core/Button";
 import BasicDialog from "../../atoms/dialogs/BasicDialog";
-import MultilineTextField from "src/components/atoms/textFields/MultilineTextField";
+import MultilineTextField from "src/components/atoms/input/MultilineTextField";
 
 type Props = {
   open: boolean;

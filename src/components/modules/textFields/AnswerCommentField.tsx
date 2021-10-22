@@ -7,7 +7,7 @@ import {
 } from "src/atoms/atom";
 import { writeAnswerComment } from "src/firebase/firestore/consultations/write/writeAnswerComment";
 import { AnswerList, ProfileItem } from "src/type";
-import MultilineBasicTextField from "../../atoms/textFields/MultilineBasicTextField";
+import MultilineBasicTextField from "../../atoms/input/MultilineBasicTextField";
 
 type Props = {
   userProfile: ProfileItem;

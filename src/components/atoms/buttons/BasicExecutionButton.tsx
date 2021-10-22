@@ -1,5 +1,6 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import { memo } from "react";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -18,7 +19,7 @@ type Props = {
   disabled: boolean;
 };
 
-const BasicExecutionButton = (props: Props) => {
+const BasicExecutionButton = memo((props: Props) => {
   const { onClick, buttonLabel, disabled } = props;
 
   const classes = useStyles();
@@ -35,6 +36,6 @@ const BasicExecutionButton = (props: Props) => {
       </Button>
     </>
   );
-};
+});
 
 export default BasicExecutionButton;

@@ -11,7 +11,7 @@ import styles from "styles/components/modules/dialogs/createConsulAndTweetDialog
 import PostTweetButton from "../buttons/PostTweetButton";
 import SelectBox from "src/components/atoms/input/SelectBox";
 import { categoryItem } from "src/common/selectItems";
-import MultilineTextField from "src/components/atoms/textFields/MultilineTextField";
+import MultilineTextField from "src/components/atoms/input/MultilineTextField";
 
 const CreateTweetDialog = () => {
   const [open, setOpen] = useRecoilState(createTweetDialogState);

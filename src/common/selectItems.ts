@@ -10,9 +10,26 @@ export const categoryItem = [
   "その他",
 ];
 
-export const genderItem = ["男性", "女性", "その他"];
+export const genderItem = ["未設定", "男性", "女性", "その他"];
 
-export const ageItem = [];
+export const ageItem = [
+  "未設定",
+  "10歳未満",
+  "10代前半",
+  "10代後半",
+  "20代前半",
+  "20代後半",
+  "30代前半",
+  "30代後半",
+  "40代前半",
+  "40代後半",
+  "50代前半",
+  "50代後半",
+  "60代",
+  "70代",
+  "80代",
+  "90代以上",
+];
 
 export const jobItem = [
   "未設定",
@@ -51,6 +68,20 @@ export const jobItem = [
   "その他",
 ];
 
-export const bloodTypeItem = ["A型", "B型", "O型", "AB型"];
+export const bloodTypeItem = ["未設定", "A型", "B型", "O型", "AB型"];
 
-export const signItem = [];
+export const signItem = [
+  "未設定",
+  "おひつじ座",
+  "おうし座",
+  "ふたご座",
+  "かに座",
+  "しし座",
+  "おとめ座",
+  "てんびん座",
+  "さそり座",
+  "いて座",
+  "やぎ座",
+  "みずがめ座",
+  "うお座",
+];

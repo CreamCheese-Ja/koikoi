@@ -14,7 +14,7 @@ import PostConsultationButton from "../buttons/PostConsultationButton";
 import Linear from "../../atoms/progress/Linear";
 import SelectBox from "src/components/atoms/input/SelectBox";
 import { categoryItem } from "src/common/selectItems";
-import MultilineTextField from "src/components/atoms/textFields/MultilineTextField";
+import MultilineTextField from "src/components/atoms/input/MultilineTextField";
 
 const CreateConsultationDialog = () => {
   const [open, setOpen] = useRecoilState(createConsultationDialogState);

@@ -5,6 +5,7 @@ import noProfile from "public/images/no-profile.png";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { userMenuState, userProfileState } from "src/atoms/atom";
 import UserMenu from "../../modules/menu/UserMenu";
+import styles from "styles/components/atoms/others/userPhoto.module.css";
 
 const CurrentUserPhoto = memo(() => {
   const userProfile = useRecoilValue(userProfileState);
@@ -22,6 +23,7 @@ const CurrentUserPhoto = memo(() => {
           aria-controls="simple-menu"
           aria-haspopup="true"
           onClick={openUserMenu}
+          style={{ borderRadius: "50%", overflow: "hidden" }}
         >
           <Image src={noProfile} width={40} height={40} alt="userPhoto" />
         </IconButton>
@@ -36,6 +38,7 @@ const CurrentUserPhoto = memo(() => {
             width={40}
             height={40}
             alt="userPhoto"
+            className={styles.image}
           />
         </IconButton>
       )}

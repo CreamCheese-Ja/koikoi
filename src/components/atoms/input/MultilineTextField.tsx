@@ -23,7 +23,7 @@ const MultilineTextField = memo((props: Props) => {
   };
 
   return (
-    <div>
+    <>
       <TextField
         id="outlined-multiline-flexible"
         error={error}
@@ -37,7 +37,7 @@ const MultilineTextField = memo((props: Props) => {
         style={{ width: "250px" }}
         disabled={disabled}
       />
-    </div>
+    </>
   );
 });
 

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, memo, SetStateAction } from "react";
 import TextField from "@material-ui/core/TextField";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
   disabled: boolean;
 };
 
-const InputField = (props: Props) => {
+const InputField = memo((props: Props) => {
   const { label, type, value, onChange, error, errorMessage, disabled } = props;
 
   return (
@@ -31,6 +31,6 @@ const InputField = (props: Props) => {
       />
     </div>
   );
-};
+});
 
 export default InputField;

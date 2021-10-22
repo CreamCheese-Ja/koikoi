@@ -12,7 +12,7 @@ import {
   defaultErrorAlertState,
   passwordChangeDialogState,
 } from "src/atoms/atom";
-import InputField from "../../atoms/textFields/InputField";
+import InputField from "../../atoms/input/InputField";
 import Linear from "../../atoms/progress/Linear";
 
 import { useEffect } from "react";

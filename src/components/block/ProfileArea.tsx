@@ -6,6 +6,7 @@ import BasicButton from "../atoms/buttons/BasicButton";
 import { useRecoilValue } from "recoil";
 import { userProfileState } from "src/atoms/atom";
 import BasicDialog from "../atoms/dialogs/BasicDialog";
+import EditProfileForm from "../modules/forms/EditProfileForm";
 
 type Props = {
   userData: ProfileItem;
@@ -97,7 +98,17 @@ const ProfileArea = (props: Props) => {
             open={isDialogOpen}
             onClick={openCloseDialog}
             running={editProfileRunning}
-            content={<div></div>}
+            content={
+              <EditProfileForm
+                message={userProfile.message}
+                gender={userProfile.gender}
+                age={userProfile.age}
+                job={userProfile.job}
+                bloodType={userProfile.bloodType}
+                sign={userProfile.sign}
+                running={editProfileRunning}
+              />
+            }
           />
         </div>
       ) : (

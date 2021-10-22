@@ -6,7 +6,7 @@ import {
   tweetCommentCountState,
   tweetCommentListState,
 } from "src/atoms/atom";
-import MultilineBasicTextField from "src/components/atoms/textFields/MultilineBasicTextField";
+import MultilineBasicTextField from "src/components/atoms/input/MultilineBasicTextField";
 import { getNewCommentData } from "src/firebase/firestore/tweets/get/getNewCommentData";
 import { createComment } from "src/firebase/firestore/tweets/write/createComment";
 import { ProfileItem } from "src/type";
