@@ -6,12 +6,12 @@ import {
   useSetRecoilState,
 } from "recoil";
 import {
-  defaultErrorAlertState,
   getAnswerListRunningState,
   isSolutionState,
+  multipurposeErrorAlertState,
   numberOfAnswerState,
 } from "src/atoms/atom";
-import BasicExecutionButton from "src/components/atoms/buttons/BasicExecutionButton";
+import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
 import Spinner from "src/components/atoms/progress/Spinner";
 import { getNextAnswerList } from "src/firebase/firestore/consultations/get/getNextAnswerList";
 import { AnswerList } from "src/type";
@@ -32,8 +32,8 @@ const MoreAnswerButton = (props: Props) => {
   const answerCount = useRecoilValue(numberOfAnswerState);
   // 解決済みかどうかのstate
   const isSolution = useRecoilValue(isSolutionState);
-  // 共通エラー用の変更関数
-  const setError = useSetRecoilState(defaultErrorAlertState);
+  // エラーstate
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
 
   // もっと見るボタンの表示、非表示
   useEffect(() => {
@@ -58,7 +58,7 @@ const MoreAnswerButton = (props: Props) => {
     if (nextPage) {
       setAnswerList([...answerList, ...nextPage]);
     } else {
-      setError(true);
+      setError({ status: true, message: "ページを取得できませんでした。" });
     }
     setRunning(false);
   };
@@ -68,7 +68,7 @@ const MoreAnswerButton = (props: Props) => {
       {running ? (
         <Spinner />
       ) : isButtonDisplay ? (
-        <BasicExecutionButton
+        <ExecutionButton
           onClick={fetchNextPage}
           buttonLabel="もっと見る"
           disabled={running}

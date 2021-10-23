@@ -6,7 +6,7 @@ import {
   tweetCommentCountState,
   tweetCommentListState,
 } from "src/atoms/atom";
-import MultilineBasicTextField from "src/components/atoms/input/MultilineBasicTextField";
+import MultilineTextFieldWithButton from "src/components/atoms/input/MultilineTextFieldWithButton";
 import { getNewCommentData } from "src/firebase/firestore/tweets/get/getNewCommentData";
 import { createComment } from "src/firebase/firestore/tweets/write/createComment";
 import { ProfileItem } from "src/type";
@@ -58,7 +58,7 @@ const TweetCommentField = (props: Props) => {
     <>
       {isShowField ? (
         <div>
-          <MultilineBasicTextField
+          <MultilineTextFieldWithButton
             label="コメント"
             placeholder="つぶやきへのコメントを入力してください(150文字以内)"
             value={value}

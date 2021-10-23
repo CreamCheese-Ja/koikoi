@@ -4,12 +4,16 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import InputField from "../../atoms/input/InputField";
+import BasicTextField from "../../atoms/input/BasicTextField";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import styles from "styles/components/modules/dialogs/emailChangeDialog.module.css";
 import firebase from "../../../firebase/firebase";
-import BasicAlert from "../../atoms/alerts/BasicAlert";
 import Linear from "../../atoms/progress/Linear";
+import { useSetRecoilState } from "recoil";
+import {
+  multipurposeErrorAlertState,
+  multipurposeSuccessAlertState,
+} from "src/atoms/atom";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -32,12 +36,11 @@ const EmailChangeDialog = () => {
   const [errorMessage, setErrorMessage] = useState({
     email: "",
   });
-  const [success, setSuccess] = useState(false);
   const [running, setRunning] = useState(false);
 
-  // その他のエラー用のstate
-  const [othersError, setOthersError] = useState(false);
-  const [othersErrorMessage, setOthersErrorMessage] = useState("");
+  // 共通のエラー、サクセスアラートの変更関数
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
+  const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
 
   // 入力欄のエラーをリセット
   useEffect(() => {
@@ -50,14 +53,15 @@ const EmailChangeDialog = () => {
 
   // メールアドレスを変更するメソッド
   const changeEmail = async () => {
-    setOthersError(false);
+    setError({ status: false, message: "" });
     setRunning(true);
     const user = firebase.auth().currentUser;
     try {
       await user!.updateEmail(email);
-    } catch (e) {
-      const error = e as firebase.FirebaseError;
-      const errorCode = error.code;
+      setSuccess({ status: true, message: "メールアドレスを変更しました。" });
+    } catch (error) {
+      const e = error as firebase.FirebaseError;
+      const errorCode = e.code;
 
       switch (errorCode) {
         case "auth/email-already-in-use":
@@ -75,16 +79,15 @@ const EmailChangeDialog = () => {
           });
           break;
         case "auth/requires-recent-login":
-          setOthersError(true);
-          setOthersErrorMessage(
-            "もう一度ログインする必要があります。ログアウトして再度ログインしてからお試しください。"
-          );
+          setError({
+            status: true,
+            message:
+              "もう一度ログインする必要があります。ログアウトして再度ログインしてからお試しください。",
+          });
           break;
         default:
           alert(errorCode);
-          setOthersError(true);
-          setOthersErrorMessage("エラーが発生しました。");
-          console.log(errorCode);
+          setError({ status: true, message: "エラーが発生しました。" });
       }
     } finally {
       setRunning(false);
@@ -103,7 +106,7 @@ const EmailChangeDialog = () => {
           {"メールアドレスの変更"}
         </DialogTitle>
         <DialogContent>
-          <InputField
+          <BasicTextField
             label="メールアドレス"
             type="email"
             value={email}
@@ -128,18 +131,6 @@ const EmailChangeDialog = () => {
           <Button color="primary">キャンセル</Button>
         </DialogActions>
       </Dialog>
-      <BasicAlert
-        alert={success}
-        setAlert={setSuccess}
-        message="正常に変更完了しました。"
-        warningType="success"
-      />
-      <BasicAlert
-        alert={othersError}
-        setAlert={setOthersError}
-        message={othersErrorMessage}
-        warningType="error"
-      />
     </>
   );
 };

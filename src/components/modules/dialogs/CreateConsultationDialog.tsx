@@ -1,24 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
+  consultationListState,
   createConsultationDialogState,
+  loginAndSignUpFormState,
+  multipurposeErrorAlertState,
+  multipurposeSuccessAlertState,
   postConsultationRunning,
+  userProfileState,
 } from "src/atoms/atom";
 import styles from "styles/components/modules/dialogs/createConsulAndTweetDialog.module.css";
-import PostConsultationButton from "../buttons/PostConsultationButton";
 import Linear from "../../atoms/progress/Linear";
 import SelectBox from "src/components/atoms/input/SelectBox";
 import { categoryItem } from "src/common/selectItems";
 import MultilineTextField from "src/components/atoms/input/MultilineTextField";
+import { userOperationPossibleCheck } from "src/common/userOperationPossibleCheck";
+import { createConsultation } from "src/firebase/firestore/consultations/write/createConsultation";
+import { getNewConsultationData } from "src/firebase/firestore/consultations/get/getNewConsultationData";
+import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
 
-const CreateConsultationDialog = () => {
+type Props = {
+  setPostMenu: Dispatch<SetStateAction<HTMLElement | null>>;
+};
+
+const CreateConsultationDialog = (props: Props) => {
+  const { setPostMenu } = props;
+
   const [open, setOpen] = useRecoilState(createConsultationDialogState);
-  const running = useRecoilValue(postConsultationRunning);
 
   const [category, setCategory] = useState({
     text: "",
@@ -35,6 +48,20 @@ const CreateConsultationDialog = () => {
     errorStatus: false,
     errorMessage: "",
   });
+
+  // ユーザープロフィールの値
+  const userProfile = useRecoilValue(userProfileState);
+  // 共通のエラー、サクセスアラートの変更関数
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
+  const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
+  // ログイン、新規登録フォーム用の変更関数
+  const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
+  // 実行中のstate
+  const [running, setRunning] = useRecoilState(postConsultationRunning);
+  // 恋愛相談リストのstate
+  const [consultationList, setConsultationList] = useRecoilState(
+    consultationListState
+  );
 
   useEffect(() => {
     setCategory((category) => ({
@@ -62,6 +89,95 @@ const CreateConsultationDialog = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  // 恋愛相談を投稿する関数
+  const postConsultation = async () => {
+    setRunning(() => true);
+    if (
+      category.text !== "" &&
+      title.text !== "" &&
+      content.text !== "" &&
+      title.text.length <= 100 &&
+      content.text.length <= 10000
+    ) {
+      // ユーザー操作が可能かどうかチェック
+      const operationPossible = userOperationPossibleCheck(userProfile.name);
+      if (typeof operationPossible !== "string") {
+        // firestoreに書き込み
+        const create = await createConsultation(
+          category.text,
+          title.text,
+          content.text,
+          userProfile.id
+        );
+        if (create) {
+          // 恋愛相談リストが空ではない場合、新しいデータを取得
+          if (consultationList.length !== 0) {
+            const newData = await getNewConsultationData(create);
+            if (newData) {
+              setConsultationList([newData, ...consultationList]);
+            }
+            // 投稿完了操作
+            setSuccess({ status: true, message: "投稿しました。" });
+            setCategory((category) => ({ ...category, text: "" }));
+            setTitle((title) => ({ ...title, text: "" }));
+            setContent((content) => ({ ...content, text: "" }));
+            handleClose();
+            setPostMenu(null);
+          } else {
+            setError({ status: true, message: "エラーが発生しました。" });
+          }
+        } else {
+          setError({ status: true, message: "エラーが発生しました。" });
+        }
+      } else if (operationPossible === "ログインが必要です。") {
+        // ログインフォームを開く
+        setLoginAndSignUpForm({ title: "ログイン", status: true });
+        setError({ status: true, message: `投稿には${operationPossible}` });
+      } else if (
+        operationPossible === "メールアドレスの確認が完了していません。"
+      ) {
+        setError({ status: true, message: operationPossible });
+      }
+    } else {
+      if (category.text === "") {
+        setCategory((category) => ({
+          ...category,
+          errorStatus: true,
+          errorMessage: "カテゴリーを選択してください。",
+        }));
+      }
+      if (title.text === "") {
+        setTitle((title) => ({
+          ...title,
+          errorStatus: true,
+          errorMessage: "タイトルを入力してください。",
+        }));
+      }
+      if (content.text === "") {
+        setContent((content) => ({
+          ...content,
+          errorStatus: true,
+          errorMessage: "内容を入力してください。",
+        }));
+      }
+      if (title.text.length > 100) {
+        setTitle((title) => ({
+          ...title,
+          errorStatus: true,
+          errorMessage: "タイトルは100文字以内です。",
+        }));
+      }
+      if (content.text.length > 10000) {
+        setContent((content) => ({
+          ...content,
+          errorStatus: true,
+          errorMessage: "内容は10000文字以内です。",
+        }));
+      }
+    }
+    setRunning(() => false);
   };
 
   return (
@@ -109,14 +225,10 @@ const CreateConsultationDialog = () => {
             />
           </div>
           <div className={styles.buttonArea}>
-            <PostConsultationButton
-              handleClose={handleClose}
-              category={category}
-              title={title}
-              content={content}
-              setCategory={setCategory}
-              setTitle={setTitle}
-              setContent={setContent}
+            <ExecutionButton
+              onClick={postConsultation}
+              buttonLabel="投稿する"
+              disabled={running}
             />
           </div>
         </DialogContent>

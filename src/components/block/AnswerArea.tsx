@@ -6,17 +6,18 @@ import {
   authCheckState,
   getAnswerListRunningState,
   numberOfAnswerState,
+  showAnswerReplyFieldState,
   userProfileState,
 } from "src/atoms/atom";
 import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import AnswerLikeButton from "src/components/modules/buttons/AnswerLikeButton";
-import AnswerReplyButton from "src/components/atoms/buttons/AnswerReplyButton";
 import BestAnswerButton from "src/components/modules/buttons/BestAnswerButton";
 import AnswerCommentField from "src/components/modules/textFields/AnswerCommentField";
 import { getAnswerList } from "src/firebase/firestore/consultations/get/getAnswerList";
 import styles from "styles/components/block/answerArea.module.css";
 import MoreAnswerButton from "../modules/buttons/MoreAnswerButton";
 import UserPhoto from "../atoms/others/UserPhoto";
+import BasicButton from "../atoms/buttons/BasicButton";
 
 type Props = {
   consultationId: string;
@@ -36,6 +37,10 @@ const AnswerArea = (props: Props) => {
   const authCheck = useRecoilValue(authCheckState);
   // 実行中
   const setRunning = useSetRecoilState(getAnswerListRunningState);
+  // 返信フィールド開閉
+  const [showAnswerReplyField, setShowAnswerReplyField] = useRecoilState(
+    showAnswerReplyFieldState
+  );
 
   useEffect(() => {
     // 最初に回答リストを空にする
@@ -110,7 +115,15 @@ const AnswerArea = (props: Props) => {
                   )}
                 </div>
                 {consulUserId === userProfile.id && answer.comment === "" ? (
-                  <AnswerReplyButton />
+                  <BasicButton
+                    onClick={() =>
+                      setShowAnswerReplyField(!showAnswerReplyField)
+                    }
+                    buttonLabel={
+                      showAnswerReplyField ? "入力欄を閉じる" : "返信する"
+                    }
+                    variant="text"
+                  />
                 ) : (
                   <div></div>
                 )}

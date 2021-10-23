@@ -1,14 +1,14 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   consultationListState,
-  defaultErrorAlertState,
   displayConsulMoreButtonState,
+  multipurposeErrorAlertState,
   spinnerState,
   userProfileState,
 } from "src/atoms/atom";
 import { getNextConsultationList } from "src/firebase/firestore/consultations/get/getNextConsultationList";
 import Spinner from "../../atoms/progress/Spinner";
-import BasicExecutionButton from "../../atoms/buttons/BasicExecutionButton";
+import ExecutionButton from "../../atoms/buttons/ExecutionButton";
 
 const MoreConsultationButton = () => {
   // ユーザープロフィールの値
@@ -19,8 +19,8 @@ const MoreConsultationButton = () => {
     consultationListState
   );
 
-  // 共通エラー用の変更関数
-  const setError = useSetRecoilState(defaultErrorAlertState);
+  // エラーstate
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
 
   // スピナーのstate
   const [running, setRunning] = useRecoilState(spinnerState);
@@ -40,7 +40,7 @@ const MoreConsultationButton = () => {
     if (nextPage) {
       setConsultationList([...consultationList, ...nextPage]);
     } else {
-      setError(true);
+      setError({ status: true, message: "ページを取得できませんでした。" });
     }
     // 取得数が10未満であればボタンを非表示にする
     if (nextPage?.length !== 10) {
@@ -54,7 +54,7 @@ const MoreConsultationButton = () => {
       {running ? (
         <Spinner />
       ) : buttonDisplay ? (
-        <BasicExecutionButton
+        <ExecutionButton
           onClick={fetchNextPage}
           buttonLabel="もっと見る"
           disabled={running}

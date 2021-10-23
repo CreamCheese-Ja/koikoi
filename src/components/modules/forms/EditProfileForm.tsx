@@ -8,9 +8,9 @@ import {
 } from "src/common/selectItems";
 import MultilineTextField from "src/components/atoms/input/MultilineTextField";
 import SelectBox from "src/components/atoms/input/SelectBox";
-import BasicExecutionButton from "src/components/atoms/buttons/BasicExecutionButton";
+import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
 import styles from "styles/components/modules/forms/editProfileForm.module.css";
-import InputImage from "src/components/atoms/input/InputImage";
+import InputImage from "src/components/modules/others/InputImage";
 import { useRecoilState } from "recoil";
 import { userProfileState } from "src/atoms/atom";
 
@@ -118,7 +118,7 @@ const EditProfileForm = (props: Props) => {
         </div>
       ))}
       <div className={styles.button}>
-        <BasicExecutionButton
+        <ExecutionButton
           onClick={updateProfile}
           buttonLabel="更新する"
           disabled={running}

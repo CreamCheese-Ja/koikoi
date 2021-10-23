@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { isSolutionState } from "src/atoms/atom";
 import styles from "styles/components/atoms/others/solution.module.css";
@@ -7,7 +7,7 @@ type Props = {
   solution: boolean;
 };
 
-const Solution = (props: Props) => {
+const Solution = memo((props: Props) => {
   const { solution } = props;
   const [isSolution, setIsSolution] = useRecoilState(isSolutionState);
 
@@ -24,5 +24,5 @@ const Solution = (props: Props) => {
       )}
     </>
   );
-};
+});
 export default Solution;

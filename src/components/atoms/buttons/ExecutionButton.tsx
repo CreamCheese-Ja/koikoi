@@ -19,7 +19,7 @@ type Props = {
   disabled: boolean;
 };
 
-const BasicExecutionButton = memo((props: Props) => {
+const ExecutionButton = memo((props: Props) => {
   const { onClick, buttonLabel, disabled } = props;
 
   const classes = useStyles();
@@ -38,4 +38,4 @@ const BasicExecutionButton = memo((props: Props) => {
   );
 });
 
-export default BasicExecutionButton;
+export default ExecutionButton;

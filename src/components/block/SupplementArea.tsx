@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useRecoilValue } from "recoil";
 import { supplementsState } from "src/atoms/atom";
 import styles from "styles/components/block/supplementArea.module.css";
@@ -9,7 +9,7 @@ type Props = {
   supplementCreatedAt: string;
 };
 
-const SupplementArea = (props: Props) => {
+const SupplementArea = memo((props: Props) => {
   const { supplement, consulId, supplementCreatedAt } = props;
 
   const supplements = useRecoilValue(supplementsState);
@@ -37,6 +37,6 @@ const SupplementArea = (props: Props) => {
       )}
     </>
   );
-};
+});
 
 export default SupplementArea;

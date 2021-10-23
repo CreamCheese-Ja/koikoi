@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, memo, SetStateAction } from "react";
 import SendIcon from "@material-ui/icons/Send";
 import { IconButton } from "@material-ui/core";
 
@@ -9,7 +9,7 @@ type Props = {
   running: boolean;
 };
 
-const SendButton = (props: Props) => {
+const SendButton = memo((props: Props) => {
   const { value, setValue, onClick, running } = props;
 
   return (
@@ -21,6 +21,6 @@ const SendButton = (props: Props) => {
       <SendIcon color={value === "" ? "disabled" : "primary"} />
     </IconButton>
   );
-};
+});
 
 export default SendButton;

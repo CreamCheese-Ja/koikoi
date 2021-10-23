@@ -3,6 +3,7 @@ import { SetterOrUpdater } from "recoil";
 import { InputAdornment } from "@material-ui/core";
 import SendButton from "../buttons/SendButton";
 import Linear from "../progress/Linear";
+import { memo } from "react";
 
 type Props = {
   label: string;
@@ -13,7 +14,7 @@ type Props = {
   onClick: () => void;
 };
 
-const MultilineBasicTextField = (props: Props) => {
+const MultilineTextFieldWithButton = memo((props: Props) => {
   const { label, placeholder, value, setValue, running, onClick } = props;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +49,6 @@ const MultilineBasicTextField = (props: Props) => {
       />
     </>
   );
-};
+});
 
-export default MultilineBasicTextField;
+export default MultilineTextFieldWithButton;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
-import InputField from "../../atoms/input/InputField";
+import BasicTextField from "../../atoms/input/BasicTextField";
 import firebase from "../../../firebase/firebase";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -205,7 +205,7 @@ const SignUpForm = (props: Props) => {
     <div>
       <div>
         <div>
-          <InputField
+          <BasicTextField
             label="ユーザー名"
             type="text"
             value={name}
@@ -214,7 +214,7 @@ const SignUpForm = (props: Props) => {
             errorMessage={errorMessage.name}
             disabled={running}
           />
-          <InputField
+          <BasicTextField
             label="メールアドレス"
             type="email"
             value={email}
@@ -223,7 +223,7 @@ const SignUpForm = (props: Props) => {
             errorMessage={errorMessage.email}
             disabled={running}
           />
-          <InputField
+          <BasicTextField
             label="パスワード(6文字以上)"
             type="password"
             value={password}

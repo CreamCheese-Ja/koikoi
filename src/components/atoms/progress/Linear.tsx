@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import styles from "styles/components/atoms/progress/linear.module.css";
@@ -18,7 +18,7 @@ type Props = {
   running: boolean;
 };
 
-const Linear = (props: Props) => {
+const Linear = memo((props: Props) => {
   const { running } = props;
 
   const classes = useStyles();
@@ -28,6 +28,6 @@ const Linear = (props: Props) => {
       <LinearProgress />
     </div>
   );
-};
+});
 
 export default Linear;

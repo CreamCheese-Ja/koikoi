@@ -6,9 +6,13 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import styles from "styles/components/modules/dialogs/EmailConfirmationDialog.module.css";
-import BasicAlert from "../../atoms/alerts/BasicAlert";
 import firebase from "../../../firebase/firebase";
 import Linear from "../../atoms/progress/Linear";
+import { useSetRecoilState } from "recoil";
+import {
+  multipurposeErrorAlertState,
+  multipurposeSuccessAlertState,
+} from "src/atoms/atom";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -31,8 +35,10 @@ const EmailConfirmationDialog = (props: Props) => {
 
   const classes = useStyles();
 
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
+  // 共通のエラー、サクセスアラートの変更関数
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
+  const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
+
   const [running, setRunning] = useState(false);
 
   // メール確認をしたかどうかをチェックするメソッド
@@ -43,9 +49,9 @@ const EmailConfirmationDialog = (props: Props) => {
     const user = firebase.auth().currentUser;
     if (user?.emailVerified) {
       closeEmailConfirmationDialog();
-      setSuccess(true);
+      setSuccess({ status: true, message: "正常に登録完了しました。" });
     } else {
-      setError(true);
+      setError({ status: true, message: "登録が完了していません。" });
     }
     setRunning(false);
   };
@@ -85,18 +91,6 @@ const EmailConfirmationDialog = (props: Props) => {
           </div>
         </DialogContent>
       </Dialog>
-      <BasicAlert
-        alert={error}
-        setAlert={setError}
-        message="登録が完了していません。"
-        warningType="error"
-      />
-      <BasicAlert
-        alert={success}
-        setAlert={setSuccess}
-        message="正常に登録完了しました。"
-        warningType="success"
-      />
     </>
   );
 };

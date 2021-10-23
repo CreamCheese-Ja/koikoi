@@ -1,12 +1,12 @@
 import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
-import InputField from "../../atoms/input/InputField";
+import BasicTextField from "../../atoms/input/BasicTextField";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  defaultErrorAlertState,
-  loginAlertState,
   loginAndSignUpFormState,
+  multipurposeErrorAlertState,
+  multipurposeSuccessAlertState,
 } from "src/atoms/atom";
 import { loginEmailAndPassword } from "src/firebase/authentication/loginEmailAndPassword";
 
@@ -46,11 +46,9 @@ const LoginForm = (props: Props) => {
     loginAndSignUpFormState
   );
 
-  // ログインアラート用の変更関数
-  const setLoginAlert = useSetRecoilState(loginAlertState);
-
-  // 共通のエラーアラート用の変更関数
-  const setDefaultErrorAlert = useSetRecoilState(defaultErrorAlertState);
+  // 共通のエラー、サクセスアラートの変更関数
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
+  const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
 
   // それぞれの入力欄のエラーをリセット
   useEffect(() => {
@@ -78,7 +76,7 @@ const LoginForm = (props: Props) => {
       // ログイン成功時の処理
       setEmail("");
       setPassword("");
-      setLoginAlert(true);
+      setSuccess({ status: true, message: "ログインしました。" });
       setLoginAndSignUpForm({ ...loginAndSignUpForm, status: false });
     } else {
       // ログイン失敗時の処理
@@ -92,7 +90,7 @@ const LoginForm = (props: Props) => {
         setErrorMessage({ ...errorMessage, email: isLogionOrMessage });
         setInputError({ email: true, password: false });
       } else {
-        setDefaultErrorAlert(true);
+        setError({ status: true, message: "エラーが発生しました。" });
       }
     }
     setRunning(false);
@@ -100,7 +98,7 @@ const LoginForm = (props: Props) => {
 
   return (
     <>
-      <InputField
+      <BasicTextField
         label="メールアドレス"
         type="email"
         value={email}
@@ -109,7 +107,7 @@ const LoginForm = (props: Props) => {
         errorMessage={errorMessage.email}
         disabled={running}
       />
-      <InputField
+      <BasicTextField
         label="パスワード"
         type="password"
         value={password}

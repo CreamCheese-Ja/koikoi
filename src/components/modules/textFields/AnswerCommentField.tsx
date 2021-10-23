@@ -7,7 +7,7 @@ import {
 } from "src/atoms/atom";
 import { writeAnswerComment } from "src/firebase/firestore/consultations/write/writeAnswerComment";
 import { AnswerList, ProfileItem } from "src/type";
-import MultilineBasicTextField from "../../atoms/input/MultilineBasicTextField";
+import MultilineTextFieldWithButton from "../../atoms/input/MultilineTextFieldWithButton";
 
 type Props = {
   userProfile: ProfileItem;
@@ -74,7 +74,7 @@ const AnswerCommentField = (props: Props) => {
     <>
       {showAnswerReplyField ? (
         <div>
-          <MultilineBasicTextField
+          <MultilineTextFieldWithButton
             label="コメント"
             placeholder="回答への返信コメントを入力してください(500文字以内)"
             value={value}

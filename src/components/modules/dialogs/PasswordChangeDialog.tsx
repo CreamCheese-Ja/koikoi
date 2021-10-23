@@ -9,14 +9,13 @@ import { makeStyles, createStyles } from "@material-ui/core/styles";
 import styles from "styles/components/modules/dialogs/passwordChangeDialog.module.css";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  defaultErrorAlertState,
+  multipurposeErrorAlertState,
+  multipurposeSuccessAlertState,
   passwordChangeDialogState,
 } from "src/atoms/atom";
-import InputField from "../../atoms/input/InputField";
+import BasicTextField from "../../atoms/input/BasicTextField";
 import Linear from "../../atoms/progress/Linear";
-
 import { useEffect } from "react";
-import BasicAlert from "../../atoms/alerts/BasicAlert";
 import { sendPasswordResetEmail } from "src/firebase/authentication/sendPasswordResetEmail";
 
 const useStyles = makeStyles(() =>
@@ -40,10 +39,9 @@ const PasswordChangeDialog = () => {
   // パスワード変更ダイアログ開閉用のstate
   const [open, setOpen] = useRecoilState(passwordChangeDialogState);
 
-  // 共通のエラーアラート用の変更関数
-  const setDefaultErrorAlert = useSetRecoilState(defaultErrorAlertState);
-
-  const [success, setSuccess] = useState(false);
+  // 共通のエラー、サクセスアラートの変更関数
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
+  const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
 
   const [running, setRunning] = useState(false);
 
@@ -63,15 +61,15 @@ const PasswordChangeDialog = () => {
   const sendPasswordChangeEmail = async () => {
     setRunning(true);
     const result = await sendPasswordResetEmail(email);
-    if (result) {
+    if (result === true) {
       setEmail("");
-      setSuccess(true);
+      setSuccess({ status: true, message: "再設定メールを送信しました。" });
       handleClose();
     } else if (result !== false) {
       setInputError(true);
       setErrorMessage(result);
     } else {
-      setDefaultErrorAlert(true);
+      setError({ status: true, message: "エラーが発生しました。" });
     }
     setRunning(false);
   };
@@ -92,7 +90,7 @@ const PasswordChangeDialog = () => {
             入力されたメールアドレス宛に、パスワードの再設定メールを送信します。
           </DialogContentText>
           <div className={styles.inputArea}>
-            <InputField
+            <BasicTextField
               label="メールアドレス"
               type="email"
               value={email}
@@ -121,12 +119,6 @@ const PasswordChangeDialog = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <BasicAlert
-        alert={success}
-        setAlert={setSuccess}
-        message="再設定メールを送信しました。"
-        warningType="success"
-      />
     </>
   );
 };

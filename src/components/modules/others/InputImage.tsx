@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
-import UserPhoto from "../others/UserPhoto";
-import BasicDialog from "../dialogs/BasicDialog";
+import UserPhoto from "../../atoms/others/UserPhoto";
+import BasicDialog from "../../atoms/dialogs/BasicDialog";
 import ResizeImageForm from "src/components/modules/forms/ResizeImageForm";
 import loadImage from "blueimp-load-image";
 

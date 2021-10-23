@@ -11,7 +11,7 @@ type Props = {
   disabled: boolean;
 };
 
-const InputField = memo((props: Props) => {
+const BasicTextField = memo((props: Props) => {
   const { label, type, value, onChange, error, errorMessage, disabled } = props;
 
   return (
@@ -33,4 +33,4 @@ const InputField = memo((props: Props) => {
   );
 });
 
-export default InputField;
+export default BasicTextField;

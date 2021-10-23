@@ -18,7 +18,7 @@ type Props = {
   running: boolean;
 };
 
-const BasicAlertDialog = (props: Props) => {
+const AlertDialog = (props: Props) => {
   const { open, dialogClose, title, content, mainMethod, running } = props;
 
   return (
@@ -49,4 +49,4 @@ const BasicAlertDialog = (props: Props) => {
   );
 };
 
-export default BasicAlertDialog;
+export default AlertDialog;

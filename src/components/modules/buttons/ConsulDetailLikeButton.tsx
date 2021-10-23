@@ -3,7 +3,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   authCheckState,
   consultationListState,
-  defaultErrorAlertState,
   loginAndSignUpFormState,
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
@@ -34,8 +33,6 @@ const ConsulDetailLikeButton = (props: Props) => {
   // 共通のエラー、サクセスアラートの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
-  // デフォルトエラーの変更関数
-  const setDefaultError = useSetRecoilState(defaultErrorAlertState);
   // ログイン、新規登録フォーム用の変更関数
   const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
   // 恋愛相談リストのstate
@@ -81,8 +78,7 @@ const ConsulDetailLikeButton = (props: Props) => {
         // サクセスメッセージ
         setSuccess({ status: true, message: "「いいね！」しました。" });
       } else {
-        // エラーメッセージ
-        setDefaultError(true);
+        setError({ status: true, message: "エラーが発生しました。" });
       }
     } else if (operationPossible === "ログインが必要です。") {
       // ログインフォームを開く

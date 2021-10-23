@@ -53,18 +53,6 @@ export const passwordChangeDialogState = atom({
   default: false,
 });
 
-// ユーザーメニュー開閉
-export const userMenuState = atom<null | HTMLElement>({
-  key: "userMenuState",
-  default: null,
-});
-
-// 投稿メニュー開閉
-export const postMenuState = atom<null | HTMLElement>({
-  key: "postMenuState",
-  default: null,
-});
-
 // 恋愛相談投稿ダイアログ開閉
 export const createConsultationDialogState = atom({
   key: "createConsultationDialogState",
@@ -77,25 +65,7 @@ export const createTweetDialogState = atom({
   default: false,
 });
 
-// ログアウト時のアラート
-export const logoutAlertState = atom({
-  key: "logoutAlertState",
-  default: false,
-});
-
-// ログイン時のアラート
-export const loginAlertState = atom({
-  key: "loginAlertState",
-  default: false,
-});
-
 // 共通のエラーアラート
-export const defaultErrorAlertState = atom({
-  key: "defaultErrorAlertState",
-  default: false,
-});
-
-// 多目的エラーアラート(これを基本にする)
 export const multipurposeErrorAlertState = atom({
   key: "multipurposeErrorAlertState",
   default: {
@@ -104,7 +74,7 @@ export const multipurposeErrorAlertState = atom({
   },
 });
 
-// 多目的サクセスアラート(これを基本にする)
+// 共通のサクセスアラート
 export const multipurposeSuccessAlertState = atom({
   key: "multipurposeSuccessAlertState",
   default: {

@@ -1,13 +1,13 @@
 import React from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
-  defaultErrorAlertState,
+  multipurposeErrorAlertState,
   showTweetMoreButtonState,
   spinnerState,
   tweetListState,
   userProfileState,
 } from "src/atoms/atom";
-import BasicExecutionButton from "src/components/atoms/buttons/BasicExecutionButton";
+import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
 import Spinner from "src/components/atoms/progress/Spinner";
 import { getNextTweetList } from "src/firebase/firestore/tweets/get/getNextTweetList";
 
@@ -16,8 +16,8 @@ const MoreTweetButton = () => {
   const userProfile = useRecoilValue(userProfileState);
   // つぶやきリストのstate
   const [tweetList, setTweetList] = useRecoilState(tweetListState);
-  // 共通エラー用の変更関数
-  const setError = useSetRecoilState(defaultErrorAlertState);
+  // エラーstate
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
   // スピナーのstate
   const [running, setRunning] = useRecoilState(spinnerState);
   // もっと見るボタンの表示、非表示state
@@ -39,7 +39,7 @@ const MoreTweetButton = () => {
         setShowMoreButton(false);
       }
     } else {
-      setError(true);
+      setError({ status: true, message: "ページを取得できませんでした。" });
     }
     setRunning(false);
   };
@@ -49,7 +49,7 @@ const MoreTweetButton = () => {
       {running ? (
         <Spinner />
       ) : showMoreButton ? (
-        <BasicExecutionButton
+        <ExecutionButton
           onClick={fetchNextPage}
           buttonLabel="もっと見る"
           disabled={running}

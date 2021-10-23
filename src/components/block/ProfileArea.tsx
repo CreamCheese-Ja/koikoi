@@ -37,8 +37,6 @@ const ProfileArea = (props: Props) => {
   // プロフィール編集処理の実行
   const [editProfileRunning, setEditProfileRunning] = useState(false);
 
-  const editProfile = useCallback(() => {}, []);
-
   return (
     <div className={styles.container}>
       <h1 className={styles.name}>{name}</h1>

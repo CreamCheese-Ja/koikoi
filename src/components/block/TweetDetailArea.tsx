@@ -6,9 +6,9 @@ import { Divider } from "@material-ui/core";
 import TweetDetailLikeButton from "../modules/buttons/TweetDetailLikeButton";
 import { useRecoilValue } from "recoil";
 import { userProfileState } from "src/atoms/atom";
-import ShowTextFieldButton from "../atoms/buttons/ShowTextFieldButton";
 import TweetCommentField from "../modules/textFields/TweetCommentField";
 import UserPhoto from "../atoms/others/UserPhoto";
+import BasicButton from "../atoms/buttons/BasicButton";
 
 type Props = {
   user: UserData;
@@ -62,11 +62,10 @@ const TweetDetailArea = (props: Props) => {
           />
         </div>
         <div>
-          <ShowTextFieldButton
-            isShowField={isShowField}
+          <BasicButton
             onClick={openAndCloseField}
-            trueWord="入力欄を閉じる"
-            falseWord="コメントする"
+            buttonLabel={isShowField ? "入力欄を閉じる" : "コメントする"}
+            variant="text"
           />
         </div>
       </div>

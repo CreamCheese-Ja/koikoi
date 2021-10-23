@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
 import {
-  defaultErrorAlertState,
   getTweetCommentListRunningState,
+  multipurposeErrorAlertState,
 } from "src/atoms/atom";
-import BasicExecutionButton from "src/components/atoms/buttons/BasicExecutionButton";
+import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
 import Spinner from "src/components/atoms/progress/Spinner";
 import { getNextCommentList } from "src/firebase/firestore/tweets/get/getNextCommentList";
 import { TweetCommentList } from "src/type";
@@ -21,8 +21,8 @@ const MoreTweetCommentButton = (props: Props) => {
 
   const [running, setRunning] = useRecoilState(getTweetCommentListRunningState);
   const [isButtonDisplay, setIsButtonDisplay] = useState(true);
-  // 共通エラー用の変更関数
-  const setError = useSetRecoilState(defaultErrorAlertState);
+  // エラーstate
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
 
   const fetchNextPage = async () => {
     setRunning(true);
@@ -39,7 +39,7 @@ const MoreTweetCommentButton = (props: Props) => {
         setIsButtonDisplay(false);
       }
     } else {
-      setError(true);
+      setError({ status: true, message: "ページを取得できませんでした。" });
     }
     setRunning(false);
   };
@@ -49,7 +49,7 @@ const MoreTweetCommentButton = (props: Props) => {
       {running ? (
         <Spinner />
       ) : isButtonDisplay ? (
-        <BasicExecutionButton
+        <ExecutionButton
           onClick={fetchNextPage}
           buttonLabel="もっと見る"
           disabled={running}

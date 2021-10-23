@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import Image from "next/image";
-import noProfile from "public/images/no-profile.png";
+import defaultUserImage from "public/images/defaultUserImage.png";
 import Link from "next/link";
 
 type Props = {
@@ -12,7 +12,12 @@ type Props = {
 
 const defaultImage = (width: number, height: number) => {
   return (
-    <Image src={noProfile} width={width} height={height} alt="userPhoto" />
+    <Image
+      src={defaultUserImage}
+      width={width}
+      height={height}
+      alt="userPhoto"
+    />
   );
 };
 

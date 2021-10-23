@@ -1,28 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  logoutAlertState,
-  userMenuState,
+  multipurposeSuccessAlertState,
   userProfileState,
 } from "src/atoms/atom";
 import firebase from "../../../firebase/firebase";
+import { IconButton } from "@material-ui/core";
+import Image from "next/image";
+import styles from "styles/components/atoms/others/userPhoto.module.css";
+import defaultUserImage from "public/images/defaultUserImage.png";
 
 const UserMenu = () => {
   // ユーザーメニュー用のstate
-  const [userMenu, setUserMenu] = useRecoilState(userMenuState);
+  const [userMenu, setUserMenu] = useState<null | HTMLElement>(null);
 
-  // ユーザープロフィール用の変更関数
-  const setUserProfile = useSetRecoilState(userProfileState);
+  // ユーザープロフィール用state
+  const [userProfile, setUserProfile] = useRecoilState(userProfileState);
 
-  // ログアウトアラート用の変更関数
-  const setLogoutAlert = useSetRecoilState(logoutAlertState);
+  // サクセスアラート
+  const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
 
+  // メニュー開閉
+  const openUserMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setUserMenu(event.currentTarget);
+  };
   const handleClose = () => {
     setUserMenu(null);
   };
 
+  // ログアウト
   const logout = async () => {
     try {
       await firebase.auth().signOut();
@@ -39,13 +47,42 @@ const UserMenu = () => {
         numberOfBestAnswer: 0,
         numberOfLikes: 0,
       });
-      setLogoutAlert(true);
+      setSuccess({ status: true, message: "ログアウトしました。" });
       handleClose();
     } catch (error) {}
   };
 
   return (
     <div>
+      {userProfile.photoURL === "noImage" ? (
+        <IconButton
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={openUserMenu}
+          style={{ borderRadius: "50%", overflow: "hidden" }}
+        >
+          <Image
+            src={defaultUserImage}
+            width={40}
+            height={40}
+            alt="userPhoto"
+          />
+        </IconButton>
+      ) : (
+        <IconButton
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={openUserMenu}
+        >
+          <Image
+            src={userProfile.photoURL}
+            width={40}
+            height={40}
+            alt="userPhoto"
+            className={styles.image}
+          />
+        </IconButton>
+      )}
       <Menu
         id="simple-menu"
         anchorEl={userMenu}

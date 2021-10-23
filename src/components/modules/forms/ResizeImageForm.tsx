@@ -4,7 +4,7 @@ import Cropper from "react-easy-crop";
 import { Point, Area } from "react-easy-crop/types";
 import styles from "styles/components/modules/forms/resizeImageForm.module.css";
 import getCroppedImg from "src/common/cropImage";
-import BasicExecutionButton from "src/components/atoms/buttons/BasicExecutionButton";
+import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
 import { useSetRecoilState } from "recoil";
 import { multipurposeErrorAlertState } from "src/atoms/atom";
 
@@ -88,7 +88,7 @@ const ResizeImageForm = (props: Props) => {
           />
         </div>
         <div className={styles.button}>
-          <BasicExecutionButton
+          <ExecutionButton
             onClick={cropImage}
             buttonLabel="決定"
             disabled={running}

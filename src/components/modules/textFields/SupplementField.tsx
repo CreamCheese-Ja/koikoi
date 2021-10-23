@@ -9,7 +9,7 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { writeSupplement } from "src/firebase/firestore/consultations/write/writeSupplement";
-import MultilineBasicTextField from "../../atoms/input/MultilineBasicTextField";
+import MultilineTextFieldWithButton from "../../atoms/input/MultilineTextFieldWithButton";
 
 type Props = {
   userId: string;
@@ -66,7 +66,7 @@ const SupplementField = (props: Props) => {
     <>
       {displaySupplementField ? (
         <div>
-          <MultilineBasicTextField
+          <MultilineTextFieldWithButton
             label="補足"
             placeholder="恋愛相談の補足があれば入力してください(500文字以内)"
             value={value}
