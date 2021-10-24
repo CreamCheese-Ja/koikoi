@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   ageItem,
   bloodTypeItem,
@@ -11,8 +11,15 @@ import SelectBox from "src/components/atoms/input/SelectBox";
 import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
 import styles from "styles/components/modules/forms/editProfileForm.module.css";
 import InputImage from "src/components/modules/others/InputImage";
-import { useRecoilState } from "recoil";
-import { userProfileState } from "src/atoms/atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  multipurposeErrorAlertState,
+  multipurposeSuccessAlertState,
+  userProfileState,
+} from "src/atoms/atom";
+import { uploadUserImage } from "src/firebase/storage/uploadUserImage";
+import { getUserImageUrl } from "src/firebase/storage/getUserImageUrl";
+import { updateProfileData } from "src/firebase/firestore/users/write/updateProfile";
 
 type Props = {
   message: string;
@@ -22,10 +29,24 @@ type Props = {
   bloodType: string;
   sign: string;
   running: boolean;
+  setRunning: Dispatch<SetStateAction<boolean>>;
+  setIsDialogOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 const EditProfileForm = (props: Props) => {
-  const { message, gender, age, job, bloodType, sign, running } = props;
+  const {
+    message,
+    gender,
+    age,
+    job,
+    bloodType,
+    sign,
+    running,
+    setRunning,
+    setIsDialogOpen,
+  } = props;
+
+  const [croppedImage, setCroppedImage] = useState("");
 
   const [fieldMessage, setFieldMessage] = useState({
     text: message,
@@ -59,6 +80,10 @@ const EditProfileForm = (props: Props) => {
   });
   const [userProfile, setUserProfile] = useRecoilState(userProfileState);
 
+  // 共通のエラー、サクセスアラートの変更関数
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
+  const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
+
   const selectValues = [
     {
       value: fieldGender,
@@ -82,17 +107,82 @@ const EditProfileForm = (props: Props) => {
     },
   ];
 
-  const updateProfile = () => {
+  useEffect(() => {
+    setFieldMessage((message) => ({
+      ...message,
+      errorStatus: false,
+      errorMessage: "",
+    }));
+  }, [fieldMessage.text]);
+
+  // ユーザー情報の更新
+  const updateProfile = async () => {
+    if (fieldMessage.text.length > 1000) {
+      setFieldMessage((message) => ({
+        ...message,
+        errorStatus: true,
+        errorMessage: "自己紹介は1000文字以内です。",
+      }));
+      return;
+    }
+    setRunning(true);
     // ①storageに画像を保存
+    const uploadResult = await uploadUserImage(userProfile.id, croppedImage);
+    if (!uploadResult) {
+      setError({ status: true, message: "エラーが発生しました。" });
+      setRunning(false);
+      return;
+    }
     // ②storageのURLを取得
+    const getUrlResult = await getUserImageUrl(userProfile.id);
+    if (!getUrlResult) {
+      setError({ status: true, message: "エラーが発生しました。" });
+      setRunning(false);
+      return;
+    }
     // ③画像のURLとプロフィールをfirestoreに登録
-    // ④上記の内容でプロフィールstateを更新
+    const updateResult = await updateProfileData(
+      userProfile.id,
+      getUrlResult,
+      fieldMessage.text,
+      fieldGender.text,
+      fieldAge.text,
+      fieldJob.text,
+      fieldBloodType.text,
+      fieldSign.text
+    );
+    if (!updateResult) {
+      setError({ status: true, message: "エラーが発生しました。" });
+      setRunning(false);
+      return;
+    }
+    // ④プロフィールstateを更新
+    setUserProfile((data) => ({
+      ...data,
+      photoURL: getUrlResult,
+      message: fieldMessage.text,
+      gender: fieldGender.text,
+      age: fieldAge.text,
+      job: fieldJob.text,
+      bloodType: fieldBloodType.text,
+      sign: fieldSign.text,
+    }));
+    // ⑤恋愛相談、つぶやきリスト、ランキングを更新?
+    // TODO
+
+    setRunning(false);
+    setSuccess({ status: true, message: "プロフィールを更新しました。" });
+    setIsDialogOpen(false);
   };
 
   return (
     <div>
       <div>
-        <InputImage photoURL={userProfile.photoURL} />
+        <InputImage
+          photoURL={userProfile.photoURL}
+          croppedImage={croppedImage}
+          setCroppedImage={setCroppedImage}
+        />
       </div>
       <div className={styles.input}>
         <MultilineTextField

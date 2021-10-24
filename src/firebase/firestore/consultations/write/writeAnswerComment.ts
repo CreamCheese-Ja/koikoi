@@ -1,4 +1,4 @@
-import firebase, { db, timeStamp } from "src/firebase/firebase";
+import { db, timeStamp } from "src/firebase/firebase";
 
 // 回答に返信する機能
 export const writeAnswerComment = async (

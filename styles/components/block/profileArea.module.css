@@ -36,6 +36,9 @@
   margin: auto;
   margin-bottom: 20px;
   text-align: initial;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 .detailArea {
   width: 400px;

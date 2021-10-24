@@ -1,18 +1,26 @@
-import React, { useCallback, useState } from "react";
+import React, {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useState,
+} from "react";
 import UserPhoto from "../../atoms/others/UserPhoto";
 import BasicDialog from "../../atoms/dialogs/BasicDialog";
 import ResizeImageForm from "src/components/modules/forms/ResizeImageForm";
 import loadImage from "blueimp-load-image";
+import styles from "styles/components/modules/others/inputImage.module.css";
 
 type Props = {
   photoURL: string;
+  croppedImage: string;
+  setCroppedImage: Dispatch<SetStateAction<string>>;
 };
 
-const InputImage = (props: Props) => {
-  const { photoURL } = props;
+const InputImage = memo((props: Props) => {
+  const { photoURL, croppedImage, setCroppedImage } = props;
 
   const [preview, setPreview] = useState("");
-  const [croppedImage, setCroppedImage] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [running, setRunning] = useState(false);
 
@@ -43,47 +51,36 @@ const InputImage = (props: Props) => {
     setDialogOpen((status) => !status);
   }, [dialogOpen]);
 
+  const croppedImageStyle = {
+    width: "150px",
+    height: "150px",
+    borderRadius: "50%",
+  };
+
   return (
     <>
-      {croppedImage === "" ? (
-        <div style={{ textAlign: "center" }}>
+      <div className={styles.photoArea}>
+        {croppedImage === "" ? (
           <UserPhoto photoURL={photoURL} width={150} height={150} />
-        </div>
-      ) : (
-        <div style={{ textAlign: "center" }}>
-          <div style={{ display: "inline-block" }}>
-            <img
-              src={croppedImage}
-              alt="preview"
-              style={{
-                width: "150px",
-                height: "150px",
-                borderRadius: "50%",
-              }}
-            />
+        ) : (
+          <div className={styles.croppedImageArea}>
+            <img src={croppedImage} alt="preview" style={croppedImageStyle} />
           </div>
-        </div>
-      )}
-      <label style={{ textAlign: "center" }}>
-        <div>
-          <p
-            style={{
-              display: "inline-block",
-              color: "#f48fb1",
-              cursor: "pointer",
-            }}
-          >
-            画像を変更
-          </p>
-        </div>
-        <input
-          type="file"
-          name="photo"
-          onChange={handleChangeFile}
-          style={{ display: "none" }}
-          accept="image/*"
-        />
-      </label>
+        )}
+      </div>
+      <div className={styles.inputArea}>
+        <label>
+          <p className={styles.labelWord}>画像を変更</p>
+          <input
+            type="file"
+            name="photo"
+            onChange={handleChangeFile}
+            className={styles.input}
+            accept="image/*"
+          />
+        </label>
+      </div>
+
       <BasicDialog
         title=""
         open={dialogOpen}
@@ -102,6 +99,6 @@ const InputImage = (props: Props) => {
       />
     </>
   );
-};
+});
 
 export default InputImage;

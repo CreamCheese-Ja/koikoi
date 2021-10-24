@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import Image from "next/image";
 import defaultUserImage from "public/images/defaultUserImage.png";
 import Link from "next/link";
+import styles from "styles/components/atoms/others/userPhoto.module.css";
 
 type Props = {
   photoURL: string;
@@ -17,12 +18,21 @@ const defaultImage = (width: number, height: number) => {
       width={width}
       height={height}
       alt="userPhoto"
+      className={styles.image}
     />
   );
 };
 
 const userImage = (photoURL: string, width: number, height: number) => {
-  return <Image src={photoURL} width={width} height={height} alt="userPhoto" />;
+  return (
+    <Image
+      src={photoURL}
+      width={width}
+      height={height}
+      alt="userPhoto"
+      className={styles.image}
+    />
+  );
 };
 
 const UserPhoto = memo((props: Props) => {

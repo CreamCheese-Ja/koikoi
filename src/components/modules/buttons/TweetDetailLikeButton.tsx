@@ -2,7 +2,6 @@ import React, { memo, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   authCheckState,
-  defaultErrorAlertState,
   loginAndSignUpFormState,
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
@@ -34,8 +33,6 @@ const TweetDetailLikeButton = memo((props: Props) => {
   // 共通のエラー、サクセスアラートの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
-  // デフォルトエラーの変更関数
-  const setDefaultError = useSetRecoilState(defaultErrorAlertState);
   // ログイン、新規登録フォーム用の変更関数
   const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
   // つぶやきリストのstate
@@ -80,7 +77,7 @@ const TweetDetailLikeButton = memo((props: Props) => {
         setSuccess({ status: true, message: "「いいね！」しました。" });
       } else {
         // エラーメッセージ
-        setDefaultError(true);
+        setError({ status: true, message: "エラーが発生しました。" });
       }
     } else if (operationPossible === "ログインが必要です。") {
       // ログインフォームを開く

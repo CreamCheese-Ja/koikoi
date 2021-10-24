@@ -30,7 +30,7 @@ export default function Layout({ children, ...props }: Props) {
   const setTweetList = useSetRecoilState(tweetListState);
   // onAuthStateChangedでチェック有無の変更関数
   const setAuthCheck = useSetRecoilState(authCheckState);
-  // 多目的エラーアラート用の変更関数
+  // エラーアラート用の変更関数
   const setMultipurposeErrorAlert = useSetRecoilState(
     multipurposeErrorAlertState
   );

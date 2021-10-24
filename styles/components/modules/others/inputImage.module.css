@@ -1,0 +1,22 @@
+.photoArea {
+  text-align: center;
+}
+.croppedImageArea {
+  display: inline-block;
+}
+.croppedImage {
+  width: "150px";
+  height: "150px";
+  border-radius: "50%";
+}
+.inputArea {
+  text-align: center;
+}
+.labelWord {
+  display: inline-block;
+  color: #f48fb1;
+  cursor: pointer;
+}
+.input {
+  display: none;
+}

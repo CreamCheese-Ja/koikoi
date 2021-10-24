@@ -24,6 +24,7 @@ const MoreTweetCommentButton = (props: Props) => {
   // エラーstate
   const setError = useSetRecoilState(multipurposeErrorAlertState);
 
+  // ページ取得
   const fetchNextPage = async () => {
     setRunning(true);
     // 次の10件を取得
@@ -48,7 +49,7 @@ const MoreTweetCommentButton = (props: Props) => {
     <>
       {running ? (
         <Spinner />
-      ) : isButtonDisplay ? (
+      ) : isButtonDisplay && commentList.length === 10 ? (
         <ExecutionButton
           onClick={fetchNextPage}
           buttonLabel="もっと見る"

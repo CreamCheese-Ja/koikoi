@@ -31,9 +31,9 @@ const ProfileArea = (props: Props) => {
   // プロフィール編集ダイアログ開閉
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   // ダイアログ開閉
-  const openCloseDialog = () => {
+  const openCloseDialog = useCallback(() => {
     setIsDialogOpen((isOpen) => !isOpen);
-  };
+  }, [isDialogOpen]);
   // プロフィール編集処理の実行
   const [editProfileRunning, setEditProfileRunning] = useState(false);
 
@@ -105,6 +105,8 @@ const ProfileArea = (props: Props) => {
                 bloodType={userProfile.bloodType}
                 sign={userProfile.sign}
                 running={editProfileRunning}
+                setRunning={setEditProfileRunning}
+                setIsDialogOpen={setIsDialogOpen}
               />
             }
           />
