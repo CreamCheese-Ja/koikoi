@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import Router from "next/router";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -94,7 +95,7 @@ const CreateTweetDialog = (props: Props) => {
           content.text,
           userProfile.id
         );
-        if (typeof createResult === "string") {
+        if (createResult) {
           // つぶやきリストが空ではない場合、新しいデータを取得
           if (tweetList.length !== 0) {
             const newData = await getNewTweetData(createResult);
@@ -108,6 +109,8 @@ const CreateTweetDialog = (props: Props) => {
           setContent((content) => ({ ...content, text: "" }));
           handleClose();
           setPostMenu(null);
+          // つぶやきページにpush
+          Router.push("/tweets");
         } else {
           setError({ status: true, message: "エラーが発生しました。" });
         }

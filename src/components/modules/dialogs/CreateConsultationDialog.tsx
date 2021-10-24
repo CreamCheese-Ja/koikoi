@@ -1,4 +1,5 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import Router from "next/router";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -105,29 +106,29 @@ const CreateConsultationDialog = (props: Props) => {
       const operationPossible = userOperationPossibleCheck(userProfile.name);
       if (typeof operationPossible !== "string") {
         // firestoreに書き込み
-        const create = await createConsultation(
+        const createResult = await createConsultation(
           category.text,
           title.text,
           content.text,
           userProfile.id
         );
-        if (create) {
+        if (createResult) {
           // 恋愛相談リストが空ではない場合、新しいデータを取得
           if (consultationList.length !== 0) {
-            const newData = await getNewConsultationData(create);
+            const newData = await getNewConsultationData(createResult);
             if (newData) {
               setConsultationList([newData, ...consultationList]);
             }
-            // 投稿完了操作
-            setSuccess({ status: true, message: "投稿しました。" });
-            setCategory((category) => ({ ...category, text: "" }));
-            setTitle((title) => ({ ...title, text: "" }));
-            setContent((content) => ({ ...content, text: "" }));
-            handleClose();
-            setPostMenu(null);
-          } else {
-            setError({ status: true, message: "エラーが発生しました。" });
           }
+          // 投稿完了操作
+          setSuccess({ status: true, message: "投稿しました。" });
+          setCategory((category) => ({ ...category, text: "" }));
+          setTitle((title) => ({ ...title, text: "" }));
+          setContent((content) => ({ ...content, text: "" }));
+          handleClose();
+          setPostMenu(null);
+          // 恋愛相談ページにpush
+          Router.push("/");
         } else {
           setError({ status: true, message: "エラーが発生しました。" });
         }

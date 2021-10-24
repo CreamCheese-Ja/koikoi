@@ -4,9 +4,9 @@ import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import UserConsulListArea from "./UserConsulListArea";
-import { UserAnswerList, UserConsulList, UserTweetList } from "src/type";
 import UserTweetListArea from "./UserTweetListArea";
 import UserAnswerListArea from "./UserAnswerListArea";
+import { UserAnswerList, UserConsulList, UserTweetList } from "src/type";
 
 const useStyles = makeStyles({
   root: {
@@ -25,12 +25,14 @@ const PostListArea = (props: Props) => {
   const { userId } = props;
   const classes = useStyles();
   const [value, setValue] = useState(0);
+
   const [userConsulList, setUserConsulList] = useState<UserConsulList>([]);
-  const [isFetchConsul, setIsFetchConsul] = useState(false);
-  const [userTweetList, setUserTweetList] = useState<UserTweetList>([]);
-  const [isFetchTweet, setIsFetchTweet] = useState(false);
   const [userAnswerList, setUserAnswerList] = useState<UserAnswerList>([]);
+  const [userTweetList, setUserTweetList] = useState<UserTweetList>([]);
+
+  const [isFetchConsul, setIsFetchConsul] = useState(false);
   const [isFetchAnswer, setIsFetchAnswer] = useState(false);
+  const [isFetchTweet, setIsFetchTweet] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);

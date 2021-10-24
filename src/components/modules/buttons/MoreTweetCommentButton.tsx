@@ -49,7 +49,7 @@ const MoreTweetCommentButton = (props: Props) => {
     <>
       {running ? (
         <Spinner />
-      ) : isButtonDisplay && commentList.length === 10 ? (
+      ) : isButtonDisplay && commentList.length >= 10 ? (
         <ExecutionButton
           onClick={fetchNextPage}
           buttonLabel="もっと見る"

@@ -126,12 +126,14 @@ const EditProfileForm = (props: Props) => {
       return;
     }
     setRunning(true);
-    // ①storageに画像を保存
-    const uploadResult = await uploadUserImage(userProfile.id, croppedImage);
-    if (!uploadResult) {
-      setError({ status: true, message: "エラーが発生しました。" });
-      setRunning(false);
-      return;
+    if (croppedImage !== "") {
+      // ①画像変更を行なった場合storageに画像を保存
+      const uploadResult = await uploadUserImage(userProfile.id, croppedImage);
+      if (!uploadResult) {
+        setError({ status: true, message: "エラーが発生しました。" });
+        setRunning(false);
+        return;
+      }
     }
     // ②storageのURLを取得
     const getUrlResult = await getUserImageUrl(userProfile.id);
