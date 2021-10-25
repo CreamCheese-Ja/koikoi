@@ -8,6 +8,11 @@ import styles from "styles/components/block/userListArea.module.css";
 import Category from "../atoms/others/Category";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined";
+import { useSetRecoilState } from "recoil";
+import { multipurposeErrorAlertState } from "src/atoms/atom";
+import { getNextUserTweetList } from "src/firebase/firestore/tweets/get/getNextUserTweetList";
+import Spinner from "../atoms/progress/Spinner";
+import ExecutionButton from "../atoms/buttons/ExecutionButton";
 
 type Props = {
   userId: string;
@@ -15,6 +20,8 @@ type Props = {
   setUserTweetList: Dispatch<SetStateAction<UserTweetList>>;
   isFetchTweet: boolean;
   setIsFetchTweet: Dispatch<SetStateAction<boolean>>;
+  running: boolean;
+  setRunning: Dispatch<SetStateAction<boolean>>;
 };
 
 const UserTweetListArea = (props: Props) => {
@@ -24,20 +31,50 @@ const UserTweetListArea = (props: Props) => {
     setUserTweetList,
     isFetchTweet,
     setIsFetchTweet,
+    running,
+    setRunning,
   } = props;
 
+  const [showMoreButton, setShowMoreButton] = useState(true);
+  // エラーstate
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
+
   useEffect(() => {
+    if (userTweetList.length === 0) {
+      setRunning(true);
+    }
     const getPage = async () => {
       const firstPage = await getUserTweetList(userId);
       if (firstPage) {
         setUserTweetList(firstPage);
-        setIsFetchTweet(true);
       }
+      setIsFetchTweet(true);
+      setRunning(false);
     };
     if (!isFetchTweet) {
       getPage();
     }
   }, []);
+
+  // 次のページ取得
+  const fetchNextPage = async () => {
+    setRunning(true);
+    // 次の10件を取得
+    const nextPage = await getNextUserTweetList(
+      userId,
+      userTweetList[userTweetList.length - 1].createdAt
+    );
+    if (nextPage) {
+      setUserTweetList([...userTweetList, ...nextPage]);
+      // 取得数が10未満であればボタンを非表示にする
+      if (nextPage.length !== 10) {
+        setShowMoreButton(false);
+      }
+    } else {
+      setError({ status: true, message: "ページを取得できませんでした。" });
+    }
+    setRunning(false);
+  };
 
   return (
     <div className={styles.container}>
@@ -91,6 +128,19 @@ const UserTweetListArea = (props: Props) => {
       ) : (
         <div></div>
       )}
+      <div className={styles.nextButton}>
+        {running ? (
+          <Spinner />
+        ) : showMoreButton && userTweetList.length >= 10 ? (
+          <ExecutionButton
+            onClick={fetchNextPage}
+            buttonLabel="もっと見る"
+            disabled={running}
+          />
+        ) : (
+          <div></div>
+        )}
+      </div>
     </div>
   );
 };

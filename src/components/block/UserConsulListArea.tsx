@@ -1,5 +1,5 @@
 import { Divider } from "@material-ui/core";
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import { getUserConsultationList } from "src/firebase/firestore/consultations/get/getUserConsultationList";
 import { UserConsulList } from "src/type";
@@ -8,6 +8,11 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined";
 import Category from "src/components/atoms/others/Category";
 import Link from "next/link";
+import Spinner from "../atoms/progress/Spinner";
+import ExecutionButton from "../atoms/buttons/ExecutionButton";
+import { getNextUserConsultationList } from "src/firebase/firestore/consultations/get/getNextUserConsultationList";
+import { useSetRecoilState } from "recoil";
+import { multipurposeErrorAlertState } from "src/atoms/atom";
 
 type Props = {
   userId: string;
@@ -15,6 +20,8 @@ type Props = {
   setUserConsulList: Dispatch<SetStateAction<UserConsulList>>;
   isFetchConsul: boolean;
   setIsFetchConsul: Dispatch<SetStateAction<boolean>>;
+  running: boolean;
+  setRunning: Dispatch<SetStateAction<boolean>>;
 };
 
 const UserConsulListArea = (props: Props) => {
@@ -24,20 +31,50 @@ const UserConsulListArea = (props: Props) => {
     setUserConsulList,
     isFetchConsul,
     setIsFetchConsul,
+    running,
+    setRunning,
   } = props;
 
+  const [showMoreButton, setShowMoreButton] = useState(true);
+  // エラーstate
+  const setError = useSetRecoilState(multipurposeErrorAlertState);
+
   useEffect(() => {
+    if (userConsulList.length === 0) {
+      setRunning(true);
+    }
     const getPage = async () => {
       const firstPage = await getUserConsultationList(userId);
       if (firstPage) {
         setUserConsulList(firstPage);
-        setIsFetchConsul(true);
       }
+      setIsFetchConsul(true);
+      setRunning(false);
     };
     if (!isFetchConsul) {
       getPage();
     }
   }, []);
+
+  // 次のページ取得
+  const fetchNextPage = async () => {
+    setRunning(true);
+    // 次の10件を取得
+    const nextPage = await getNextUserConsultationList(
+      userId,
+      userConsulList[userConsulList.length - 1].createdAt
+    );
+    if (nextPage) {
+      setUserConsulList([...userConsulList, ...nextPage]);
+      // 取得数が10未満であればボタンを非表示にする
+      if (nextPage.length !== 10) {
+        setShowMoreButton(false);
+      }
+    } else {
+      setError({ status: true, message: "ページを取得できませんでした。" });
+    }
+    setRunning(false);
+  };
 
   return (
     <div className={styles.container}>
@@ -93,6 +130,19 @@ const UserConsulListArea = (props: Props) => {
       ) : (
         <div></div>
       )}
+      <div className={styles.nextButton}>
+        {running ? (
+          <Spinner />
+        ) : showMoreButton && userConsulList.length >= 10 ? (
+          <ExecutionButton
+            onClick={fetchNextPage}
+            buttonLabel="もっと見る"
+            disabled={running}
+          />
+        ) : (
+          <div></div>
+        )}
+      </div>
     </div>
   );
 };

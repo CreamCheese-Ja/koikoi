@@ -1,4 +1,4 @@
-import firebase, { db, timeStamp } from "src/firebase/firebase";
+import firebase, { db } from "src/firebase/firebase";
 import { ConsultationList } from "src/type";
 
 // 恋愛相談のリスト(次の10件)を取得し加工した値を返す関数

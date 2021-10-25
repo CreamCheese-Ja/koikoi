@@ -56,8 +56,8 @@ const TweetListArea = () => {
       const data = await getTweetsList(userId);
       if (data) {
         setTweetList(data);
-        setRunning(false);
       }
+      setRunning(false);
     };
     // authCheckがtrueになっていて、つぶやきリストが空の場合に動作する
     if (!tweetList.length && authCheck) {

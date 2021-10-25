@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
@@ -25,6 +25,7 @@ const PostListArea = (props: Props) => {
   const { userId } = props;
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [running, setRunning] = useState(false);
 
   const [userConsulList, setUserConsulList] = useState<UserConsulList>([]);
   const [userAnswerList, setUserAnswerList] = useState<UserAnswerList>([]);
@@ -34,16 +35,9 @@ const PostListArea = (props: Props) => {
   const [isFetchAnswer, setIsFetchAnswer] = useState(false);
   const [isFetchTweet, setIsFetchTweet] = useState(false);
 
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+  const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
-
-  useEffect(() => {
-    // 最初にここで3種類のリストを空にする
-    setUserConsulList([]);
-    setUserTweetList([]);
-    setUserAnswerList([]);
-  }, []);
 
   return (
     <div>
@@ -67,6 +61,8 @@ const PostListArea = (props: Props) => {
           setUserConsulList={setUserConsulList}
           isFetchConsul={isFetchConsul}
           setIsFetchConsul={setIsFetchConsul}
+          running={running}
+          setRunning={setRunning}
         />
       ) : (
         <div></div>
@@ -78,6 +74,8 @@ const PostListArea = (props: Props) => {
           setUserAnswerList={setUserAnswerList}
           isFetchAnswer={isFetchAnswer}
           setIsFetchAnswer={setIsFetchAnswer}
+          running={running}
+          setRunning={setRunning}
         />
       ) : (
         <div></div>
@@ -89,6 +87,8 @@ const PostListArea = (props: Props) => {
           setUserTweetList={setUserTweetList}
           isFetchTweet={isFetchTweet}
           setIsFetchTweet={setIsFetchTweet}
+          running={running}
+          setRunning={setRunning}
         />
       ) : (
         <div></div>

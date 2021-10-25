@@ -58,8 +58,8 @@ const ConsultationListArea = () => {
       const data = await getConsultationList(userId);
       if (data) {
         setConsultationList(data);
-        setRunning(false);
       }
+      setRunning(false);
     };
     // authCheckがtrueになっていて、恋愛相談リストが空の場合に動作する
     if (!consultationList.length && authCheck) {

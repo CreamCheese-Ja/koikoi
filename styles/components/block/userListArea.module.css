@@ -20,6 +20,7 @@
   transition: 0.2s;
 }
 .tweetContent {
+  margin-top: 10px;
   margin-bottom: 5px;
 }
 .tweetLink {
@@ -77,4 +78,9 @@
 .noneMessage {
   text-align: center;
   padding-top: 10px;
+}
+.nextButton {
+  text-align: center;
+  padding-top: 30px;
+  margin-bottom: 50px;
 }
