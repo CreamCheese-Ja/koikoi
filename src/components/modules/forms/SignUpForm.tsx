@@ -14,6 +14,9 @@ import { createNewProfile } from "src/firebase/firestore/users/write/createNewPr
 import { updateDisplayName } from "src/firebase/authentication/updateDisplayName";
 import { sendConfirmationEmail } from "src/firebase/authentication/sendConfirmationEmail";
 import { signUpEmailAndPassword } from "src/firebase/authentication/signUpEmailAndPassword";
+import PasswordField, {
+  PasswordState,
+} from "src/components/atoms/input/PasswordField";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -38,7 +41,10 @@ const SignUpForm = (props: Props) => {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState<PasswordState>({
+    password: "",
+    showPassword: false,
+  });
   const [inputError, setInputError] = useState({
     name: false,
     email: false,
@@ -85,8 +91,20 @@ const SignUpForm = (props: Props) => {
 
   // firebaseAuthに新規アカウントを登録するメソッド(それぞれのcatchは一旦無視)
   const postNewUser = async () => {
+    // 最初にブラウザ側でpasswordチェック(サーバー側だと6文字以上であれば通るため)
+    if (password.password.length < 8) {
+      setInputError({ ...inputError, password: true });
+      setErrorMessage({
+        ...errorMessage,
+        password: "パスワードは8文字以上です。",
+      });
+      return;
+    }
     // ①新規登録
-    const isSignUpOrMessage = await signUpEmailAndPassword(email, password);
+    const isSignUpOrMessage = await signUpEmailAndPassword(
+      email,
+      password.password
+    );
     if (isSignUpOrMessage === "このメールアドレスは既に使用されています。") {
       setInputError({ ...inputError, email: true });
       setErrorMessage({
@@ -103,7 +121,7 @@ const SignUpForm = (props: Props) => {
       });
       return;
     }
-    if (isSignUpOrMessage === "パスワードは6文字以上です。") {
+    if (isSignUpOrMessage === "パスワードは8文字以上です。") {
       setInputError({ ...inputError, password: true });
       setErrorMessage({
         ...errorMessage,
@@ -209,7 +227,7 @@ const SignUpForm = (props: Props) => {
             label="ユーザー名"
             type="text"
             value={name}
-            onChange={setName}
+            setValue={setName}
             error={inputError.name}
             errorMessage={errorMessage.name}
             disabled={running}
@@ -218,19 +236,17 @@ const SignUpForm = (props: Props) => {
             label="メールアドレス"
             type="email"
             value={email}
-            onChange={setEmail}
+            setValue={setEmail}
             error={inputError.email}
             errorMessage={errorMessage.email}
             disabled={running}
           />
-          <BasicTextField
-            label="パスワード(6文字以上)"
-            type="password"
-            value={password}
-            onChange={setPassword}
+          <PasswordField
             error={inputError.password}
             errorMessage={errorMessage.password}
-            disabled={running}
+            password={password}
+            setPassword={setPassword}
+            placeholder="8文字以上"
           />
         </div>
         <div style={{ textAlign: "center", marginTop: "15px" }}>

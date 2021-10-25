@@ -9,6 +9,9 @@ import {
   multipurposeSuccessAlertState,
 } from "src/atoms/atom";
 import { loginEmailAndPassword } from "src/firebase/authentication/loginEmailAndPassword";
+import PasswordField, {
+  PasswordState,
+} from "src/components/atoms/input/PasswordField";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -31,7 +34,11 @@ const LoginForm = (props: Props) => {
   const classes = useStyles();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState<PasswordState>({
+    password: "",
+    showPassword: false,
+  });
+
   const [inputError, setInputError] = useState({
     email: false,
     password: false,
@@ -71,11 +78,14 @@ const LoginForm = (props: Props) => {
   const loginUser = async () => {
     setRunning(true);
     // ログイン処理
-    const isLogionOrMessage = await loginEmailAndPassword(email, password);
+    const isLogionOrMessage = await loginEmailAndPassword(
+      email,
+      password.password
+    );
     if (typeof isLogionOrMessage === "boolean" && isLogionOrMessage) {
       // ログイン成功時の処理
       setEmail("");
-      setPassword("");
+      setPassword({ ...password, password: "" });
       setSuccess({ status: true, message: "ログインしました。" });
       setLoginAndSignUpForm({ ...loginAndSignUpForm, status: false });
     } else {
@@ -102,19 +112,17 @@ const LoginForm = (props: Props) => {
         label="メールアドレス"
         type="email"
         value={email}
-        onChange={setEmail}
+        setValue={setEmail}
         error={inputError.email}
         errorMessage={errorMessage.email}
         disabled={running}
       />
-      <BasicTextField
-        label="パスワード"
-        type="password"
-        value={password}
-        onChange={setPassword}
+      <PasswordField
         error={inputError.password}
         errorMessage={errorMessage.password}
-        disabled={running}
+        password={password}
+        setPassword={setPassword}
+        placeholder=""
       />
       <div style={{ textAlign: "center", marginTop: "15px" }}>
         <Button
