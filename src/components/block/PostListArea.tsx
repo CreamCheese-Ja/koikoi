@@ -1,21 +1,9 @@
-import { ChangeEvent, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { useEffect, useState } from "react";
 import UserConsulListArea from "./UserConsulListArea";
 import UserTweetListArea from "./UserTweetListArea";
 import UserAnswerListArea from "./UserAnswerListArea";
 import { UserAnswerList, UserConsulList, UserTweetList } from "src/type";
-
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-    borderRadius: "5px 5px 0 0",
-    boxShadow: "none",
-    borderBottom: "1px solid #b0b0b0",
-  },
-});
+import TabBar from "../atoms/others/TabBar";
 
 type Props = {
   userId: string;
@@ -23,8 +11,8 @@ type Props = {
 
 const PostListArea = (props: Props) => {
   const { userId } = props;
-  const classes = useStyles();
-  const [value, setValue] = useState(0);
+
+  const [tabValue, setTabValue] = useState(0);
   const [running, setRunning] = useState(false);
 
   const [userConsulList, setUserConsulList] = useState<UserConsulList>([]);
@@ -35,26 +23,18 @@ const PostListArea = (props: Props) => {
   const [isFetchAnswer, setIsFetchAnswer] = useState(false);
   const [isFetchTweet, setIsFetchTweet] = useState(false);
 
-  const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
-  };
+  const tabItem = ["恋愛相談", "回答", "つぶやき"];
 
   return (
     <div>
-      <Paper className={classes.root}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          centered
-        >
-          <Tab label="恋愛相談" />
-          <Tab label="回答" />
-          <Tab label="つぶやき" />
-        </Tabs>
-      </Paper>
-      {value === 0 ? (
+      <TabBar
+        tabItem={tabItem}
+        value={tabValue}
+        setValue={setTabValue}
+        tabWidth="160px"
+        centered={true}
+      />
+      {tabValue === 0 ? (
         <UserConsulListArea
           userId={userId}
           userConsulList={userConsulList}
@@ -67,7 +47,7 @@ const PostListArea = (props: Props) => {
       ) : (
         <div></div>
       )}
-      {value === 1 ? (
+      {tabValue === 1 ? (
         <UserAnswerListArea
           userId={userId}
           userAnswerList={userAnswerList}
@@ -80,7 +60,7 @@ const PostListArea = (props: Props) => {
       ) : (
         <div></div>
       )}
-      {value === 2 ? (
+      {tabValue === 2 ? (
         <UserTweetListArea
           userId={userId}
           userTweetList={userTweetList}

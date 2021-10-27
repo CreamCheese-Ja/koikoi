@@ -185,3 +185,47 @@ export type UserAnswerData = {
 
 // ユーザーページの回答リストの型
 export type UserAnswerList = UserAnswerData[];
+
+// ユーザーいいねランキング
+export type UserLikeRanking = {
+  id: string;
+  name: string;
+  photoURL: string;
+  numberOfLikes: number;
+}[];
+
+// ユーザーベストアンサーランキング
+export type UserBestAnswerRanking = {
+  id: string;
+  name: string;
+  photoURL: string;
+  numberOfBestAnswer: number;
+}[];
+
+// 恋愛相談いいねランキング
+export type ConsulLikeRanking = {
+  id: string;
+  title: string;
+  numberOfLikes: number;
+}[];
+
+// 恋愛相談回答数ランキング
+export type ConsulAnswerRanking = {
+  id: string;
+  title: string;
+  numberOfAnswer: number;
+}[];
+
+// つぶやきいいねランキング
+export type TweetLikeRanking = {
+  id: string;
+  content: string;
+  numberOfLikes: number;
+}[];
+
+// つぶやきコメント数ランキング
+export type TweetCommentRanking = {
+  id: string;
+  content: string;
+  numberOfComments: number;
+}[];

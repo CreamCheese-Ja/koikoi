@@ -9,7 +9,7 @@ import theme from "../src/theme";
 import Layout from "../src/components/layout";
 import { RecoilRoot } from "recoil";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, router }: AppProps) {
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
@@ -27,11 +27,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <RecoilRoot>
           <Layout>
-            <Component {...pageProps} />
+            <Component {...pageProps} key={router.asPath} />
           </Layout>
         </RecoilRoot>
       </ThemeProvider>

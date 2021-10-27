@@ -1,27 +1,25 @@
 import React, { useState } from "react";
 import TabBar from "src/components/atoms/others/TabBar";
-import { UserBestAnswerRanking, UserLikeRanking } from "src/type";
+import { ConsulAnswerRanking, ConsulLikeRanking } from "src/type";
 import styles from "styles/components/block/common/allRanking.module.css";
-import UserBestAnswerRankingList from "./UserBestAnswerRankingList";
-import UserLikeRankingList from "./UserLikeRankingList";
+import ConsulAnswerRankingList from "./ConsulAnswerRankingList";
+import ConsulLikeRankingList from "./ConsulLikeRankingList";
 
-const UserRanking = () => {
+const ConsulRanking = () => {
   const [tabValue, setTabValue] = useState(0);
   const [running, setRunning] = useState(false);
 
-  const [likeList, setLikeList] = useState<UserLikeRanking>([]);
-  const [bestAnswerList, setBestAnswerList] = useState<UserBestAnswerRanking>(
-    []
-  );
+  const [likeList, setLikeList] = useState<ConsulLikeRanking>([]);
+  const [answerList, setAnswerList] = useState<ConsulAnswerRanking>([]);
 
   const [isFetchLikeList, setIsFetchLikeList] = useState(false);
-  const [isFetchBestAnswerList, setIsFetchBestAnswerList] = useState(false);
+  const [isFetchAnswerList, setIsFetchAnswerList] = useState(false);
 
-  const tabItem = ["いいね数", "BA数"];
+  const tabItem = ["いいね数", "回答数"];
 
   return (
     <div className={styles.rankingArea}>
-      <h3>ユーザーランキング</h3>
+      <h3>恋愛相談ランキング</h3>
       <TabBar
         tabItem={tabItem}
         value={tabValue}
@@ -30,7 +28,7 @@ const UserRanking = () => {
         centered={false}
       />
       {tabValue === 0 ? (
-        <UserLikeRankingList
+        <ConsulLikeRankingList
           rankingList={likeList}
           setRankingList={setLikeList}
           isFetchData={isFetchLikeList}
@@ -42,11 +40,11 @@ const UserRanking = () => {
         <div></div>
       )}
       {tabValue === 1 ? (
-        <UserBestAnswerRankingList
-          rankingList={bestAnswerList}
-          setRankingList={setBestAnswerList}
-          isFetchData={isFetchBestAnswerList}
-          setIsFetchData={setIsFetchBestAnswerList}
+        <ConsulAnswerRankingList
+          rankingList={answerList}
+          setRankingList={setAnswerList}
+          isFetchData={isFetchAnswerList}
+          setIsFetchData={setIsFetchAnswerList}
           running={running}
           setRunning={setRunning}
         />
@@ -57,4 +55,4 @@ const UserRanking = () => {
   );
 };
 
-export default UserRanking;
+export default ConsulRanking;

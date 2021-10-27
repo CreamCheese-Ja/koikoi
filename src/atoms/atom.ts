@@ -115,6 +115,7 @@ export const displaySupplementFieldState = atom({
 export type Supplements = {
   [s: string]: string;
 };
+
 // 補足のstate
 export const supplementsState = atom<Supplements>({
   key: "supplementsState",
@@ -183,7 +184,7 @@ export const tweetCommentCountState = atom({
   default: 0,
 });
 
-// 恋愛相談用のもっと見るボタンの表示、非表示
+// つぶやき用のもっと見るボタンの表示、非表示
 export const showTweetMoreButtonState = atom({
   key: "showTweetMoreButtonState",
   default: true,
