@@ -2,8 +2,11 @@
   display: flex;
   justify-content: center;
   text-align: initial;
+  padding-left: 0;
 }
 .navList li {
-  margin: 0 15px;
+  margin: 0 5px;
   margin-bottom: 20px;
+  width: 100px;
+  text-align: center;
 }

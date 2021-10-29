@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import StarBorder from "@material-ui/icons/StarBorder";
+import EmojiEventsOutlinedIcon from "@material-ui/icons/EmojiEventsOutlined";
 import BasicAlertDialog from "../../atoms/dialogs/AlertDialog";
 import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -107,7 +107,7 @@ const BestAnswerButton = (props: Props) => {
   return (
     <div>
       <div onClick={dialogOpen}>
-        <StarBorder style={{ cursor: "pointer" }} />
+        <EmojiEventsOutlinedIcon style={{ cursor: "pointer" }} />
       </div>
       <BasicAlertDialog
         open={open}

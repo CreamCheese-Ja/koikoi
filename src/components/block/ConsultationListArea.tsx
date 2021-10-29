@@ -103,7 +103,9 @@ const ConsultationListArea = () => {
                 ? consul.content
                 : consul.content.slice(0, 100) + "..."}
             </p>
-            <Category categoryLabel={consul.category} />
+            <div>
+              <Category categoryLabel={consul.category} />
+            </div>
             <div className={styles.goodAndSolution}>
               <div className={styles.goodAndAnswer}>
                 <div className={styles.goodButtonArea}>

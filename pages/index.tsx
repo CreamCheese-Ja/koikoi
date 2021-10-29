@@ -1,7 +1,10 @@
 import Head from "next/head";
-import MoreConsultationButton from "src/components/modules/buttons/MoreConsultationButton";
-import styles from "../styles/Home.module.css";
-import ConsultationListArea from "src/components/block/ConsultationListArea";
+import Link from "next/link";
+import FluidShape from "src/components/atoms/others/FluidShape";
+import styles from "styles/home.module.css";
+import Image from "next/image";
+import topImage from "public/images/koikoiTop.svg";
+import logo from "public/images/koikoiLogo.png";
 
 export default function Home() {
   return (
@@ -12,14 +15,53 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.container}>
-        <h1 className={styles.title}>恋愛相談</h1>
-        <div>
-          <ConsultationListArea />
-        </div>
-        <div className={styles.nextButton}>
-          <MoreConsultationButton />
-        </div>
+        <header className={styles.header}>
+          <div className={styles.imageContainer}>
+            <div className={styles.image}>
+              <Image
+                src={topImage}
+                width={400}
+                height={400}
+                alt="topImage"
+              ></Image>
+            </div>
+            <div className={styles.fluid}>
+              <FluidShape />
+            </div>
+          </div>
+        </header>
+        <main className={styles.main}>
+          <div>
+            <div className={styles.logo}>
+              <Image src={logo} width={153} height={66} alt="logo"></Image>
+            </div>
+            <p className={styles.description}>
+              誰もが抱える恋愛の悩みや不安、それらを気軽に共有できる場所。
+              <br />
+              見るのも書くのも完全自由。
+              <br />
+              ちょっとしたことでも大きなことでも、みんなと共有することで視野が広がる。
+              <br />
+              さあ、今すぐ参加して自分の恋を成就させよう！
+            </p>
+          </div>
+          <div className={styles.buttonArea}>
+            <div>
+              <Link href="/consultations">
+                <a className={styles.button}>恋愛相談を見る</a>
+              </Link>
+            </div>
+            <div>
+              <Link href="/tweets">
+                <a className={styles.button}>つぶやきを見る</a>
+              </Link>
+            </div>
+          </div>
+        </main>
       </div>
+      <footer className={styles.footer}>
+        <p>&copy;2021 koikoi</p>
+      </footer>
     </div>
   );
 }

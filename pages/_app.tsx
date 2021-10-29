@@ -29,9 +29,13 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <RecoilRoot>
-          <Layout>
+          {router.asPath === "/" ? (
             <Component {...pageProps} key={router.asPath} />
-          </Layout>
+          ) : (
+            <Layout>
+              <Component {...pageProps} key={router.asPath} />
+            </Layout>
+          )}
         </RecoilRoot>
       </ThemeProvider>
     </React.Fragment>

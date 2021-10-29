@@ -7,7 +7,7 @@ const HeaderNav = memo(() => {
     <nav>
       <ul className={styles.navList}>
         <li>
-          <Link href="/">
+          <Link href="/consultations">
             <a>恋愛相談</a>
           </Link>
         </li>
@@ -16,8 +16,6 @@ const HeaderNav = memo(() => {
             <a>つぶやき</a>
           </Link>
         </li>
-        <li>記事・ニュース</li>
-        <li>動画</li>
       </ul>
     </nav>
   );

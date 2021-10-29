@@ -10,7 +10,7 @@ import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import { ProfileItem } from "src/type";
 import styles from "styles/components/block/bestAnswerArea.module.css";
 import AnswerLikeButton from "../modules/buttons/AnswerLikeButton";
-import StarIcon from "@material-ui/icons/Star";
+import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
 import { getBestAnswerData } from "src/firebase/firestore/consultations/get/getBestAnswerData";
 import UserPhoto from "../atoms/others/UserPhoto";
 
@@ -51,7 +51,7 @@ const BestAnswerArea = (props: Props) => {
         <div className={styles.container}>
           <div className={styles.titleArea}>
             <h2 className={styles.areaTitle}>ベストアンサー</h2>
-            <StarIcon style={{ color: "#fdd835" }} fontSize="large" />
+            <EmojiEventsIcon style={{ color: "gold" }} fontSize="large" />
           </div>
           <Divider />
           {"user" in bestAnswer ? (

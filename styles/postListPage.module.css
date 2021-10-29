@@ -1,0 +1,17 @@
+.container {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+.title {
+  padding-bottom: 30px;
+  padding-left: 10px;
+}
+.nextButton {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+@media (max-width: 600px) {
+}

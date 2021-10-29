@@ -5,10 +5,9 @@ const FooterNav = () => {
   return (
     <div>
       <ul className={styles.navList}>
-        <li>About</li>
         <li>利用規約</li>
         <li>プライバシー</li>
-        <li>ご意見</li>
+        <li>お問い合わせ</li>
       </ul>
     </div>
   );
