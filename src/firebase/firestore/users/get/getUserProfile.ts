@@ -7,7 +7,7 @@ export const getUserProfile = async (
 ): Promise<ProfileItem | null> => {
   try {
     const doc = await db.collection("users").doc(userUid).get();
-    if (doc) {
+    if (doc.exists) {
       return {
         id: doc.id,
         name: doc.get("name"),

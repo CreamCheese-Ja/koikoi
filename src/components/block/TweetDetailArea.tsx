@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { UserData } from "src/type";
-import styles from "styles/consultation.module.css";
+import styles from "styles/components/block/detailArea.module.css";
 import Category from "../atoms/others/Category";
 import { Divider } from "@material-ui/core";
 import TweetDetailLikeButton from "../modules/buttons/TweetDetailLikeButton";

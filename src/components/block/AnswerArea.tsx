@@ -64,7 +64,7 @@ const AnswerArea = (props: Props) => {
   }, [authCheck]);
 
   return (
-    <div>
+    <div className={styles.container}>
       <h2 className={styles.areaTitle}>
         {numberOfAnswer !== 0 ? "回答" : "回答待ち"}
       </h2>

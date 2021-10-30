@@ -1,4 +1,4 @@
-import styles from "styles/consultation.module.css";
+import styles from "styles/components/block/detailArea.module.css";
 import Divider from "@material-ui/core/Divider";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {

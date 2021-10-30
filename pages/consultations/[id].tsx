@@ -1,6 +1,5 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import styles from "styles/consultation.module.css";
 import { useRecoilValue } from "recoil";
 import { userProfileState } from "src/atoms/atom";
 import AnswerArea from "src/components/block/AnswerArea";
@@ -30,9 +29,8 @@ export default function Consultation({ post }: SSRProps) {
         solution={solution}
         userProfile={userProfile}
       />
-      <div className={styles.container}>
-        <AnswerArea consultationId={consultationId} consulUserId={user.id} />
-      </div>
+
+      <AnswerArea consultationId={consultationId} consulUserId={user.id} />
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import HeaderNav from "./nav/HeaderNav";
-import styles from "styles/components/block/header.module.css";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -29,8 +28,19 @@ const Header = () => {
   // ログイン、新規登録フォーム用の変更関数
   const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
 
+  const headerAreaStyle: { [key: string]: string | number } = {
+    position: "fixed",
+    width: "100%",
+    zIndex: 3,
+  };
+
+  const buttonAreaStyle = {
+    display: "flex",
+    alignItems: "center",
+  };
+
   return (
-    <header className={styles.header}>
+    <header style={headerAreaStyle}>
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title}>
@@ -62,7 +72,7 @@ const Header = () => {
               </Button>
             </div>
           ) : (
-            <div className={styles.postButtonAndPhoto}>
+            <div style={buttonAreaStyle}>
               <PostMenu />
               <UserMenu />
             </div>

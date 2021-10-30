@@ -9,7 +9,6 @@ import {
 import MultilineTextField from "src/components/atoms/input/MultilineTextField";
 import SelectBox from "src/components/atoms/input/SelectBox";
 import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
-import styles from "styles/components/modules/forms/editProfileForm.module.css";
 import InputImage from "src/components/modules/others/InputImage";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -45,6 +44,9 @@ const EditProfileForm = (props: Props) => {
     setRunning,
     setIsDialogOpen,
   } = props;
+
+  const inputStyle = { margin: "20px 0" };
+  const buttonAreaStyle: { [key: string]: string } = { textAlign: "center" };
 
   const [croppedImage, setCroppedImage] = useState("");
 
@@ -186,7 +188,7 @@ const EditProfileForm = (props: Props) => {
           setCroppedImage={setCroppedImage}
         />
       </div>
-      <div className={styles.input}>
+      <div style={inputStyle}>
         <MultilineTextField
           label="自己紹介"
           value={fieldMessage.text}
@@ -197,7 +199,7 @@ const EditProfileForm = (props: Props) => {
         />
       </div>
       {selectValues.map((values, index) => (
-        <div key={index} className={styles.input}>
+        <div key={index} style={inputStyle}>
           <SelectBox
             value={values.value.text}
             setValue={values.setValue}
@@ -209,7 +211,7 @@ const EditProfileForm = (props: Props) => {
           />
         </div>
       ))}
-      <div className={styles.button}>
+      <div style={buttonAreaStyle}>
         <ExecutionButton
           onClick={updateProfile}
           buttonLabel="更新する"

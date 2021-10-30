@@ -1,9 +1,0 @@
-.header {
-  position: fixed;
-  width: 100%;
-  z-index: 3;
-}
-.postButtonAndPhoto {
-  display: flex;
-  align-items: center;
-}

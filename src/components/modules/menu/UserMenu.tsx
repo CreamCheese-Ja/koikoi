@@ -11,6 +11,7 @@ import { IconButton } from "@material-ui/core";
 import Image from "next/image";
 import styles from "styles/components/atoms/others/userPhoto.module.css";
 import defaultUserImage from "public/images/defaultUserImage.png";
+import Link from "next/link";
 
 const UserMenu = () => {
   // ユーザーメニュー用のstate
@@ -90,8 +91,12 @@ const UserMenu = () => {
         open={Boolean(userMenu)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem>
+          <Link href={`/users/${userProfile.id}`}>
+            <a>マイページ</a>
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>設定</MenuItem>
         <MenuItem onClick={logout}>ログアウト</MenuItem>
       </Menu>
     </div>
