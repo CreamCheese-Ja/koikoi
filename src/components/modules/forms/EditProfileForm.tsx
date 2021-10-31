@@ -18,7 +18,7 @@ import {
 } from "src/atoms/atom";
 import { uploadUserImage } from "src/firebase/storage/uploadUserImage";
 import { getUserImageUrl } from "src/firebase/storage/getUserImageUrl";
-import { updateProfileData } from "src/firebase/firestore/users/write/updateProfile";
+import { updateProfileData } from "src/firebase/firestore/users/write/updateProfileData";
 
 type Props = {
   message: string;

@@ -12,7 +12,7 @@ import {
 import { getIsNameAvailable } from "src/firebase/firestore/users/get/getIsNameAvailable";
 import { createNewProfile } from "src/firebase/firestore/users/write/createNewProfile";
 import { updateDisplayName } from "src/firebase/authentication/updateDisplayName";
-import { sendConfirmationEmail } from "src/firebase/authentication/sendConfirmationEmail";
+import { sendVerificationEmail } from "src/firebase/authentication/sendVerificationEmail";
 import { signUpEmailAndPassword } from "src/firebase/authentication/signUpEmailAndPassword";
 import PasswordField, {
   PasswordState,
@@ -170,8 +170,8 @@ const SignUpForm = (props: Props) => {
     }
 
     // ④確認メールの送信
-    const isSendConfirmationEmail = await sendConfirmationEmail();
-    if (!isSendConfirmationEmail) {
+    const resultSendVerificationEmail = await sendVerificationEmail();
+    if (!resultSendVerificationEmail) {
       setError({ status: true, message: "エラーが発生しました。" });
       return;
     }

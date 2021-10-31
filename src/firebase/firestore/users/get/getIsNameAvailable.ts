@@ -1,7 +1,7 @@
 import { db } from "src/firebase/firebase";
 
 // ユーザー名が使用できるかどうか確認するメソッド
-export const getIsNameAvailable = async (name: string) => {
+export const getIsNameAvailable = async (name: string): Promise<boolean> => {
   try {
     const doc = await db.collection("users").where("name", "==", name).get();
     if (doc.empty) {

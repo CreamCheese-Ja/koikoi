@@ -128,7 +128,7 @@ const CreateConsultationDialog = (props: Props) => {
           handleClose();
           setPostMenu(null);
           // 恋愛相談ページにpush
-          Router.push("/");
+          Router.push("/consultations");
         } else {
           setError({ status: true, message: "エラーが発生しました。" });
         }

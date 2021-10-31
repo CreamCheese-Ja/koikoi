@@ -1,6 +1,7 @@
 import firebase from "src/firebase/firebase";
 
-export const sendConfirmationEmail = async (): Promise<boolean> => {
+// メールアドレスの有効性を確認するメールの送信
+export const sendVerificationEmail = async (): Promise<boolean> => {
   try {
     await firebase.auth().currentUser?.sendEmailVerification();
     return true;

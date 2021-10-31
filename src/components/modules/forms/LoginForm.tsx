@@ -82,7 +82,7 @@ const LoginForm = (props: Props) => {
       email,
       password.password
     );
-    if (typeof isLogionOrMessage === "boolean" && isLogionOrMessage) {
+    if (isLogionOrMessage === true) {
       // ログイン成功時の処理
       setEmail("");
       setPassword({ ...password, password: "" });

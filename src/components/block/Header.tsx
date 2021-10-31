@@ -6,10 +6,10 @@ import Typography from "@material-ui/core/Typography";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginAndSignUpFormState, userProfileState } from "src/atoms/atom";
 import PostMenu from "../modules/menu/PostMenu";
-import UserMenu from "../modules/menu/UserMenu";
 import Button from "@material-ui/core/Button";
 import logo from "public/images/koikoiLogo.png";
 import Image from "next/image";
+import DrawerMenu from "../modules/others/DrawerMenu";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -43,9 +43,9 @@ const Header = () => {
     <header style={headerAreaStyle}>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title}>
+          <div className={classes.title}>
             <Image src={logo} width={102} height={44}></Image>
-          </Typography>
+          </div>
           {/* <SearchBar /> */}
           <HeaderNav />
           {userProfile.name === "" ? (
@@ -74,7 +74,7 @@ const Header = () => {
           ) : (
             <div style={buttonAreaStyle}>
               <PostMenu />
-              <UserMenu />
+              <DrawerMenu />
             </div>
           )}
         </Toolbar>

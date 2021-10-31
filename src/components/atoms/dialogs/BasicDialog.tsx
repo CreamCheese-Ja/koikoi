@@ -29,7 +29,7 @@ const BasicDialog = (props: Props) => {
         <DialogTitle id="alert-dialog-title">
           <p style={{ textAlign: "center" }}>{title}</p>
         </DialogTitle>
-        <DialogContent>{content}</DialogContent>
+        <div style={{ padding: "8px 24px" }}>{content}</div>
         <DialogActions>
           <Button onClick={onClick} color="primary" disabled={running}>
             キャンセル

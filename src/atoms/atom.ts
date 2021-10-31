@@ -53,6 +53,18 @@ export const passwordChangeDialogState = atom({
   default: false,
 });
 
+// メールアドレス検証ダイアログ開閉
+export const verificationEmailDialogState = atom({
+  key: "verificationEmailDialogState",
+  default: false,
+});
+
+// メールアドレス変更ダイアログ開閉
+// export const emailChangeDialogState = atom({
+//   key: "emailChangeDialogState",
+//   default: false,
+// });
+
 // 恋愛相談投稿ダイアログ開閉
 export const createConsultationDialogState = atom({
   key: "createConsultationDialogState",

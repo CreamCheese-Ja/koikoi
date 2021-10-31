@@ -57,7 +57,7 @@ const EmailChangeDialog = () => {
     setRunning(true);
     const user = firebase.auth().currentUser;
     try {
-      await user!.updateEmail(email);
+      await user?.updateEmail(email);
       setSuccess({ status: true, message: "メールアドレスを変更しました。" });
     } catch (error) {
       const e = error as firebase.FirebaseError;
@@ -110,7 +110,7 @@ const EmailChangeDialog = () => {
             label="メールアドレス"
             type="email"
             value={email}
-            onChange={setEmail}
+            setValue={setEmail}
             error={inputError.email}
             errorMessage={errorMessage.email}
             disabled={running}
@@ -123,7 +123,7 @@ const EmailChangeDialog = () => {
               onClick={changeEmail}
               disabled={running}
             >
-              変更
+              変更する
             </Button>
           </div>
         </DialogContent>
