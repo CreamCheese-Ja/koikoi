@@ -44,7 +44,7 @@ const PasswordField = memo((props: Props) => {
     <div>
       <FormControl
         variant="outlined"
-        style={{ width: "230px", marginTop: "10px", marginBottom: "10px" }}
+        style={{ width: "250px", marginTop: "10px", marginBottom: "10px" }}
       >
         <InputLabel
           htmlFor="outlined-adornment-password"

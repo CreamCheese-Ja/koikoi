@@ -29,7 +29,7 @@ const BasicTextField = memo((props: Props) => {
         value={value}
         disabled={disabled}
         onChange={handleChange}
-        style={{ width: "230px", marginTop: "10px", marginBottom: "10px" }}
+        style={{ width: "250px", marginTop: "10px", marginBottom: "10px" }}
       />
     </div>
   );
