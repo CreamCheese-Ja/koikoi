@@ -3,7 +3,7 @@ import MoreConsultationButton from "src/components/modules/buttons/MoreConsultat
 import styles from "../styles/postListPage.module.css";
 import ConsultationListArea from "src/components/block/ConsultationListArea";
 
-const consultations = () => {
+const Consultations = () => {
   return (
     <div>
       <Head>
@@ -24,4 +24,4 @@ const consultations = () => {
   );
 };
 
-export default consultations;
+export default Consultations;

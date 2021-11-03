@@ -3,7 +3,7 @@ import TweetListArea from "src/components/block/TweetListArea";
 import MoreTweetButton from "src/components/modules/buttons/MoreTweetButton";
 import styles from "../styles/postListPage.module.css";
 
-const tweets = () => {
+const Tweets = () => {
   return (
     <div>
       <Head>
@@ -24,4 +24,4 @@ const tweets = () => {
   );
 };
 
-export default tweets;
+export default Tweets;

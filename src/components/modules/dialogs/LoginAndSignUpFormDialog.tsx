@@ -103,11 +103,10 @@ const LoginAndSignUpFormDialog = () => {
                 >
                   ログインはこちら
                 </Button>
-                <div>
+                <div className={styles.caution}>
+                  会員登録することで、
                   <span className={styles.terms}>利用規約</span>
-                  を確認の上
-                  <br />
-                  ご登録ください
+                  に同意したものとみなします。
                 </div>
               </div>
             </div>
