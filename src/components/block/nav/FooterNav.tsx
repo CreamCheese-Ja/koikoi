@@ -19,7 +19,11 @@ const FooterNav = () => {
             <a>利用規約</a>
           </Link>
         </li>
-        <li>プライバシー</li>
+        <li>
+          <Link href="/support/privacy">
+            <a>プライバシーポリシー</a>
+          </Link>
+        </li>
         <li onClick={openCloseContactDialog} style={{ cursor: "pointer" }}>
           お問い合わせ
         </li>

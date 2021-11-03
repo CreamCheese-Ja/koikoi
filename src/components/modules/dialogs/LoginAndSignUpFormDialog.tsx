@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import Router from "next/router";
 import {
   Button,
   Dialog,
@@ -42,6 +43,12 @@ const LoginAndSignUpFormDialog = () => {
   // パスワード変更ダイアログを開くメソッド
   const openPasswordChangeDialog = () => {
     setPasswordChange(true);
+  };
+
+  // 利用規約ページに遷移
+  const pushTerms = () => {
+    Router.push("/support/terms");
+    setLoginAndSignUpForm({ ...loginAndSignUpForm, status: false });
   };
 
   return (
@@ -105,7 +112,9 @@ const LoginAndSignUpFormDialog = () => {
                 </Button>
                 <div className={styles.caution}>
                   会員登録することで、
-                  <span className={styles.terms}>利用規約</span>
+                  <span className={styles.terms} onClick={pushTerms}>
+                    利用規約
+                  </span>
                   に同意したものとみなします。
                 </div>
               </div>

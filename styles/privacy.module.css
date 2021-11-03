@@ -1,0 +1,38 @@
+.container {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+.title {
+  padding-bottom: 30px;
+  padding-left: 10px;
+}
+.topDescription {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.main {
+  padding: 0 10px;
+}
+.block {
+  margin: 20px 0 40px;
+}
+.subTitle {
+  margin-bottom: 10px;
+}
+.ol {
+  padding-left: 20px;
+}
+.oneItemOl {
+  padding-left: 0;
+}
+.listItem {
+  list-style-type: decimal;
+}
+.innerList {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+.innerListItem {
+  list-style-type: lower-latin;
+}
