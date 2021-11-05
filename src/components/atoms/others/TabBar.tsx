@@ -1,5 +1,5 @@
 import { makeStyles, Paper, Tab, Tabs } from "@material-ui/core";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, memo, SetStateAction } from "react";
 
 const useStyles = makeStyles({
   root: {
@@ -18,7 +18,7 @@ type Props = {
   centered: boolean;
 };
 
-const TabBar = (props: Props) => {
+const TabBar = memo((props: Props) => {
   const { tabItem, value, setValue, tabWidth, centered } = props;
   const classes = useStyles();
 
@@ -43,6 +43,6 @@ const TabBar = (props: Props) => {
       </Paper>
     </>
   );
-};
+});
 
 export default TabBar;

@@ -8,11 +8,11 @@ import styles from "styles/components/block/userListArea.module.css";
 import Category from "../atoms/others/Category";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined";
-import { useSetRecoilState } from "recoil";
-import { multipurposeErrorAlertState } from "src/atoms/atom";
+import { SetterOrUpdater } from "recoil";
 import { getNextUserTweetList } from "src/firebase/firestore/tweets/get/getNextUserTweetList";
 import Spinner from "../atoms/progress/Spinner";
 import ExecutionButton from "../atoms/buttons/ExecutionButton";
+import DeleteButton from "../atoms/buttons/DeleteButton";
 
 type Props = {
   userId: string;
@@ -22,6 +22,12 @@ type Props = {
   setIsFetchTweet: Dispatch<SetStateAction<boolean>>;
   running: boolean;
   setRunning: Dispatch<SetStateAction<boolean>>;
+  currentUserId: string;
+  setError: SetterOrUpdater<{
+    status: boolean;
+    message: string;
+  }>;
+  openDeleteDialog: (id: string, postName: string) => void;
 };
 
 const UserTweetListArea = (props: Props) => {
@@ -33,11 +39,12 @@ const UserTweetListArea = (props: Props) => {
     setIsFetchTweet,
     running,
     setRunning,
+    currentUserId,
+    setError,
+    openDeleteDialog,
   } = props;
 
   const [showMoreButton, setShowMoreButton] = useState(true);
-  // エラーstate
-  const setError = useSetRecoilState(multipurposeErrorAlertState);
 
   useEffect(() => {
     if (userTweetList.length === 0) {
@@ -117,6 +124,13 @@ const UserTweetListArea = (props: Props) => {
                   </div>
                   <div>{tweet.numberOfComments}</div>
                 </div>
+                {currentUserId === userId ? (
+                  <DeleteButton
+                    onClick={() => openDeleteDialog(tweet.tweetId, "tweet")}
+                  />
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>

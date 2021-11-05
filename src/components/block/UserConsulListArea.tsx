@@ -1,5 +1,5 @@
 import { Divider } from "@material-ui/core";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, memo, SetStateAction, useEffect, useState } from "react";
 import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import { getUserConsultationList } from "src/firebase/firestore/consultations/get/getUserConsultationList";
 import { UserConsulList } from "src/type";
@@ -11,8 +11,8 @@ import Link from "next/link";
 import Spinner from "../atoms/progress/Spinner";
 import ExecutionButton from "../atoms/buttons/ExecutionButton";
 import { getNextUserConsultationList } from "src/firebase/firestore/consultations/get/getNextUserConsultationList";
-import { useSetRecoilState } from "recoil";
-import { multipurposeErrorAlertState } from "src/atoms/atom";
+import { SetterOrUpdater } from "recoil";
+import DeleteButton from "../atoms/buttons/DeleteButton";
 
 type Props = {
   userId: string;
@@ -22,9 +22,15 @@ type Props = {
   setIsFetchConsul: Dispatch<SetStateAction<boolean>>;
   running: boolean;
   setRunning: Dispatch<SetStateAction<boolean>>;
+  currentUserId: string;
+  setError: SetterOrUpdater<{
+    status: boolean;
+    message: string;
+  }>;
+  openDeleteDialog: (id: string, postName: string) => void;
 };
 
-const UserConsulListArea = (props: Props) => {
+const UserConsulListArea = memo((props: Props) => {
   const {
     userId,
     userConsulList,
@@ -33,11 +39,12 @@ const UserConsulListArea = (props: Props) => {
     setIsFetchConsul,
     running,
     setRunning,
+    currentUserId,
+    setError,
+    openDeleteDialog,
   } = props;
 
   const [showMoreButton, setShowMoreButton] = useState(true);
-  // エラーstate
-  const setError = useSetRecoilState(multipurposeErrorAlertState);
 
   useEffect(() => {
     if (userConsulList.length === 0) {
@@ -112,6 +119,15 @@ const UserConsulListArea = (props: Props) => {
                   </div>
                   <div>{consul.numberOfAnswer}</div>
                 </div>
+                {currentUserId === userId ? (
+                  <DeleteButton
+                    onClick={() =>
+                      openDeleteDialog(consul.consultationId, "consul")
+                    }
+                  />
+                ) : (
+                  <></>
+                )}
               </div>
               <div>
                 {consul.solution ? (
@@ -125,6 +141,7 @@ const UserConsulListArea = (props: Props) => {
           <Divider />
         </div>
       ))}
+
       {userConsulList.length === 0 && isFetchConsul ? (
         <p className={styles.noneMessage}>恋愛相談はありません</p>
       ) : (
@@ -145,6 +162,6 @@ const UserConsulListArea = (props: Props) => {
       </div>
     </div>
   );
-};
+});
 
 export default UserConsulListArea;
