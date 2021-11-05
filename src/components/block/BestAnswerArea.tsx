@@ -1,5 +1,6 @@
 import { Divider } from "@material-ui/core";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+import Image from "next/image";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   authCheckState,
@@ -10,9 +11,9 @@ import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import { ProfileItem } from "src/type";
 import styles from "styles/components/block/bestAnswerArea.module.css";
 import AnswerLikeButton from "../modules/buttons/AnswerLikeButton";
-import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
 import { getBestAnswerData } from "src/firebase/firestore/consultations/get/getBestAnswerData";
 import UserPhoto from "../atoms/others/UserPhoto";
+import medal from "public/images/medal.png";
 
 type Props = {
   consulId: string;
@@ -51,7 +52,7 @@ const BestAnswerArea = (props: Props) => {
         <div className={styles.container}>
           <div className={styles.titleArea}>
             <h2 className={styles.areaTitle}>ベストアンサー</h2>
-            <EmojiEventsIcon style={{ color: "gold" }} fontSize="large" />
+            <Image src={medal} width={50} height={55} alt="金メダル" />
           </div>
           <Divider />
           {"user" in bestAnswer ? (

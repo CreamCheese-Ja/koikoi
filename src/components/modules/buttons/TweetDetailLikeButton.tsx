@@ -42,6 +42,10 @@ const TweetDetailLikeButton = memo((props: Props) => {
   const like = async () => {
     // 自分の投稿にはいいねをさせない
     if (userId === userProfile.id) {
+      setError({
+        status: true,
+        message: "自分の投稿には「いいね！」出来ません。",
+      });
       return;
     }
     const operationPossible = userOperationPossibleCheck(userProfile.name);
