@@ -7,6 +7,7 @@ import getCroppedImg from "src/common/cropImage";
 import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
 import { useSetRecoilState } from "recoil";
 import { multipurposeErrorAlertState } from "src/atoms/atom";
+import loadImage from "blueimp-load-image";
 
 type Props = {
   setCroppedImage: Dispatch<SetStateAction<string>>;
@@ -51,7 +52,22 @@ const ResizeImageForm = (props: Props) => {
         croppedAreaPixels as Area
       );
       if (croppedImage) {
-        setCroppedImage(croppedImage);
+        const fetchImage = await fetch(croppedImage);
+        const blob = await fetchImage.blob();
+        // 画像サイズが0.5MBより大きくければ圧縮する
+        if (blob.size > 500000) {
+          const canvas = await loadImage(blob, {
+            maxWidth: 200,
+            maxHeight: 200,
+            canvas: true,
+          });
+          const canvasImage = canvas.image as HTMLCanvasElement;
+          canvasImage.toBlob((blob) => {
+            setCroppedImage(window.URL.createObjectURL(blob));
+          });
+        } else {
+          setCroppedImage(croppedImage);
+        }
       } else {
         setError({ status: true, message: "エラーが発生しました。" });
       }

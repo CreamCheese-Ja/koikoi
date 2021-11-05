@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import {
+  userBestAnswerRankingListState,
+  userLikeRankingListState,
+} from "src/atoms/atom";
 import TabBar from "src/components/atoms/others/TabBar";
-import { UserBestAnswerRanking, UserLikeRanking } from "src/type";
 import styles from "styles/components/block/common/allRanking.module.css";
 import UserBestAnswerRankingList from "./UserBestAnswerRankingList";
 import UserLikeRankingList from "./UserLikeRankingList";
@@ -9,9 +13,9 @@ const UserRanking = () => {
   const [tabValue, setTabValue] = useState(0);
   const [running, setRunning] = useState(false);
 
-  const [likeList, setLikeList] = useState<UserLikeRanking>([]);
-  const [bestAnswerList, setBestAnswerList] = useState<UserBestAnswerRanking>(
-    []
+  const [likeList, setLikeList] = useRecoilState(userLikeRankingListState);
+  const [bestAnswerList, setBestAnswerList] = useRecoilState(
+    userBestAnswerRankingListState
   );
 
   const [isFetchLikeList, setIsFetchLikeList] = useState(false);

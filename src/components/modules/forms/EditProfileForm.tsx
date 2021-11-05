@@ -12,8 +12,12 @@ import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
 import InputImage from "src/components/modules/others/InputImage";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
+  consultationListState,
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
+  tweetListState,
+  userBestAnswerRankingListState,
+  userLikeRankingListState,
   userProfileState,
 } from "src/atoms/atom";
 import { uploadUserImage } from "src/firebase/storage/uploadUserImage";
@@ -85,6 +89,16 @@ const EditProfileForm = (props: Props) => {
   // 共通のエラー、サクセスアラートの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
+  // 恋愛相談リスト変更関数
+  const setConsultationList = useSetRecoilState(consultationListState);
+  // つぶやきリスト変更関数
+  const setTweetList = useSetRecoilState(tweetListState);
+  // ユーザーいいねランキングリスト変更関数
+  const setUserLikeRankingList = useSetRecoilState(userLikeRankingListState);
+  // ユーザーBAランキングリスト変更関数
+  const setUserBestAnswerRankingList = useSetRecoilState(
+    userBestAnswerRankingListState
+  );
 
   const selectValues = [
     {
@@ -171,9 +185,59 @@ const EditProfileForm = (props: Props) => {
       bloodType: fieldBloodType.text,
       sign: fieldSign.text,
     }));
-    // ⑤恋愛相談、つぶやきリスト、ランキングを更新?
-    // TODO
-
+    // ⑤恋愛相談、つぶやきリスト、ランキングを更新
+    setConsultationList((listData) => {
+      const newListData = listData.map((data) => {
+        if (data.user.id === userProfile.id) {
+          const userData = data.user;
+          const newData = {
+            ...data,
+            user: { ...userData, photoURL: getUrlResult },
+          };
+          return newData;
+        } else {
+          return data;
+        }
+      });
+      return newListData;
+    });
+    setTweetList((listData) => {
+      const newListData = listData.map((data) => {
+        if (data.user.id === userProfile.id) {
+          const userData = data.user;
+          const newData = {
+            ...data,
+            user: { ...userData, photoURL: getUrlResult },
+          };
+          return newData;
+        } else {
+          return data;
+        }
+      });
+      return newListData;
+    });
+    setUserLikeRankingList((listData) => {
+      const newListData = listData.map((data) => {
+        if (data.id === userProfile.id) {
+          const newData = { ...data, photoURL: getUrlResult };
+          return newData;
+        } else {
+          return data;
+        }
+      });
+      return newListData;
+    });
+    setUserBestAnswerRankingList((listData) => {
+      const newListData = listData.map((data) => {
+        if (data.id === userProfile.id) {
+          const newData = { ...data, photoURL: getUrlResult };
+          return newData;
+        } else {
+          return data;
+        }
+      });
+      return newListData;
+    });
     setRunning(false);
     setSuccess({ status: true, message: "プロフィールを更新しました。" });
     setIsDialogOpen(false);

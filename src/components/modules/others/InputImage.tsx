@@ -8,7 +8,6 @@ import React, {
 import UserPhoto from "../../atoms/others/UserPhoto";
 import BasicDialog from "../../atoms/dialogs/BasicDialog";
 import ResizeImageForm from "src/components/modules/forms/ResizeImageForm";
-import loadImage from "blueimp-load-image";
 import styles from "styles/components/modules/others/inputImage.module.css";
 
 type Props = {
@@ -24,25 +23,11 @@ const InputImage = memo((props: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [running, setRunning] = useState(false);
 
+  // 切り取った画像の表示
   const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (files?.length !== 0 && files) {
-      // 画像サイズが0.5MBより大きくければ圧縮する
-      if (files[0].size > 500000) {
-        const canvas = await loadImage(files[0], {
-          maxWidth: 400,
-          maxHeight: 400,
-          canvas: true,
-        });
-        const canvasImage = canvas.image as HTMLCanvasElement;
-        canvasImage.toBlob((blob) => {
-          setPreview(window.URL.createObjectURL(blob));
-          // console.log(blob);
-        });
-      } else {
-        setPreview(window.URL.createObjectURL(files[0]));
-        // console.log(files[0]);
-      }
+      setPreview(window.URL.createObjectURL(files[0]));
       openAndCloseDialog();
     }
   };

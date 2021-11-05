@@ -6,6 +6,8 @@ import {
   ProfileItem,
   TweetCommentList,
   TweetList,
+  UserBestAnswerRanking,
+  UserLikeRanking,
 } from "src/type";
 
 // ローディングスピナーON,OFF(恋愛相談リスト,つぶやきリストの取得)
@@ -206,4 +208,17 @@ export const showTweetMoreButtonState = atom({
 export const getTweetCommentListRunningState = atom({
   key: "getTweetCommentListRunningState",
   default: false,
+});
+
+// ***************************ランキング関連***************************
+
+// ユーザーいいねランキングリスト
+export const userLikeRankingListState = atom<UserLikeRanking>({
+  key: "userLikeRankingListState",
+  default: [],
+});
+// ユーザーベストアンサーランキングリスト
+export const userBestAnswerRankingListState = atom<UserBestAnswerRanking>({
+  key: "userBestAnswerRankingListState",
+  default: [],
 });
