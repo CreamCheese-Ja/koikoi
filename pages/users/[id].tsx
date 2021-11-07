@@ -1,5 +1,8 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import { useEffect } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { pageNumberState, userProfileState } from "src/atoms/atom";
 import PostListArea from "src/components/block/PostListArea";
 import ProfileArea from "src/components/block/ProfileArea";
 import { getUserProfile } from "src/firebase/firestore/users/get/getUserProfile";
@@ -11,6 +14,17 @@ type SSRProps = {
 
 export default function User({ post }: SSRProps) {
   const { id, name } = post;
+
+  const userProfile = useRecoilValue(userProfileState);
+  const setPageNumber = useSetRecoilState(pageNumberState);
+
+  useEffect(() => {
+    if (userProfile.id === id) {
+      setPageNumber(2);
+    } else {
+      setPageNumber(5);
+    }
+  }, [userProfile]);
 
   return (
     <div>

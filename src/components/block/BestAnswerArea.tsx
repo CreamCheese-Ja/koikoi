@@ -68,7 +68,7 @@ const BestAnswerArea = (props: Props) => {
                   <div className={styles.userName}>{bestAnswer.user.name}</div>
                 </div>
                 <div className={styles.date}>
-                  {changeDateFormatAddTime(bestAnswer.createdAt) + "に回答"}
+                  {changeDateFormatAddTime(bestAnswer.createdAt)}
                 </div>
               </div>
               <p className={styles.content}>{bestAnswer.content}</p>

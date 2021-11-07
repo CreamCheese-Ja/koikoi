@@ -1,9 +1,18 @@
 import Head from "next/head";
+import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+import { pageNumberState } from "src/atoms/atom";
 import TweetListArea from "src/components/block/TweetListArea";
 import MoreTweetButton from "src/components/modules/buttons/MoreTweetButton";
 import styles from "../styles/postListPage.module.css";
 
 const Tweets = () => {
+  const setPageNumber = useSetRecoilState(pageNumberState);
+
+  useEffect(() => {
+    setPageNumber(1);
+  }, []);
+
   return (
     <div>
       <Head>

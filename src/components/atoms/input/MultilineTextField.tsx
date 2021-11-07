@@ -34,8 +34,7 @@ const MultilineTextField = memo((props: Props) => {
         value={value}
         onChange={handleChange}
         variant="outlined"
-        style={{ width: "250px" }}
-        inputProps={{ style: { fontSize: 12 } }}
+        style={{ width: "230px" }}
         disabled={disabled}
       />
     </>

@@ -6,7 +6,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     root: {
       "& > *": {
-        padding: "7px 80px",
+        padding: "7px 70px",
         color: "white",
       },
     },

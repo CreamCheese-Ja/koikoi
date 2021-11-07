@@ -20,7 +20,7 @@ import {
   userProfileState,
   verificationEmailDialogState,
 } from "src/atoms/atom";
-import { Fragment, useState } from "react";
+import { Fragment, memo, useState } from "react";
 import styles from "styles/components/atoms/others/userPhoto.module.css";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { logoutApp } from "src/firebase/authentication/logoutApp";
@@ -42,7 +42,7 @@ const useSubStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const DrawerMenu = () => {
+const DrawerMenu = memo(() => {
   const classes = useStyles();
   const subClasses = useSubStyles();
 
@@ -184,6 +184,6 @@ const DrawerMenu = () => {
       </Fragment>
     </div>
   );
-};
+});
 
 export default DrawerMenu;

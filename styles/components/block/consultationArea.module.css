@@ -77,3 +77,9 @@
 .commentIcon {
   margin-top: 5px;
 }
+
+@media (max-width: 960px) {
+  .consulTitle {
+    font-size: 1.1rem;
+  }
+}

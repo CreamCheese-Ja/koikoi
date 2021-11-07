@@ -36,3 +36,9 @@
 .innerListItem {
   list-style-type: lower-latin;
 }
+
+@media (max-width: 960px) {
+  .container {
+    margin-bottom: 20px;
+  }
+}

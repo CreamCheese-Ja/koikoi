@@ -2,14 +2,15 @@ import HeaderNav from "./nav/HeaderNav";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginAndSignUpFormState, userProfileState } from "src/atoms/atom";
 import PostMenu from "../modules/menu/PostMenu";
 import Button from "@material-ui/core/Button";
-import logo from "public/images/koikoiLogo.png";
-import Image from "next/image";
+
 import DrawerMenu from "../modules/others/DrawerMenu";
+import useMedia from "use-media";
+import { useCallback, useState } from "react";
+import AppLogo from "../atoms/others/AppLogo";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -21,12 +22,23 @@ const useStyles = makeStyles(() =>
 
 const Header = () => {
   const classes = useStyles();
+  const isWide = useMedia({ minWidth: 961 });
 
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
 
   // ログイン、新規登録フォーム用の変更関数
   const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
+
+  // 投稿メニュー用state
+  const [postMenu, setPostMenu] = useState<null | HTMLElement>(null);
+  // 投稿メニュー開
+  const openPostMenu = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      setPostMenu(event.currentTarget);
+    },
+    [postMenu]
+  );
 
   const headerAreaStyle: { [key: string]: string | number } = {
     position: "fixed",
@@ -44,7 +56,7 @@ const Header = () => {
       <AppBar position="static">
         <Toolbar>
           <div className={classes.title}>
-            <Image src={logo} width={102} height={44}></Image>
+            <AppLogo />
           </div>
           {/* <SearchBar /> */}
           <HeaderNav />
@@ -73,7 +85,20 @@ const Header = () => {
             </div>
           ) : (
             <div style={buttonAreaStyle}>
-              <PostMenu />
+              {isWide ? (
+                <>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={openPostMenu}
+                  >
+                    投稿する
+                  </Button>
+                  <PostMenu postMenu={postMenu} setPostMenu={setPostMenu} />
+                </>
+              ) : (
+                <></>
+              )}
               <DrawerMenu />
             </div>
           )}

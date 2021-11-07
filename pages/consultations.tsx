@@ -2,8 +2,17 @@ import Head from "next/head";
 import MoreConsultationButton from "src/components/modules/buttons/MoreConsultationButton";
 import styles from "../styles/postListPage.module.css";
 import ConsultationListArea from "src/components/block/ConsultationListArea";
+import { useSetRecoilState } from "recoil";
+import { pageNumberState } from "src/atoms/atom";
+import { useEffect } from "react";
 
 const Consultations = () => {
+  const setPageNumber = useSetRecoilState(pageNumberState);
+
+  useEffect(() => {
+    setPageNumber(0);
+  }, []);
+
   return (
     <div>
       <Head>

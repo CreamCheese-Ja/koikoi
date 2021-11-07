@@ -4,6 +4,9 @@ import { getTweetDetails } from "src/firebase/firestore/tweets/get/getTweetDetai
 import { TweetDetails } from "src/type";
 import TweetDetailArea from "src/components/block/TweetDetailArea";
 import TweetCommentArea from "src/components/block/TweetCommentArea";
+import { useSetRecoilState } from "recoil";
+import { pageNumberState } from "src/atoms/atom";
+import { useEffect } from "react";
 
 type SSRProps = {
   post: TweetDetails;
@@ -19,6 +22,12 @@ export default function Tweet({ post }: SSRProps) {
     numberOfComments,
     createdAt,
   } = post;
+
+  const setPageNumber = useSetRecoilState(pageNumberState);
+
+  useEffect(() => {
+    setPageNumber(1);
+  }, []);
 
   return (
     <div>

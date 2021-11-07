@@ -12,7 +12,7 @@ import {
   userProfileState,
 } from "src/atoms/atom";
 import { useEffect } from "react";
-import { changeDateFormat } from "src/common/changeDateFormat";
+import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import ListLikeButton from "../modules/buttons/ListLikeButton";
 import { getConsultationList } from "src/firebase/firestore/consultations/get/getConsultationList";
 import Category from "../atoms/others/Category";
@@ -86,7 +86,7 @@ const ConsultationListArea = () => {
                 <div className={styles.userName}>{consul.user.name}</div>
               </div>
               <div className={styles.date}>
-                {changeDateFormat(consul.createdAt) + "に投稿"}
+                {changeDateFormatAddTime(consul.createdAt)}
               </div>
             </div>
             <Link href={`/consultations/${consul.consultationId}`}>

@@ -10,7 +10,7 @@ import { memo } from "react";
 const useStyles = makeStyles(() =>
   createStyles({
     formControl: {
-      minWidth: 250,
+      minWidth: 230,
     },
   })
 );

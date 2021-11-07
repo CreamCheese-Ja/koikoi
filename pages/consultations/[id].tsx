@@ -1,12 +1,13 @@
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { useRecoilValue } from "recoil";
-import { userProfileState } from "src/atoms/atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { pageNumberState, userProfileState } from "src/atoms/atom";
 import AnswerArea from "src/components/block/AnswerArea";
 import { ConsultationDetails } from "src/type";
 import BestAnswerArea from "src/components/block/BestAnswerArea";
 import { getConsultationDetails } from "src/firebase/firestore/consultations/get/getConsultationDetails";
 import ConsultationDetailArea from "src/components/block/ConsultationDetailArea";
+import { useEffect } from "react";
 
 type SSRProps = {
   post: ConsultationDetails;
@@ -17,6 +18,12 @@ export default function Consultation({ post }: SSRProps) {
 
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
+
+  const setPageNumber = useSetRecoilState(pageNumberState);
+
+  useEffect(() => {
+    setPageNumber(0);
+  }, []);
 
   return (
     <div>

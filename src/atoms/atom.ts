@@ -16,6 +16,12 @@ export const spinnerState = atom({
   default: false,
 });
 
+// ページ毎の番号を入れる(bottomNavBar用)
+export const pageNumberState = atom({
+  key: "pageNumberState",
+  default: 0,
+});
+
 // ユーザーのプロフィールデータ
 export const userProfileState = atom<ProfileItem>({
   key: "userProfileState",

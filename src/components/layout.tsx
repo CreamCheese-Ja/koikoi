@@ -16,6 +16,8 @@ import {
 import { useEffect } from "react";
 import Alerts from "./block/common/Alerts";
 import { getUserProfile } from "src/firebase/firestore/users/get/getUserProfile";
+import BottomNavigationBar from "./modules/others/BottomNavigationBar";
+import FloatingButton from "./atoms/buttons/FloatingButton";
 
 type Props = {
   children: ReactNode;
@@ -71,6 +73,8 @@ export default function Layout({ children, ...props }: Props) {
         <SideBar />
       </div>
       <Footer />
+      <BottomNavigationBar />
+      <FloatingButton />
       <Dialogs />
       <Alerts />
     </>

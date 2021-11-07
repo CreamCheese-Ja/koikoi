@@ -30,3 +30,16 @@
     border-radius: 46% 54% 50% 50%/35% 61% 39% 65%;
   }
 }
+
+@media (max-width: 450px) {
+  .fluid {
+    width: 300px;
+    height: 300px;
+  }
+}
+@media (max-width: 315px) {
+  .fluid {
+    width: 250px;
+    height: 250px;
+  }
+}

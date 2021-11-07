@@ -25,7 +25,7 @@ export default function Home() {
                 alt="topImage"
               ></Image>
             </div>
-            <div className={styles.fluid}>
+            <div>
               <FluidShape />
             </div>
           </div>
@@ -38,7 +38,7 @@ export default function Home() {
             <p className={styles.description}>
               誰もが抱える恋愛の悩みや不安、それらを気軽に共有できる場所。
               <br />
-              見るのも書くのも完全自由。
+              見るのも書くのも完全無料。
               <br />
               ちょっとしたことでも大きなことでも、みんなと共有することで考えが変わるかも。
               <br />
@@ -48,20 +48,24 @@ export default function Home() {
           <div className={styles.buttonArea}>
             <div>
               <Link href="/consultations">
-                <a className={styles.button}>恋愛相談を見る</a>
+                <a>
+                  <button className={styles.button}>恋愛相談を見る</button>
+                </a>
               </Link>
             </div>
             <div>
               <Link href="/tweets">
-                <a className={styles.button}>つぶやきを見る</a>
+                <a>
+                  <button className={styles.button}>つぶやきを見る</button>
+                </a>
               </Link>
             </div>
           </div>
         </main>
+        <footer className={styles.footer}>
+          <p>&copy;2021 koikoi</p>
+        </footer>
       </div>
-      <footer className={styles.footer}>
-        <p>&copy;2021 koikoi</p>
-      </footer>
     </div>
   );
 }

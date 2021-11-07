@@ -8,3 +8,15 @@
   width: 800px;
   padding: 10px;
 }
+
+@media (max-width: 960px) {
+  .allContent {
+    display: block;
+    padding-top: 75px;
+    padding-bottom: 10px;
+  }
+  .mainContent {
+    width: initial;
+    margin-bottom: -20px;
+  }
+}

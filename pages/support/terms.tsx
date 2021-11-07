@@ -1,8 +1,17 @@
 import Head from "next/head";
 import styles from "styles/terms.module.css";
 import Divider from "@material-ui/core/Divider";
+import { useSetRecoilState } from "recoil";
+import { pageNumberState } from "src/atoms/atom";
+import { useEffect } from "react";
 
 const Terms = () => {
+  const setPageNumber = useSetRecoilState(pageNumberState);
+
+  useEffect(() => {
+    setPageNumber(5);
+  }, []);
+
   return (
     <div>
       <Head>

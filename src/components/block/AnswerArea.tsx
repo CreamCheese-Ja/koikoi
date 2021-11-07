@@ -84,7 +84,7 @@ const AnswerArea = (props: Props) => {
                   <div className={styles.userName}>{answer.user.name}</div>
                 </div>
                 <div className={styles.date}>
-                  {changeDateFormatAddTime(answer.createdAt) + "に回答"}
+                  {changeDateFormatAddTime(answer.createdAt)}
                 </div>
               </div>
               <p className={styles.content}>{answer.content}</p>

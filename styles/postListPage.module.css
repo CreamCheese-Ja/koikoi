@@ -13,5 +13,8 @@
   margin-bottom: 50px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 960px) {
+  .container {
+    margin-bottom: 20px;
+  }
 }

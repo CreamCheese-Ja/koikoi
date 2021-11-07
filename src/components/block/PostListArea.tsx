@@ -14,6 +14,7 @@ import {
 } from "src/atoms/atom";
 import AlertDialog from "../atoms/dialogs/AlertDialog";
 import { deletePostData } from "src/firebase/firestore/common/write/deletePostData";
+import useMedia from "use-media";
 
 type Props = {
   userId: string;
@@ -21,6 +22,7 @@ type Props = {
 
 const PostListArea = (props: Props) => {
   const { userId } = props;
+  const isWide = useMedia({ minWidth: 801 });
 
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
@@ -153,7 +155,7 @@ const PostListArea = (props: Props) => {
         tabItem={tabItem}
         value={tabValue}
         setValue={setTabValue}
-        tabWidth="160px"
+        tabWidth={isWide ? "160px" : "100px"}
         centered={true}
       />
       {tabValue === 0 ? (

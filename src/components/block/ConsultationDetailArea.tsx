@@ -54,7 +54,7 @@ const ConsultationDetailArea = (props: Props) => {
           />
           <div className={styles.name}>{post.user.name}</div>
         </div>
-        <div>{post.createdAt}に投稿</div>
+        <div>{post.createdAt}</div>
       </div>
       <div className={styles.titleAndAnswer}>
         <h1 className={styles.title}>{post.title}</h1>

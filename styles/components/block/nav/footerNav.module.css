@@ -10,3 +10,13 @@
   width: 150px;
   text-align: center;
 }
+
+@media (max-width: 800px) {
+  .navList {
+    display: block;
+    margin-bottom: 30px;
+  }
+  .navList li {
+    margin: 15px auto;
+  }
+}
