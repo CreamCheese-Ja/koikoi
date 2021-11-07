@@ -14,7 +14,7 @@ type SSRProps = {
 };
 
 export default function Consultation({ post }: SSRProps) {
-  const { user, consultationId, title, solution } = post;
+  const { user, consultationId, title, content, solution } = post;
 
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
@@ -29,6 +29,7 @@ export default function Consultation({ post }: SSRProps) {
     <div>
       <Head>
         <title>{title} | 恋々(恋愛相談SNS)</title>
+        <meta name="description" content={content} />
       </Head>
       <ConsultationDetailArea post={post} userProfile={userProfile} />
       <BestAnswerArea

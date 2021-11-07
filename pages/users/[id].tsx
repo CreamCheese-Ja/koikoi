@@ -30,6 +30,10 @@ export default function User({ post }: SSRProps) {
     <div>
       <Head>
         <title>{name} | 恋々(恋愛相談SNS)</title>
+        <meta
+          name="description"
+          content={`気軽に使える恋愛相談SNS【恋々】のユーザー、【${name}】さんのページ`}
+        />
       </Head>
       <div>
         <ProfileArea userData={post} />

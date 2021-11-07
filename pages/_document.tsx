@@ -8,12 +8,15 @@ export default class MyDocument extends Document {
     return (
       <Html lang="ja">
         <Head>
-          {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
-          {/* <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-          /> */}
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://koikoi-community" />
+          <meta property="og:image" content="/koikoiOgpImage.png" />
+          <meta property="og:title" content="恋々 | 恋愛相談SNS" />
+          <meta
+            property="og:description"
+            content="誰でも気軽に利用できる恋愛相談SNS。誰もが抱える恋愛の悩みや不安、それらを気軽に共有し自分の恋を成就させよう。"
+          />
         </Head>
         <body>
           <Main />
@@ -23,33 +26,7 @@ export default class MyDocument extends Document {
     );
   }
 }
-
-// `getInitialProps` belongs to `_document` (instead of `_app`),
-// it's compatible with server-side generation (SSG).
 MyDocument.getInitialProps = async (ctx) => {
-  // Resolution order
-  //
-  // On the server:
-  // 1. app.getInitialProps
-  // 2. page.getInitialProps
-  // 3. document.getInitialProps
-  // 4. app.render
-  // 5. page.render
-  // 6. document.render
-  //
-  // On the server with error:
-  // 1. document.getInitialProps
-  // 2. app.render
-  // 3. page.render
-  // 4. document.render
-  //
-  // On the client
-  // 1. app.getInitialProps
-  // 2. page.getInitialProps
-  // 3. app.render
-  // 4. page.render
-
-  // Render app and page and get the context of the page with collected side effects.
   const sheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
 
@@ -62,7 +39,6 @@ MyDocument.getInitialProps = async (ctx) => {
 
   return {
     ...initialProps,
-    // Styles fragment is rendered after the app and page rendering finish.
     styles: [
       ...React.Children.toArray(initialProps.styles),
       sheets.getStyleElement(),

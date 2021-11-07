@@ -11,7 +11,6 @@ import { RecoilRoot } from "recoil";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   useEffect(() => {
-    // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) {
       jssStyles.parentElement?.removeChild(jssStyles);
@@ -25,6 +24,9 @@ function MyApp({ Component, pageProps, router }: AppProps) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+        <meta charSet="utf-8" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/koikoi192.png" />
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />

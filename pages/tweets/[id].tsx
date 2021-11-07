@@ -36,6 +36,7 @@ export default function Tweet({ post }: SSRProps) {
           {content.length <= 20 ? content : content.slice(0, 20) + "..."} |
           恋々(恋愛相談SNS)
         </title>
+        <meta name="description" content={content} />
       </Head>
       <TweetDetailArea
         user={user}
