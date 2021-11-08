@@ -67,7 +67,7 @@ const MoreAnswerButton = (props: Props) => {
     <>
       {running ? (
         <Spinner />
-      ) : isButtonDisplay ? (
+      ) : isButtonDisplay && answerList.length !== 0 ? (
         <ExecutionButton
           onClick={fetchNextPage}
           buttonLabel="もっと見る"

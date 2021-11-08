@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import EmojiEventsOutlinedIcon from "@material-ui/icons/EmojiEventsOutlined";
 import BasicAlertDialog from "../../atoms/dialogs/AlertDialog";
 import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -11,6 +10,7 @@ import {
 } from "src/atoms/atom";
 import { AnswerList } from "src/type";
 import { writeBestAnswer } from "src/firebase/firestore/consultations/write/writeBestAnswer";
+import BasicButton from "src/components/atoms/buttons/BasicButton";
 
 type Props = {
   consulId: string;
@@ -90,11 +90,14 @@ const BestAnswerButton = (props: Props) => {
       setConsultationList(newConsultationList);
 
       // アンサーリストstateの更新
-      const newAnswerList = answerList.filter((data) => {
-        return data.answerId !== answerId;
-      });
-      setAnswerList(newAnswerList);
-
+      if (answerList.length === 1) {
+        setAnswerList([]);
+      } else {
+        const newAnswerList = answerList.filter((data) => {
+          return data.answerId !== answerId;
+        });
+        setAnswerList(newAnswerList);
+      }
       setIsSolution(true);
       setSuccess({ status: true, message: "ベストアンサーを決定しました。" });
       dialogClose();
@@ -105,10 +108,12 @@ const BestAnswerButton = (props: Props) => {
   };
 
   return (
-    <div>
-      <div onClick={dialogOpen}>
-        <EmojiEventsOutlinedIcon style={{ cursor: "pointer" }} />
-      </div>
+    <div style={{ textAlign: "right", marginTop: "-10px" }}>
+      <BasicButton
+        onClick={dialogOpen}
+        buttonLabel="ベストアンサーにする"
+        variant="text"
+      />
       <BasicAlertDialog
         open={open}
         dialogClose={dialogClose}

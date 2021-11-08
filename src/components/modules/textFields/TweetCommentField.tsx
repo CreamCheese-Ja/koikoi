@@ -5,6 +5,7 @@ import {
   multipurposeSuccessAlertState,
   tweetCommentCountState,
   tweetCommentListState,
+  tweetListState,
 } from "src/atoms/atom";
 import MultilineTextFieldWithButton from "src/components/atoms/input/MultilineTextFieldWithButton";
 import { getNewCommentData } from "src/firebase/firestore/tweets/get/getNewCommentData";
@@ -27,9 +28,12 @@ const TweetCommentField = (props: Props) => {
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
   // コメントリストのstate
   const [commentList, setCommentList] = useRecoilState(tweetCommentListState);
+  // つぶやきリスト
+  const setTweetList = useSetRecoilState(tweetListState);
   // コメント数の変更関数
   const setTweetCommentCount = useSetRecoilState(tweetCommentCountState);
 
+  // つぶやきのコメントを投稿
   const post = async () => {
     setRunning(true);
     if (value.length <= 150) {
@@ -39,6 +43,19 @@ const TweetCommentField = (props: Props) => {
         if (newCommentData) {
           setCommentList([newCommentData, ...commentList]);
           setTweetCommentCount((count) => count + 1);
+          // つぶやきリストのコメント数を更新
+          setTweetList((dataList) => {
+            const newList = dataList.map((data) => {
+              if (data.tweetId === tweetId) {
+                const newCount = data.numberOfComments + 1;
+                const newData = { ...data, numberOfComments: newCount };
+                return newData;
+              } else {
+                return data;
+              }
+            });
+            return newList;
+          });
           setValue("");
           setSuccess({ status: true, message: "コメントしました。" });
         } else {

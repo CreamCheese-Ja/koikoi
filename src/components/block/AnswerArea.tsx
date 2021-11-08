@@ -88,6 +88,7 @@ const AnswerArea = (props: Props) => {
                 </div>
               </div>
               <p className={styles.content}>{answer.content}</p>
+
               <div className={styles.likeAndAnswerArea}>
                 <div className={styles.iconArea}>
                   <AnswerLikeButton
@@ -100,19 +101,6 @@ const AnswerArea = (props: Props) => {
                     userLike={answer.userLike}
                     numberOfLikes={answer.numberOfLikes}
                   />
-                  {consulUserId === userProfile.id &&
-                  answer.bestAnswer === false ? (
-                    <BestAnswerButton
-                      consulId={consultationId}
-                      answerId={answer.answerId}
-                      answerUserId={answer.user.id}
-                      answerList={answerList}
-                      setAnswerList={setAnswerList}
-                      answerComment={answer.comment}
-                    />
-                  ) : (
-                    <div></div>
-                  )}
                 </div>
                 {consulUserId === userProfile.id && answer.comment === "" ? (
                   <BasicButton
@@ -158,6 +146,19 @@ const AnswerArea = (props: Props) => {
                   </div>
                   <p className={styles.commentContent}>{answer.comment}</p>
                 </div>
+              )}
+              {consulUserId === userProfile.id &&
+              answer.bestAnswer === false ? (
+                <BestAnswerButton
+                  consulId={consultationId}
+                  answerId={answer.answerId}
+                  answerUserId={answer.user.id}
+                  answerList={answerList}
+                  setAnswerList={setAnswerList}
+                  answerComment={answer.comment}
+                />
+              ) : (
+                <div></div>
               )}
             </div>
             <Divider />
