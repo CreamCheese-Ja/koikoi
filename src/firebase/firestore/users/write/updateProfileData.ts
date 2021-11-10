@@ -1,4 +1,4 @@
-import { db, timeStamp } from "src/firebase/firebase";
+import firebase, { db, timeStamp } from "src/firebase/firebase";
 
 export const updateProfileData = async (
   userId: string,
@@ -11,7 +11,6 @@ export const updateProfileData = async (
   sign: string
 ): Promise<boolean> => {
   const ref = db.collection("users").doc(userId);
-
   try {
     await ref.update({
       photoURL: photoURL,

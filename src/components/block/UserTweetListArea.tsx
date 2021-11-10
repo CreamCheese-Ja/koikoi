@@ -47,7 +47,7 @@ const UserTweetListArea = (props: Props) => {
   const [showMoreButton, setShowMoreButton] = useState(true);
 
   useEffect(() => {
-    if (userTweetList.length === 0) {
+    if (userTweetList.length === 0 && !isFetchTweet) {
       setRunning(true);
     }
     const getPage = async () => {

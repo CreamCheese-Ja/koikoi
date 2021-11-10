@@ -7,7 +7,6 @@ import { useSetRecoilState, useRecoilState } from "recoil";
 import {
   loginAndSignUpFormState,
   multipurposeErrorAlertState,
-  userProfileState,
 } from "src/atoms/atom";
 import { getIsNameAvailable } from "src/firebase/firestore/users/get/getIsNameAvailable";
 import { createNewProfile } from "src/firebase/firestore/users/write/createNewProfile";
@@ -57,8 +56,6 @@ const SignUpForm = (props: Props) => {
   });
   // 共通のエラーアラートの変更関数
   const setError = useSetRecoilState(multipurposeErrorAlertState);
-  // ユーザープロフィール用の変更関数
-  const setUserProfile = useSetRecoilState(userProfileState);
   // ログイン、新規登録フォーム用のstate
   const [loginAndSignUpForm, setLoginAndSignUpForm] = useRecoilState(
     loginAndSignUpFormState
@@ -145,22 +142,7 @@ const SignUpForm = (props: Props) => {
     const userId = firebase.auth().currentUser?.uid;
     if (userId) {
       const isCreateNewProfile = await createNewProfile(userId, name);
-      if (isCreateNewProfile) {
-        // userProfileStateにプロフィールデータをセット
-        setUserProfile({
-          id: userId,
-          name: name,
-          photoURL: "noImage",
-          gender: "未設定",
-          age: "未設定",
-          job: "未設定",
-          bloodType: "未設定",
-          sign: "未設定",
-          message: "",
-          numberOfBestAnswer: 0,
-          numberOfLikes: 0,
-        });
-      } else {
+      if (!isCreateNewProfile) {
         setError({ status: true, message: "エラーが発生しました。" });
         return;
       }
@@ -168,14 +150,12 @@ const SignUpForm = (props: Props) => {
       setError({ status: true, message: "エラーが発生しました。" });
       return;
     }
-
     // ④確認メールの送信
     const resultSendVerificationEmail = await sendVerificationEmail();
     if (!resultSendVerificationEmail) {
       setError({ status: true, message: "エラーが発生しました。" });
       return;
     }
-
     // 新規登録フォームを閉じる
     setLoginAndSignUpForm({ ...loginAndSignUpForm, status: false });
     // メール確認フォームを開く
@@ -188,7 +168,7 @@ const SignUpForm = (props: Props) => {
     if (name !== "") {
       // ここでユーザー名の存在確認
       const isNameAvailable = await getIsNameAvailable(name);
-      if (!isNameAvailable) {
+      if (isNameAvailable) {
         setInputError({ ...inputError, name: true });
         setErrorMessage({
           ...errorMessage,

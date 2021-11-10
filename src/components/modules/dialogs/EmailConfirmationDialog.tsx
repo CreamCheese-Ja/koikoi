@@ -13,6 +13,7 @@ import {
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
 } from "src/atoms/atom";
+import { logoutApp } from "src/firebase/authentication/logoutApp";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -48,10 +49,20 @@ const EmailConfirmationDialog = (props: Props) => {
     // メール確認のチェック
     const user = firebase.auth().currentUser;
     if (user?.emailVerified) {
-      closeEmailConfirmationDialog();
-      setSuccess({ status: true, message: "正常に登録完了しました。" });
+      // 確認完了後1度ログアウトする。emailの有効性確認トークンのセキュリティルールが弾かれるため。
+      const logoutResult = await logoutApp();
+      if (logoutResult) {
+        closeEmailConfirmationDialog();
+        setSuccess({
+          status: true,
+          message: "正常に登録完了しました。ログインをしてください。",
+        });
+      }
     } else {
-      setError({ status: true, message: "登録が完了していません。" });
+      setError({
+        status: true,
+        message: "登録が完了していません。",
+      });
     }
     setRunning(false);
   };

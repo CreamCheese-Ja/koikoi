@@ -57,7 +57,7 @@ const UserBestAnswerRankingList = (props: Props) => {
                   <EmojiEventsIcon style={{ color: rankColors[index] }} />
                 </div>
               ) : (
-                <div className={styles.rank}>{index}</div>
+                <div className={styles.rank}>{index + 1}</div>
               )}
               <UserPhoto
                 photoURL={data.photoURL}

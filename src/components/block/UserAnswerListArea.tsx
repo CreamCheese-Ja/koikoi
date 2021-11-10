@@ -38,7 +38,7 @@ const UserAnswerListArea = (props: Props) => {
   const setError = useSetRecoilState(multipurposeErrorAlertState);
 
   useEffect(() => {
-    if (userAnswerList.length === 0) {
+    if (userAnswerList.length === 0 && !isFetchAnswer) {
       setRunning(true);
     }
     const getPage = async () => {

@@ -47,7 +47,7 @@ const UserConsulListArea = memo((props: Props) => {
   const [showMoreButton, setShowMoreButton] = useState(true);
 
   useEffect(() => {
-    if (userConsulList.length === 0) {
+    if (userConsulList.length === 0 && !isFetchConsul) {
       setRunning(true);
     }
     const getPage = async () => {
