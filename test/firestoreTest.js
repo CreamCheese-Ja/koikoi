@@ -811,6 +811,35 @@ const firestoreTest = describe("app", () => {
     );
   });
 
+  // consultationドキュメント、tweetドキュメントの削除
+
+  // consultation
+  it("作成者以外のユーザーのconsultationドキュメントの削除が不可能であること", async () => {
+    const db = getFirestore({ ...theirAuth, email_verified: true });
+    const testDoc = db.collection("consultations").doc(myId);
+    await firebase.assertFails(testDoc.delete());
+  });
+
+  // answerドキュメントの更新をコメントアウトしてからテストする
+  it("認証、email有効性確認有りでconsultationドキュメントの削除が可能であること", async () => {
+    const db = getFirestore({ ...myAuth, email_verified: true });
+    const testDoc = db.collection("consultations").doc(myId);
+    await firebase.assertSucceeds(testDoc.delete());
+  });
+
+  // tweet
+  it("作成者以外のユーザーのtweetドキュメントの削除が不可能であること", async () => {
+    const db = getFirestore({ ...theirAuth, email_verified: true });
+    const testDoc = db.collection("tweets").doc(myId);
+    await firebase.assertFails(testDoc.delete());
+  });
+
+  it("認証、email有効性確認有りでtweetドキュメントの削除が可能であること", async () => {
+    const db = getFirestore({ ...myAuth, email_verified: true });
+    const testDoc = db.collection("tweets").doc(myId);
+    await firebase.assertSucceeds(testDoc.delete());
+  });
+
   // 最後に全てのデータを消す
   after(async () => {
     await firebase.clearFirestoreData({ projectId: MY_PROJECT_ID });
