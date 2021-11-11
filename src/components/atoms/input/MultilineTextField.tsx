@@ -15,7 +15,7 @@ type Props = {
   disabled: boolean;
 };
 
-const MultilineTextField = memo((props: Props) => {
+const MultilineTextField = (props: Props) => {
   const { label, value, setValue, error, errorMessage, disabled } = props;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +39,6 @@ const MultilineTextField = memo((props: Props) => {
       />
     </>
   );
-});
+};
 
-export default MultilineTextField;
+export default memo(MultilineTextField);

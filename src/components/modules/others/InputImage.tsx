@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useState,
 } from "react";
+import Image from "next/image";
 import UserPhoto from "../../atoms/others/UserPhoto";
 import BasicDialog from "../../atoms/dialogs/BasicDialog";
 import ResizeImageForm from "src/components/modules/forms/ResizeImageForm";
@@ -16,7 +17,7 @@ type Props = {
   setCroppedImage: Dispatch<SetStateAction<string>>;
 };
 
-const InputImage = memo((props: Props) => {
+const InputImage = (props: Props) => {
   const { photoURL, croppedImage, setCroppedImage } = props;
 
   const [preview, setPreview] = useState("");
@@ -36,10 +37,8 @@ const InputImage = memo((props: Props) => {
     setDialogOpen((status) => !status);
   }, [dialogOpen]);
 
-  const croppedImageStyle = {
-    width: "150px",
-    height: "150px",
-    borderRadius: "50%",
+  const customImgLoader = ({ src }: any) => {
+    return `${src}`;
   };
 
   return (
@@ -49,7 +48,14 @@ const InputImage = memo((props: Props) => {
           <UserPhoto photoURL={photoURL} width={150} height={150} />
         ) : (
           <div className={styles.croppedImageArea}>
-            <img src={croppedImage} alt="preview" style={croppedImageStyle} />
+            <Image
+              loader={customImgLoader}
+              src={croppedImage}
+              alt="preview"
+              width={150}
+              height={150}
+              className={styles.croppedImage}
+            />
           </div>
         )}
       </div>
@@ -84,6 +90,6 @@ const InputImage = memo((props: Props) => {
       />
     </>
   );
-});
+};
 
-export default InputImage;
+export default memo(InputImage);

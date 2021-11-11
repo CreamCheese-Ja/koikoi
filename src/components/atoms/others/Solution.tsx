@@ -7,7 +7,7 @@ type Props = {
   solution: boolean;
 };
 
-const Solution = memo((props: Props) => {
+const Solution = (props: Props) => {
   const { solution } = props;
   const [isSolution, setIsSolution] = useRecoilState(isSolutionState);
 
@@ -24,5 +24,5 @@ const Solution = memo((props: Props) => {
       )}
     </>
   );
-});
-export default Solution;
+};
+export default memo(Solution);

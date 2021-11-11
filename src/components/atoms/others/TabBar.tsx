@@ -18,7 +18,7 @@ type Props = {
   centered: boolean;
 };
 
-const TabBar = memo((props: Props) => {
+const TabBar = (props: Props) => {
   const { tabItem, value, setValue, tabWidth, centered } = props;
   const classes = useStyles();
 
@@ -43,6 +43,6 @@ const TabBar = memo((props: Props) => {
       </Paper>
     </>
   );
-});
+};
 
-export default TabBar;
+export default memo(TabBar);

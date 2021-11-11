@@ -1,5 +1,5 @@
 import { Divider } from "@material-ui/core";
-import { Dispatch, memo, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import { getUserConsultationList } from "src/firebase/firestore/consultations/get/getUserConsultationList";
 import { UserConsulList } from "src/type";
@@ -30,7 +30,7 @@ type Props = {
   openDeleteDialog: (id: string, postName: string) => void;
 };
 
-const UserConsulListArea = memo((props: Props) => {
+const UserConsulListArea = (props: Props) => {
   const {
     userId,
     userConsulList,
@@ -162,6 +162,6 @@ const UserConsulListArea = memo((props: Props) => {
       </div>
     </div>
   );
-});
+};
 
 export default UserConsulListArea;

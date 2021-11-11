@@ -11,7 +11,7 @@ type Props = {
   disabled: boolean;
 };
 
-const BasicTextField = memo((props: Props) => {
+const BasicTextField = (props: Props) => {
   const { label, type, value, setValue, error, errorMessage, disabled } = props;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,6 +33,6 @@ const BasicTextField = memo((props: Props) => {
       />
     </div>
   );
-});
+};
 
-export default BasicTextField;
+export default memo(BasicTextField);

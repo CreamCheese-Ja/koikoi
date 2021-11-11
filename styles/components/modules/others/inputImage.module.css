@@ -3,10 +3,11 @@
 }
 .croppedImageArea {
   display: inline-block;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 .croppedImage {
-  width: "150px";
-  height: "150px";
   border-radius: "50%";
 }
 .inputArea {

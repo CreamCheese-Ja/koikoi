@@ -14,7 +14,7 @@ type Props = {
   setPostMenu: Dispatch<SetStateAction<HTMLElement | null>>;
 };
 
-const PostMenu = memo((props: Props) => {
+const PostMenu = (props: Props) => {
   const { postMenu, setPostMenu } = props;
 
   const setCreateConsultationDialog = useSetRecoilState(
@@ -45,6 +45,6 @@ const PostMenu = memo((props: Props) => {
       </Menu>
     </div>
   );
-});
+};
 
-export default PostMenu;
+export default memo(PostMenu);

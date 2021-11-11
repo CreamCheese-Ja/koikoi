@@ -29,7 +29,7 @@ type Props = {
   selectItem: Array<string>;
 };
 
-const SelectBox = memo((props: Props) => {
+const SelectBox = (props: Props) => {
   const {
     value,
     setValue,
@@ -81,6 +81,6 @@ const SelectBox = memo((props: Props) => {
       </FormControl>
     </>
   );
-});
+};
 
-export default SelectBox;
+export default memo(SelectBox);

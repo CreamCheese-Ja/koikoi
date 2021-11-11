@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const SearchBar = memo(() => {
+const SearchBar = () => {
   const classes = useStyles();
 
   const [searchWord, setSearchWord] = React.useState("");
@@ -76,6 +76,6 @@ const SearchBar = memo(() => {
       />
     </div>
   );
-});
+};
 
-export default SearchBar;
+export default memo(SearchBar);

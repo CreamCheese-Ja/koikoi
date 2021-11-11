@@ -21,7 +21,7 @@ type Props = {
   placeholder: string;
 };
 
-const PasswordField = memo((props: Props) => {
+const PasswordField = (props: Props) => {
   const { error, errorMessage, password, setPassword, placeholder } = props;
 
   const handleChange =
@@ -77,6 +77,6 @@ const PasswordField = memo((props: Props) => {
       </FormControl>
     </div>
   );
-});
+};
 
-export default PasswordField;
+export default memo(PasswordField);

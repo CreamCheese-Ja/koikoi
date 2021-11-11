@@ -35,7 +35,7 @@ const userImage = (photoURL: string, width: number, height: number) => {
   );
 };
 
-const UserPhoto = memo((props: Props) => {
+const UserPhoto = (props: Props) => {
   const { photoURL, width, height, userId } = props;
 
   return (
@@ -57,6 +57,6 @@ const UserPhoto = memo((props: Props) => {
       )}
     </>
   );
-});
+};
 
-export default UserPhoto;
+export default memo(UserPhoto);

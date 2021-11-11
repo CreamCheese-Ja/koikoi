@@ -103,6 +103,7 @@ const ResizeImageForm = (props: Props) => {
             onChange={(e, zoom) => setZoom(Number(zoom))}
           />
         </div>
+
         <div className={styles.button}>
           <ExecutionButton
             onClick={cropImage}

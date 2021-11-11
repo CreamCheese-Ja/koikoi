@@ -18,7 +18,7 @@ type Props = {
   running: boolean;
 };
 
-const Linear = memo((props: Props) => {
+const Linear = (props: Props) => {
   const { running } = props;
 
   const classes = useStyles();
@@ -28,6 +28,6 @@ const Linear = memo((props: Props) => {
       <LinearProgress />
     </div>
   );
-});
+};
 
-export default Linear;
+export default memo(Linear);

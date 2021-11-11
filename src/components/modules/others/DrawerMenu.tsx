@@ -42,7 +42,7 @@ const useSubStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const DrawerMenu = memo(() => {
+const DrawerMenu = () => {
   const classes = useStyles();
   const subClasses = useSubStyles();
 
@@ -184,6 +184,6 @@ const DrawerMenu = memo(() => {
       </Fragment>
     </div>
   );
-});
+};
 
-export default DrawerMenu;
+export default memo(DrawerMenu);

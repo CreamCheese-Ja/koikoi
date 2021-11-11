@@ -14,7 +14,7 @@ type Props = {
   onClick: () => void;
 };
 
-const MultilineTextFieldWithButton = memo((props: Props) => {
+const MultilineTextFieldWithButton = (props: Props) => {
   const { label, placeholder, value, setValue, running, onClick } = props;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +49,6 @@ const MultilineTextFieldWithButton = memo((props: Props) => {
       />
     </>
   );
-});
+};
 
-export default MultilineTextFieldWithButton;
+export default memo(MultilineTextFieldWithButton);

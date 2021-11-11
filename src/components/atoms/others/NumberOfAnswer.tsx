@@ -7,7 +7,7 @@ type Props = {
   initialNumberOfAnswer: number;
 };
 
-const NumberOfAnswer = memo((props: Props) => {
+const NumberOfAnswer = (props: Props) => {
   const { initialNumberOfAnswer } = props;
 
   const [numberOfAnswer, setNumberOfAnswer] =
@@ -22,6 +22,6 @@ const NumberOfAnswer = memo((props: Props) => {
       <span className={styles.answer}>{numberOfAnswer}</span>回答
     </>
   );
-});
+};
 
-export default NumberOfAnswer;
+export default memo(NumberOfAnswer);

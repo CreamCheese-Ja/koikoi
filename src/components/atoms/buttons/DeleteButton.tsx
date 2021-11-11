@@ -5,7 +5,7 @@ type Props = {
   onClick: () => void;
 };
 
-const DeleteButton = memo((props: Props) => {
+const DeleteButton = (props: Props) => {
   const { onClick } = props;
   return (
     <div
@@ -15,6 +15,6 @@ const DeleteButton = memo((props: Props) => {
       <DeleteIcon fontSize="small" />
     </div>
   );
-});
+};
 
-export default DeleteButton;
+export default memo(DeleteButton);

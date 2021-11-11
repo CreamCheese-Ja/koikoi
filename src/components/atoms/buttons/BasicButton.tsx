@@ -7,7 +7,7 @@ type Props = {
   variant: "text" | "outlined" | "contained";
 };
 
-const BasicButton = memo((props: Props) => {
+const BasicButton = (props: Props) => {
   const { onClick, buttonLabel, variant } = props;
   return (
     <>
@@ -16,6 +16,6 @@ const BasicButton = memo((props: Props) => {
       </Button>
     </>
   );
-});
+};
 
-export default BasicButton;
+export default memo(BasicButton);

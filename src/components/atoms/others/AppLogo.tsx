@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { memo } from "react";
 
-const AppLogo = memo(() => {
+const AppLogo = () => {
   return (
     <Link href="/">
       <a>
@@ -11,6 +11,6 @@ const AppLogo = memo(() => {
       </a>
     </Link>
   );
-});
+};
 
-export default AppLogo;
+export default memo(AppLogo);

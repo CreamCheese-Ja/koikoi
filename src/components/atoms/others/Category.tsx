@@ -5,7 +5,7 @@ type Props = {
   categoryLabel: string;
 };
 
-const Category = memo((props: Props) => {
+const Category = (props: Props) => {
   const { categoryLabel } = props;
   let style = null;
   switch (categoryLabel) {
@@ -45,6 +45,6 @@ const Category = memo((props: Props) => {
       {categoryLabel}
     </div>
   );
-});
+};
 
-export default Category;
+export default memo(Category);
