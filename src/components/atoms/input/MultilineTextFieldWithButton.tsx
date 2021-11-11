@@ -37,12 +37,7 @@ const MultilineTextFieldWithButton = (props: Props) => {
           style: { alignItems: "flex-end" },
           endAdornment: (
             <InputAdornment position="end">
-              <SendButton
-                value={value}
-                setValue={setValue}
-                onClick={onClick}
-                running={running}
-              />
+              <SendButton value={value} onClick={onClick} running={running} />
             </InputAdornment>
           ),
         }}
