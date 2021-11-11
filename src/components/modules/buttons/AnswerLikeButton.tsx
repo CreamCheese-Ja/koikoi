@@ -88,6 +88,7 @@ const AnswerLikeButton = (props: Props) => {
           setBestAnswer({
             ...bestAnswer,
             numberOfLikes: bestAnswer.numberOfLikes + 1,
+            userLike: true,
           });
         }
         // サクセスメッセージ
