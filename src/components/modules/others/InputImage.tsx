@@ -31,7 +31,7 @@ const InputImage = (props: Props) => {
   const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (files?.length !== 0 && files) {
-      if (files[0].size >= 100000) {
+      if (files[0].size >= 1000000) {
         setError({
           status: true,
           message: "画像サイズが1MB以下のものを指定してください。",

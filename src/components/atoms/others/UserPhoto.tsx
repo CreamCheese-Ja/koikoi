@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import Image from "next/image";
 import defaultUserImage from "public/images/defaultUserImage.png";
 import Link from "next/link";

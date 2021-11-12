@@ -7,7 +7,7 @@ const AppLogo = () => {
   return (
     <Link href="/">
       <a>
-        <Image src={logo} width={102} height={44}></Image>
+        <Image src={logo} width={102} height={44} alt="logoImage"></Image>
       </a>
     </Link>
   );
