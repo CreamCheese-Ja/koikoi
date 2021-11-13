@@ -11,6 +11,7 @@ import DrawerMenu from "../modules/others/DrawerMenu";
 import useMedia from "use-media";
 import { useCallback, useState } from "react";
 import AppLogo from "../atoms/others/AppLogo";
+import PageLoading from "../atoms/progress/PageLoading";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -53,6 +54,7 @@ const Header = () => {
 
   return (
     <header style={headerAreaStyle}>
+      <PageLoading />
       <AppBar position="static">
         <Toolbar>
           <div className={classes.title}>
