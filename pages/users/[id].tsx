@@ -1,4 +1,12 @@
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  GetStaticPaths,
+  GetStaticPathsContext,
+  GetStaticPathsResult,
+  GetStaticProps,
+  GetStaticPropsContext,
+} from "next";
 import Head from "next/head";
 import { useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -8,12 +16,16 @@ import ProfileArea from "src/components/block/ProfileArea";
 import { getUserProfile } from "src/firebase/firestore/users/get/getUserProfile";
 import { ProfileItem } from "src/type";
 
-type SSRProps = {
-  post: ProfileItem;
+// type SSRProps = {
+//   post: ProfileItem;
+// };
+
+type ISRProps = {
+  post: ProfileItem | null;
 };
 
-export default function User({ post }: SSRProps) {
-  const { id, name } = post;
+export default function User({ post }: ISRProps) {
+  const { id, name } = post || {};
 
   const userProfile = useRecoilValue(userProfileState);
   const setPageNumber = useSetRecoilState(pageNumberState);
@@ -36,33 +48,66 @@ export default function User({ post }: SSRProps) {
         />
       </Head>
       <div>
-        <ProfileArea userData={post} />
-        <PostListArea userId={id} />
+        {post && id ? (
+          <>
+            <ProfileArea userData={post} />
+            <PostListArea userId={id} />
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
 }
 
-type SSRParams = {
+// type SSRParams = {
+//   id: string;
+// };
+
+// export const getServerSideProps: GetServerSideProps<SSRProps> = async (
+//   context: GetServerSidePropsContext
+// ) => {
+//   const params = context.params as SSRParams;
+//   const postId = params.id;
+
+//   const post = await getUserProfile(postId);
+//   if (post) {
+//     return {
+//       props: {
+//         post,
+//       },
+//     };
+//   } else {
+//     return {
+//       notFound: true,
+//     };
+//   }
+// };
+type ISRParams = {
   id: string;
 };
 
-export const getServerSideProps: GetServerSideProps<SSRProps> = async (
-  context: GetServerSidePropsContext
+export const getStaticPaths: GetStaticPaths<ISRParams> = (
+  _context: GetStaticPathsContext
 ) => {
-  const params = context.params as SSRParams;
-  const postId = params.id;
+  return {
+    paths: [],
+    fallback: true,
+  };
+};
 
+export const getStaticProps: GetStaticProps<ISRProps> = async (
+  context: GetStaticPropsContext
+) => {
+  const params = context.params as ISRParams;
+  const postId = params.id;
   const post = await getUserProfile(postId);
-  if (post) {
-    return {
-      props: {
-        post,
-      },
-    };
-  } else {
-    return {
-      notFound: true,
-    };
-  }
+
+  return {
+    props: {
+      post,
+    },
+    revalidate: 60,
+  };
 };
