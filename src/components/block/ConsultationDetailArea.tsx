@@ -71,7 +71,7 @@ const ConsultationDetailArea = (props: Props) => {
           {consulDataState ? (
             <NumberOfAnswer initialNumberOfAnswer={post.numberOfAnswer} />
           ) : (
-            <div style={{ height: "31px" }}></div>
+            <div style={{ height: "30px" }}></div>
           )}
         </div>
       </div>
@@ -79,7 +79,11 @@ const ConsultationDetailArea = (props: Props) => {
         <div className={styles.category}>
           <Category categoryLabel={post.category} />
         </div>
-        {consulDataState ? <Solution solution={post.solution} /> : <></>}
+        {consulDataState ? (
+          <Solution solution={post.solution} />
+        ) : (
+          <div style={{ height: "28px" }}></div>
+        )}
       </div>
       <Divider />
       <div className={styles.content}>{post.content}</div>
