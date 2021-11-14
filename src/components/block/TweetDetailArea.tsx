@@ -64,7 +64,7 @@ const TweetDetailArea = (props: Props) => {
       <div className={styles.content}>{content}</div>
       <div className={styles.likeAndSupplementArea}>
         <div className={styles.likeButtonArea}>
-          {numberOfLikes !== 0 && user ? (
+          {user ? (
             <TweetDetailLikeButton
               numberOfLikes={numberOfLikes}
               docId={tweetId}
