@@ -50,7 +50,7 @@ const TweetDetailArea = (props: Props) => {
               <div className={styles.name}>{user.name}</div>
             </>
           ) : (
-            <></>
+            <div style={{ height: "35px" }}></div>
           )}
         </div>
         <div>{createdAt}</div>

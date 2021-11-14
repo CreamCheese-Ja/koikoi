@@ -18,6 +18,9 @@ const useStyles = makeStyles(() =>
     title: {
       flexGrow: 1,
     },
+    toolBar: {
+      height: "60px",
+    },
   })
 );
 
@@ -56,7 +59,7 @@ const Header = () => {
     <header style={headerAreaStyle}>
       <AppBar position="static">
         <PageLoading />
-        <Toolbar>
+        <Toolbar className={classes.toolBar}>
           <div className={classes.title}>
             <AppLogo />
           </div>

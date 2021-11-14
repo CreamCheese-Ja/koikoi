@@ -59,7 +59,7 @@ const ConsultationDetailArea = (props: Props) => {
               userId={post.user.id}
             />
           ) : (
-            <></>
+            <div style={{ height: "35px" }}></div>
           )}
           <div className={styles.name}>{post.user.name}</div>
         </div>
@@ -71,7 +71,7 @@ const ConsultationDetailArea = (props: Props) => {
           {consulDataState ? (
             <NumberOfAnswer initialNumberOfAnswer={post.numberOfAnswer} />
           ) : (
-            <></>
+            <div style={{ height: "31px" }}></div>
           )}
         </div>
       </div>
