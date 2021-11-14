@@ -13,6 +13,7 @@ import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/wri
 import { ProfileItem } from "src/type";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import { getNewTweetData } from "src/firebase/firestore/tweets/get/getNewTweetData";
 
 type Props = {
   numberOfLikes: number;
@@ -21,7 +22,7 @@ type Props = {
   userProfile: ProfileItem;
 };
 
-const TweetDetailLikeButton = memo((props: Props) => {
+const TweetDetailLikeButton = (props: Props) => {
   const { numberOfLikes, docId, userId, userProfile } = props;
 
   // いいね数のstate
@@ -97,6 +98,7 @@ const TweetDetailLikeButton = memo((props: Props) => {
     }
   };
 
+  // ユーザーがいいねしているかどうかのチェック
   useEffect(() => {
     const get = async () => {
       const isUserLike = await getIsUserLike(userProfile.id, "tweets", docId);
@@ -125,6 +127,6 @@ const TweetDetailLikeButton = memo((props: Props) => {
       <div style={{ marginLeft: "5px" }}>{likeCount}</div>
     </>
   );
-});
+};
 
-export default TweetDetailLikeButton;
+export default memo(TweetDetailLikeButton);

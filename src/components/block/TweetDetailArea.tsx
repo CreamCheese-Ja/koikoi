@@ -11,7 +11,7 @@ import UserPhoto from "../atoms/others/UserPhoto";
 import BasicButton from "../atoms/buttons/BasicButton";
 
 type Props = {
-  user: UserData;
+  user: UserData | undefined;
   tweetId: string;
   category: string;
   content: string;
@@ -35,13 +35,23 @@ const TweetDetailArea = (props: Props) => {
     <div className={styles.container}>
       <div className={styles.dateAndUserArea}>
         <div className={styles.userArea}>
-          <UserPhoto
-            photoURL={user.photoURL}
-            width={30}
-            height={30}
-            userId={user.id}
-          />
-          <div className={styles.name}>{user.name}</div>
+          {user ? (
+            <>
+              <UserPhoto
+                photoURL={
+                  userProfile.id === user.id
+                    ? userProfile.photoURL
+                    : user.photoURL
+                }
+                width={30}
+                height={30}
+                userId={user.id}
+              />
+              <div className={styles.name}>{user.name}</div>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
         <div>{createdAt}</div>
       </div>
@@ -54,12 +64,16 @@ const TweetDetailArea = (props: Props) => {
       <div className={styles.content}>{content}</div>
       <div className={styles.likeAndSupplementArea}>
         <div className={styles.likeButtonArea}>
-          <TweetDetailLikeButton
-            numberOfLikes={numberOfLikes}
-            docId={tweetId}
-            userId={user.id}
-            userProfile={userProfile}
-          />
+          {numberOfLikes !== 0 && user ? (
+            <TweetDetailLikeButton
+              numberOfLikes={numberOfLikes}
+              docId={tweetId}
+              userId={user.id}
+              userProfile={userProfile}
+            />
+          ) : (
+            <></>
+          )}
         </div>
         <div>
           <BasicButton

@@ -1,9 +1,6 @@
 import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
   GetStaticPaths,
   GetStaticPathsContext,
-  GetStaticPathsResult,
   GetStaticProps,
   GetStaticPropsContext,
 } from "next";
@@ -15,10 +12,7 @@ import PostListArea from "src/components/block/PostListArea";
 import ProfileArea from "src/components/block/ProfileArea";
 import { getUserProfile } from "src/firebase/firestore/users/get/getUserProfile";
 import { ProfileItem } from "src/type";
-
-// type SSRProps = {
-//   post: ProfileItem;
-// };
+import Error from "next/error";
 
 type ISRProps = {
   post: ProfileItem | null;
@@ -54,36 +48,13 @@ export default function User({ post }: ISRProps) {
             <PostListArea userId={id} />
           </>
         ) : (
-          <></>
+          <Error statusCode={404} />
         )}
       </div>
     </div>
   );
 }
 
-// type SSRParams = {
-//   id: string;
-// };
-
-// export const getServerSideProps: GetServerSideProps<SSRProps> = async (
-//   context: GetServerSidePropsContext
-// ) => {
-//   const params = context.params as SSRParams;
-//   const postId = params.id;
-
-//   const post = await getUserProfile(postId);
-//   if (post) {
-//     return {
-//       props: {
-//         post,
-//       },
-//     };
-//   } else {
-//     return {
-//       notFound: true,
-//     };
-//   }
-// };
 type ISRParams = {
   id: string;
 };
@@ -108,6 +79,6 @@ export const getStaticProps: GetStaticProps<ISRProps> = async (
     props: {
       post,
     },
-    revalidate: 60,
+    revalidate: 20,
   };
 };

@@ -43,7 +43,7 @@ const PageLoading = () => {
     <>
       {loading ? (
         <div className={classes.root}>
-          <LinearProgress style={{ backgroundColor: "#f06292" }} />
+          <LinearProgress style={{ backgroundColor: "#fff" }} />
         </div>
       ) : (
         <></>

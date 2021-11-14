@@ -54,8 +54,8 @@ const Header = () => {
 
   return (
     <header style={headerAreaStyle}>
-      <PageLoading />
       <AppBar position="static">
+        <PageLoading />
         <Toolbar>
           <div className={classes.title}>
             <AppLogo />

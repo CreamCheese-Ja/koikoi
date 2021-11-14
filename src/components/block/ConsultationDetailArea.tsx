@@ -22,10 +22,11 @@ import { useState } from "react";
 type Props = {
   post: ConsultationDetails;
   userProfile: ProfileItem;
+  consulDataState: ConsultationDetails | null;
 };
 
 const ConsultationDetailArea = (props: Props) => {
-  const { post, userProfile } = props;
+  const { post, userProfile, consulDataState } = props;
 
   // 補足stateの値
   const supplements = useRecoilValue(supplementsState);
@@ -46,12 +47,20 @@ const ConsultationDetailArea = (props: Props) => {
     <div className={styles.container}>
       <div className={styles.dateAndUserArea}>
         <div className={styles.userArea}>
-          <UserPhoto
-            photoURL={post.user.photoURL}
-            width={30}
-            height={30}
-            userId={post.user.id}
-          />
+          {consulDataState ? (
+            <UserPhoto
+              photoURL={
+                userProfile.id === post.user.id
+                  ? userProfile.photoURL
+                  : post.user.photoURL
+              }
+              width={30}
+              height={30}
+              userId={post.user.id}
+            />
+          ) : (
+            <></>
+          )}
           <div className={styles.name}>{post.user.name}</div>
         </div>
         <div>{post.createdAt}</div>
@@ -59,28 +68,37 @@ const ConsultationDetailArea = (props: Props) => {
       <div className={styles.titleAndAnswer}>
         <h1 className={styles.title}>{post.title}</h1>
         <div className={styles.answerArea}>
-          <NumberOfAnswer initialNumberOfAnswer={post.numberOfAnswer} />
+          {consulDataState ? (
+            <NumberOfAnswer initialNumberOfAnswer={post.numberOfAnswer} />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       <div className={styles.categoryAndSolution}>
         <div className={styles.category}>
           <Category categoryLabel={post.category} />
         </div>
-        <Solution solution={post.solution} />
+        {consulDataState ? <Solution solution={post.solution} /> : <></>}
       </div>
       <Divider />
       <div className={styles.content}>{post.content}</div>
       <div className={styles.likeAndSupplementArea}>
         <div className={styles.likeButtonArea}>
-          <ConsulDetailLikeButton
-            numberOfLikes={post.numberOfLikes}
-            docId={post.consultationId}
-            userId={post.user.id}
-            userProfile={userProfile}
-          />
+          {consulDataState ? (
+            <ConsulDetailLikeButton
+              numberOfLikes={post.numberOfLikes}
+              docId={post.consultationId}
+              userId={post.user.id}
+              userProfile={userProfile}
+            />
+          ) : (
+            <></>
+          )}
         </div>
         {post.user.id === userProfile.id &&
         post.supplement === "" &&
+        consulDataState &&
         !(post.consultationId in supplements) ? (
           <div>
             <BasicButton
@@ -95,7 +113,9 @@ const ConsultationDetailArea = (props: Props) => {
           <div></div>
         )}
       </div>
-      {post.user.id === userProfile.id && post.supplement === "" ? (
+      {post.user.id === userProfile.id &&
+      post.supplement === "" &&
+      consulDataState ? (
         <div>
           <SupplementField userId={post.user.id} docId={post.consultationId} />
         </div>
@@ -110,7 +130,7 @@ const ConsultationDetailArea = (props: Props) => {
       <Divider />
       {post.solution || userProfile.id === post.user.id ? (
         <div></div>
-      ) : (
+      ) : consulDataState ? (
         <div className={styles.answerButtonArea}>
           {isAuthCheck ? (
             <ExecutionButton
@@ -127,6 +147,8 @@ const ConsultationDetailArea = (props: Props) => {
             consultationId={post.consultationId}
           />
         </div>
+      ) : (
+        <></>
       )}
     </div>
   );
