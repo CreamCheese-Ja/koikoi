@@ -1,11 +1,7 @@
 import styles from "styles/components/block/detailArea.module.css";
 import Divider from "@material-ui/core/Divider";
 import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  authCheckState,
-  displaySupplementFieldState,
-  supplementsState,
-} from "src/atoms/atom";
+import { displaySupplementFieldState, supplementsState } from "src/atoms/atom";
 import SupplementField from "src/components/modules/textFields/SupplementField";
 import ConsulDetailLikeButton from "src/components/modules/buttons/ConsulDetailLikeButton";
 import SupplementArea from "src/components/block/SupplementArea";
@@ -15,9 +11,8 @@ import Solution from "src/components/atoms/others/Solution";
 import Category from "src/components/atoms/others/Category";
 import UserPhoto from "src/components/atoms/others/UserPhoto";
 import BasicButton from "../atoms/buttons/BasicButton";
-import ExecutionButton from "../atoms/buttons/ExecutionButton";
-import CreateAnswerDialog from "../modules/dialogs/CreateAnswerDialog";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import AnswerField from "../modules/textFields/AnswerField";
 
 type Props = {
   post: ConsultationDetails;
@@ -30,18 +25,18 @@ const ConsultationDetailArea = (props: Props) => {
 
   // 補足stateの値
   const supplements = useRecoilValue(supplementsState);
-
+  // 補足入力欄表示
   const [displaySupplementField, setDisplaySupplementField] = useRecoilState(
     displaySupplementFieldState
   );
 
-  const [openAnswerDialog, setOpenAnswerDialog] = useState(false);
-
-  const openCloseDialog = () => {
-    setOpenAnswerDialog((status) => !status);
-  };
-  // 認証チェックのstate値
-  const isAuthCheck = useRecoilValue(authCheckState);
+  // 回答フィールド開閉のstate
+  const [isShowAnswerField, setIsShowAnswerField] = useState(false);
+  // 回答作成の実行中のstate
+  const [isCreateAnswerRunning, setIsCreateAnswerRunning] = useState(false);
+  const openCloseAnswerField = useCallback(() => {
+    setIsShowAnswerField((state) => !state);
+  }, [isShowAnswerField]);
 
   return (
     <div className={styles.container}>
@@ -135,20 +130,13 @@ const ConsultationDetailArea = (props: Props) => {
       {post.solution || userProfile.id === post.user.id ? (
         <div></div>
       ) : consulDataState ? (
-        <div className={styles.answerButtonArea}>
-          {isAuthCheck ? (
-            <ExecutionButton
-              onClick={openCloseDialog}
-              buttonLabel="相談に回答"
-              disabled={false}
-            />
-          ) : (
-            <div></div>
-          )}
-          <CreateAnswerDialog
-            open={openAnswerDialog}
-            openCloseDialog={openCloseDialog}
+        <div>
+          <AnswerField
             consultationId={post.consultationId}
+            openCloseField={openCloseAnswerField}
+            isShowAnswerField={isShowAnswerField}
+            running={isCreateAnswerRunning}
+            setRunning={setIsCreateAnswerRunning}
           />
         </div>
       ) : (

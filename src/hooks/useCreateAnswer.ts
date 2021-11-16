@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useState } from "react";
+import {
+  SetterOrUpdater,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import {
   answerListState,
   consultationListState,
@@ -7,32 +12,19 @@ import {
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
   numberOfAnswerState,
-  postAnswerRunningState,
   userProfileState,
 } from "src/atoms/atom";
-import Button from "@material-ui/core/Button";
-import BasicDialog from "../../atoms/dialogs/BasicDialog";
-import MultilineTextField from "src/components/atoms/input/MultilineTextField";
 import { userOperationPossibleCheck } from "src/common/userOperationPossibleCheck";
 import { getIsAnswered } from "src/firebase/firestore/consultations/get/getIsAnswered";
 import { createAnswer } from "src/firebase/firestore/consultations/write/createAnswer";
 import { getNewAnswerData } from "src/firebase/firestore/consultations/get/getNewAnswerData";
-import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
 
-type Props = {
-  open: boolean;
-  consultationId: string;
-  openCloseDialog: () => void;
-};
-
-const CreateAnswerDialog = (props: Props) => {
-  const { open, consultationId, openCloseDialog } = props;
-
-  const [answer, setAnswer] = useState({
-    text: "",
-    errorStatus: false,
-    errorMessage: "",
-  });
+export const useCreateAnswer = (
+  consultationId: string,
+  openCloseField: () => void,
+  setRunning: SetterOrUpdater<boolean>
+) => {
+  const [answer, setAnswer] = useState("");
 
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
@@ -49,31 +41,11 @@ const CreateAnswerDialog = (props: Props) => {
   const setSuccess = useSetRecoilState(multipurposeSuccessAlertState);
   // ログイン、新規登録フォーム用の変更関数
   const setLoginAndSignUpForm = useSetRecoilState(loginAndSignUpFormState);
-  // 実行中のstate
-  const [running, setRunning] = useRecoilState(postAnswerRunningState);
-
-  // エラーのリセット
-  useEffect(() => {
-    setAnswer((answer) => ({
-      ...answer,
-      errorStatus: false,
-      errorMessage: "",
-    }));
-  }, [answer.text]);
-
-  // 内容の消去
-  const deleteContent = () => {
-    setAnswer(() => ({
-      text: "",
-      errorStatus: false,
-      errorMessage: "",
-    }));
-  };
 
   // 「回答する」ボタンを押下で動く
   const postAnswer = async () => {
     setRunning(() => true);
-    if (answer.text !== "" && answer.text.length <= 1000) {
+    if (answer.length <= 1000) {
       // ユーザー操作が可能かどうかチェック
       const operationPossible = userOperationPossibleCheck(userProfile.name);
       if (typeof operationPossible !== "string") {
@@ -84,7 +56,7 @@ const CreateAnswerDialog = (props: Props) => {
           const create = await createAnswer(
             consultationId,
             userProfile.id,
-            answer.text
+            answer
           );
           if (create) {
             // 新規の回答を取得
@@ -111,9 +83,9 @@ const CreateAnswerDialog = (props: Props) => {
               });
               setConsultationList(newConsulList);
               // 回答内容フィールドを消す
-              setAnswer({ text: "", errorStatus: false, errorMessage: "" });
+              setAnswer("");
               // ダイアログを閉じる
-              openCloseDialog();
+              openCloseField();
               // ※アンサーの数よりリストが少なかったらもっと見るボタンを表示(もっと見るのコンポーネントにて)
               setSuccess({ status: true, message: "投稿しました" });
             }
@@ -133,63 +105,10 @@ const CreateAnswerDialog = (props: Props) => {
         setError({ status: true, message: operationPossible });
       }
     } else {
-      if (answer.text === "") {
-        setAnswer((answer) => ({
-          ...answer,
-          errorStatus: true,
-          errorMessage: "内容を入力してください。",
-        }));
-      } else {
-        setAnswer((answer) => ({
-          ...answer,
-          errorStatus: true,
-          errorMessage: "内容は1000文字以内です。",
-        }));
-      }
+      setError({ status: true, message: "回答は1000文字以内です。" });
     }
     setRunning(() => false);
   };
 
-  return (
-    <>
-      <BasicDialog
-        title="回答"
-        open={open}
-        onClick={openCloseDialog}
-        content={
-          <div>
-            <div style={{ marginBottom: "10px" }}>
-              <MultilineTextField
-                label="内容"
-                value={answer.text}
-                setValue={setAnswer}
-                error={answer.errorStatus}
-                errorMessage={answer.errorMessage}
-                disabled={running}
-              />
-              <div style={{ textAlign: "right" }}>
-                <Button
-                  color="primary"
-                  onClick={deleteContent}
-                  disabled={answer.text === "" || running}
-                >
-                  内容を消去
-                </Button>
-              </div>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <ExecutionButton
-                buttonLabel="回答する"
-                disabled={running}
-                onClick={postAnswer}
-              />
-            </div>
-          </div>
-        }
-        running={running}
-      />
-    </>
-  );
+  return { answer, setAnswer, postAnswer };
 };
-
-export default CreateAnswerDialog;

@@ -155,10 +155,10 @@ export const numberOfAnswerState = atom({
 });
 
 // 実行中(回答create)
-export const postAnswerRunningState = atom({
-  key: "postAnswerRunning",
-  default: false,
-});
+// export const postAnswerRunningState = atom({
+//   key: "postAnswerRunning",
+//   default: false,
+// });
 
 // 回答リストのstate
 export const answerListState = atom<AnswerList>({

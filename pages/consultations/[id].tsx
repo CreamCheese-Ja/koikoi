@@ -1,6 +1,4 @@
 import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
   GetStaticPaths,
   GetStaticPathsContext,
   GetStaticProps,
@@ -16,10 +14,6 @@ import { getConsultationDetails } from "src/firebase/firestore/consultations/get
 import ConsultationDetailArea from "src/components/block/ConsultationDetailArea";
 import { useEffect, useState } from "react";
 import Error from "next/error";
-
-// type SSRProps = {
-//   post: ConsultationDetails;
-// };
 
 type ISGProps = {
   post: ConsultationDetails | null;
@@ -98,30 +92,6 @@ export default function Consultation({ post }: ISGProps) {
     </div>
   );
 }
-
-// type SSRParams = {
-//   id: string;
-// };
-
-// export const getServerSideProps: GetServerSideProps<SSRProps> = async (
-//   context: GetServerSidePropsContext
-// ) => {
-//   const params = context.params as SSRParams;
-//   const postId = params.id;
-
-//   const post = await getConsultationDetails(postId);
-//   if (post) {
-//     return {
-//       props: {
-//         post,
-//       },
-//     };
-//   } else {
-//     return {
-//       notFound: true,
-//     };
-//   }
-// };
 
 type ISGParams = {
   id: string;
