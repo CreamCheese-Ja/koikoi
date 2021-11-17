@@ -68,7 +68,7 @@ const SupplementField = (props: Props) => {
         <div>
           <MultilineTextFieldWithButton
             label="恋愛相談の補足"
-            placeholder="内容を入力してください(500文字以内)"
+            placeholder="内容を入力(500文字以内)"
             value={value}
             setValue={setValue}
             running={running}
