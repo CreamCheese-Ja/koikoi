@@ -1,13 +1,22 @@
 import Head from "next/head";
-import MoreConsultationButton from "src/components/modules/buttons/MoreConsultationButton";
 import styles from "../styles/postListPage.module.css";
 import ConsultationListArea from "src/components/block/ConsultationListArea";
 import { useSetRecoilState } from "recoil";
 import { pageNumberState } from "src/atoms/atom";
 import { useEffect } from "react";
+import { useGetNextConsulList } from "src/hooks/useGetNextConsulList";
+import Spinner from "src/components/atoms/progress/Spinner";
+import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
 
 const Consultations = () => {
   const setPageNumber = useSetRecoilState(pageNumberState);
+  const {
+    running,
+    setRunning,
+    buttonDisplay,
+    consultationList,
+    fetchNextPage,
+  } = useGetNextConsulList();
 
   useEffect(() => {
     setPageNumber(0);
@@ -25,10 +34,20 @@ const Consultations = () => {
       <div className={styles.container}>
         <h1 className={styles.title}>恋愛相談</h1>
         <div>
-          <ConsultationListArea />
+          <ConsultationListArea setRunning={setRunning} />
         </div>
         <div className={styles.nextButton}>
-          <MoreConsultationButton />
+          {running ? (
+            <Spinner />
+          ) : buttonDisplay && consultationList.length >= 10 ? (
+            <ExecutionButton
+              onClick={fetchNextPage}
+              buttonLabel="もっと見る"
+              disabled={running}
+            />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

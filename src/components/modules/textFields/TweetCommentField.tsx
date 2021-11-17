@@ -76,8 +76,8 @@ const TweetCommentField = (props: Props) => {
       {isShowField ? (
         <div>
           <MultilineTextFieldWithButton
-            label="コメント"
-            placeholder="つぶやきへのコメントを入力してください(150文字以内)"
+            label="つぶやきへのコメント"
+            placeholder="内容を入力してください(150文字以内)"
             value={value}
             setValue={setValue}
             running={running}

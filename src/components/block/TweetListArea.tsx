@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Dispatch, memo, SetStateAction, useEffect } from "react";
 import Link from "next/link";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import InsertCommentOutlinedIcon from "@material-ui/icons/InsertCommentOutlined";
@@ -6,7 +6,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   authCheckState,
   showTweetMoreButtonState,
-  spinnerState,
   tweetListState,
   userProfileState,
 } from "src/atoms/atom";
@@ -18,15 +17,19 @@ import styles from "styles/components/block/tweetListArea.module.css";
 import ListLikeButton from "../modules/buttons/ListLikeButton";
 import UserPhoto from "../atoms/others/UserPhoto";
 
-const TweetListArea = () => {
+type Props = {
+  setRunning: Dispatch<SetStateAction<boolean>>;
+};
+
+const TweetListArea = (props: Props) => {
+  const { setRunning } = props;
+
   // つぶやきリストのstate
   const [tweetList, setTweetList] = useRecoilState(tweetListState);
   // ユーザープロフィールの値
   const userProfile = useRecoilValue(userProfileState);
   // onAuthStateChangedでチェック有無の値
   const authCheck = useRecoilValue(authCheckState);
-  // ローディングの変更関数
-  const setRunning = useSetRecoilState(spinnerState);
   // もっと見るボタン表示の変更関数
   const setShowMoreButton = useSetRecoilState(showTweetMoreButtonState);
 
@@ -134,4 +137,4 @@ const TweetListArea = () => {
   );
 };
 
-export default TweetListArea;
+export default memo(TweetListArea);

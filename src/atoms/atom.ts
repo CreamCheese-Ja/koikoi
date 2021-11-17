@@ -10,12 +10,6 @@ import {
   UserLikeRanking,
 } from "src/type";
 
-// ローディングスピナーON,OFF(恋愛相談リスト,つぶやきリストの取得)
-export const spinnerState = atom({
-  key: "spinnerState",
-  default: false,
-});
-
 // ページ毎の番号を入れる(bottomNavBar用)
 export const pageNumberState = atom({
   key: "pageNumberState",
@@ -153,12 +147,6 @@ export const numberOfAnswerState = atom({
   key: "numberOfAnswerState",
   default: 0,
 });
-
-// 実行中(回答create)
-// export const postAnswerRunningState = atom({
-//   key: "postAnswerRunning",
-//   default: false,
-// });
 
 // 回答リストのstate
 export const answerListState = atom<AnswerList>({

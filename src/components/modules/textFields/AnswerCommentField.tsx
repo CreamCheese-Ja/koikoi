@@ -75,8 +75,8 @@ const AnswerCommentField = (props: Props) => {
       {showAnswerReplyField ? (
         <div>
           <MultilineTextFieldWithButton
-            label="コメント"
-            placeholder="回答への返信コメントを入力してください(500文字以内)"
+            label="回答への返信コメント"
+            placeholder="内容を入力してください(500文字以内)"
             value={value}
             setValue={setValue}
             running={running}

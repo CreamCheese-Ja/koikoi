@@ -36,8 +36,8 @@ const AnswerField = (props: Props) => {
       {isShowAnswerField ? (
         <div>
           <MultilineTextFieldWithButton
-            label="コメント"
-            placeholder="恋愛相談への回答を入力してください(1000文字以内)"
+            label="恋愛相談への回答"
+            placeholder="内容を入力(1000文字以内)"
             value={answer}
             setValue={setAnswer}
             running={running}

@@ -8,17 +8,21 @@ import {
   authCheckState,
   consultationListState,
   displayConsulMoreButtonState,
-  spinnerState,
   userProfileState,
 } from "src/atoms/atom";
-import { useEffect } from "react";
+import { Dispatch, memo, SetStateAction, useEffect } from "react";
 import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import ListLikeButton from "../modules/buttons/ListLikeButton";
 import { getConsultationList } from "src/firebase/firestore/consultations/get/getConsultationList";
 import Category from "../atoms/others/Category";
 import UserPhoto from "../atoms/others/UserPhoto";
 
-const ConsultationListArea = () => {
+type Props = {
+  setRunning: Dispatch<SetStateAction<boolean>>;
+};
+
+const ConsultationListArea = (props: Props) => {
+  const { setRunning } = props;
   // 恋愛相談Listのstate
   const [consultationList, setConsultationList] = useRecoilState(
     consultationListState
@@ -27,8 +31,6 @@ const ConsultationListArea = () => {
   const userProfile = useRecoilValue(userProfileState);
   // onAuthStateChangedでチェック有無の値
   const authCheck = useRecoilValue(authCheckState);
-  // ローディングの変更関数
-  const setRunning = useSetRecoilState(spinnerState);
   // もっと見るボタン表示の変更関数
   const setShowMoreButton = useSetRecoilState(displayConsulMoreButtonState);
 
@@ -147,4 +149,4 @@ const ConsultationListArea = () => {
   );
 };
 
-export default ConsultationListArea;
+export default memo(ConsultationListArea);
