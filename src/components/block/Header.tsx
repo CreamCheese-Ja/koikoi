@@ -6,7 +6,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginAndSignUpFormState, userProfileState } from "src/atoms/atom";
 import PostMenu from "../modules/menu/PostMenu";
 import Button from "@material-ui/core/Button";
-
 import DrawerMenu from "../modules/others/DrawerMenu";
 import useMedia from "use-media";
 import { useCallback, useState } from "react";

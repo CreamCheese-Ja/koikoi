@@ -13,6 +13,7 @@ import ProfileArea from "src/components/block/ProfileArea";
 import { getUserProfile } from "src/firebase/firestore/users/get/getUserProfile";
 import { ProfileItem } from "src/type";
 import Error from "next/error";
+import useMedia from "use-media";
 
 type ISRProps = {
   post: ProfileItem | null;
@@ -20,6 +21,7 @@ type ISRProps = {
 
 export default function User({ post }: ISRProps) {
   const { id, name } = post || {};
+  const isWide = useMedia({ minWidth: 801 });
 
   const [profileData, setProfileData] = useState<ProfileItem | null>(null);
 
@@ -56,13 +58,21 @@ export default function User({ post }: ISRProps) {
         />
       </Head>
       <div>
-        {profileData && id ? (
+        {post && id ? (
           <>
-            <ProfileArea userData={profileData} />
+            {profileData ? (
+              <ProfileArea userData={profileData} />
+            ) : (
+              <div
+                style={{
+                  height: isWide ? "390px" : "465px",
+                  backgroundColor: "#fff",
+                  marginBottom: "20px",
+                }}
+              ></div>
+            )}
             <PostListArea userId={id} />
           </>
-        ) : post ? (
-          <></>
         ) : (
           <Error statusCode={404} />
         )}
