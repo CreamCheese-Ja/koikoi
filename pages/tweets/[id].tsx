@@ -38,7 +38,7 @@ export default function Tweet({ post }: ISGProps) {
     })();
   }, []);
 
-  // 変更がない値はISGのデータを渡し、変更がある値はfetchデータを渡す
+  // 変更がない値はISGのデータを渡し、変更がある値はCSRのfetchデータを渡す
   return (
     <div>
       <Head>

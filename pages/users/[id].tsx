@@ -5,7 +5,7 @@ import {
   GetStaticPropsContext,
 } from "next";
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { pageNumberState, userProfileState } from "src/atoms/atom";
 import PostListArea from "src/components/block/PostListArea";
@@ -21,6 +21,8 @@ type ISRProps = {
 export default function User({ post }: ISRProps) {
   const { id, name } = post || {};
 
+  const [profileData, setProfileData] = useState<ProfileItem | null>(null);
+
   const userProfile = useRecoilValue(userProfileState);
   const setPageNumber = useSetRecoilState(pageNumberState);
 
@@ -32,6 +34,18 @@ export default function User({ post }: ISRProps) {
     }
   }, [userProfile]);
 
+  useEffect(() => {
+    (async () => {
+      if (id) {
+        const profileData = await getUserProfile(id);
+        if (profileData) {
+          setProfileData(profileData);
+        }
+      }
+    })();
+  }, []);
+
+  // 変更がない値はISGのデータを渡し、変更がある値はCSRのfetchデータを渡す
   return (
     <div>
       <Head>
@@ -42,11 +56,13 @@ export default function User({ post }: ISRProps) {
         />
       </Head>
       <div>
-        {post && id ? (
+        {profileData && id ? (
           <>
-            <ProfileArea userData={post} />
+            <ProfileArea userData={profileData} />
             <PostListArea userId={id} />
           </>
+        ) : post ? (
+          <></>
         ) : (
           <Error statusCode={404} />
         )}
@@ -79,6 +95,5 @@ export const getStaticProps: GetStaticProps<ISRProps> = async (
     props: {
       post,
     },
-    revalidate: 20,
   };
 };
