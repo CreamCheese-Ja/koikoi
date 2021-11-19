@@ -21,7 +21,7 @@ const BasicDialog = (props: Props) => {
     <>
       <Dialog
         open={open}
-        onClose={onClick}
+        onClose={running ? () => {} : onClick}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >

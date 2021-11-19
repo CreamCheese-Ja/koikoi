@@ -25,44 +25,42 @@ const SignUpForm = (props: Props) => {
   } = useSignUp(setRunning, openEmailConfirmationDialog);
 
   return (
-    <div>
+    <>
       <div>
-        <div>
-          <BasicTextField
-            label="ユーザー名"
-            type="text"
-            value={name}
-            setValue={setName}
-            error={inputError.name}
-            errorMessage={errorMessage.name}
-            disabled={running}
-          />
-          <BasicTextField
-            label="メールアドレス"
-            type="email"
-            value={email}
-            setValue={setEmail}
-            error={inputError.email}
-            errorMessage={errorMessage.email}
-            disabled={running}
-          />
-          <PasswordField
-            error={inputError.password}
-            errorMessage={errorMessage.password}
-            password={password}
-            setPassword={setPassword}
-            placeholder="8文字以上"
-          />
-        </div>
-        <div style={{ textAlign: "center", marginTop: "15px" }}>
-          <ExecutionButton
-            onClick={signUpUser}
-            buttonLabel="新規登録"
-            disabled={running}
-          />
-        </div>
+        <BasicTextField
+          label="ユーザー名"
+          type="text"
+          value={name}
+          setValue={setName}
+          error={inputError.name}
+          errorMessage={errorMessage.name}
+          disabled={running}
+        />
+        <BasicTextField
+          label="メールアドレス"
+          type="email"
+          value={email}
+          setValue={setEmail}
+          error={inputError.email}
+          errorMessage={errorMessage.email}
+          disabled={running}
+        />
+        <PasswordField
+          error={inputError.password}
+          errorMessage={errorMessage.password}
+          password={password}
+          setPassword={setPassword}
+          placeholder="8文字以上"
+        />
       </div>
-    </div>
+      <div style={{ textAlign: "center", marginTop: "15px" }}>
+        <ExecutionButton
+          onClick={signUpUser}
+          buttonLabel="新規登録"
+          disabled={running}
+        />
+      </div>
+    </>
   );
 };
 

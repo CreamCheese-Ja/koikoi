@@ -54,11 +54,8 @@ export const useLogin = (setRunning: Dispatch<SetStateAction<boolean>>) => {
   const loginUser = async () => {
     setRunning(true);
     // ログイン処理
-    const isLogionOrMessage = await loginEmailAndPassword(
-      email,
-      password.password
-    );
-    if (isLogionOrMessage === true) {
+    const loginResult = await loginEmailAndPassword(email, password.password);
+    if (loginResult === true) {
       // ログイン成功時の処理
       setEmail("");
       setPassword({ ...password, password: "" });
@@ -66,14 +63,14 @@ export const useLogin = (setRunning: Dispatch<SetStateAction<boolean>>) => {
       setLoginAndSignUpForm({ ...loginAndSignUpForm, status: false });
     } else {
       // ログイン失敗時の処理
-      if (isLogionOrMessage === "メールアドレスまたはパスワードが違います。") {
+      if (loginResult === "メールアドレスまたはパスワードが違います。") {
         setErrorMessage({
-          email: isLogionOrMessage,
-          password: isLogionOrMessage,
+          email: loginResult,
+          password: loginResult,
         });
         setInputError({ email: true, password: true });
-      } else if (typeof isLogionOrMessage === "string") {
-        setErrorMessage({ ...errorMessage, email: isLogionOrMessage });
+      } else if (typeof loginResult === "string") {
+        setErrorMessage({ ...errorMessage, email: loginResult });
         setInputError({ email: true, password: false });
       } else {
         setError({ status: true, message: "エラーが発生しました。" });

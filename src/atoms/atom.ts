@@ -61,6 +61,12 @@ export const verificationEmailDialogState = atom({
   default: false,
 });
 
+// ゲストログインダイアログ開閉
+export const guestLoginDialogState = atom({
+  key: "guestLoginDialogState",
+  default: false,
+});
+
 // メールアドレス変更ダイアログ開閉
 // export const emailChangeDialogState = atom({
 //   key: "emailChangeDialogState",

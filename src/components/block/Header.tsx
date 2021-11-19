@@ -3,7 +3,11 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { loginAndSignUpFormState, userProfileState } from "src/atoms/atom";
+import {
+  guestLoginDialogState,
+  loginAndSignUpFormState,
+  userProfileState,
+} from "src/atoms/atom";
 import PostMenu from "../modules/menu/PostMenu";
 import Button from "@material-ui/core/Button";
 import DrawerMenu from "../modules/others/DrawerMenu";
@@ -11,6 +15,9 @@ import useMedia from "use-media";
 import { useCallback, useState } from "react";
 import AppLogo from "../atoms/others/AppLogo";
 import PageLoading from "../atoms/progress/PageLoading";
+import MenuIcon from "@material-ui/icons/Menu";
+import { IconButton } from "@material-ui/core";
+import AuthMenu from "../modules/menu/AuthMenu";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -43,6 +50,18 @@ const Header = () => {
     [postMenu]
   );
 
+  // ゲストユーザーログインフォーム用の変更関数
+  const setGuestLoginForm = useSetRecoilState(guestLoginDialogState);
+  // 認証メニュー用state
+  const [authMenu, setAuthMenu] = useState<null | HTMLElement>(null);
+  // 投稿メニュー開
+  const openAuthMenu = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAuthMenu(event.currentTarget);
+    },
+    [authMenu]
+  );
+
   const headerAreaStyle: { [key: string]: string | number } = {
     position: "fixed",
     width: "100%",
@@ -65,28 +84,45 @@ const Header = () => {
           {/* <SearchBar /> */}
           <HeaderNav />
           {userProfile.name === "" ? (
-            <div>
-              <Button
-                color="secondary"
-                onClick={() => {
-                  setLoginAndSignUpForm({ title: "ログイン", status: true });
-                }}
-              >
-                ログイン
-              </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => {
-                  setLoginAndSignUpForm({
-                    title: "無料会員登録",
-                    status: true,
-                  });
-                }}
-              >
-                無料会員登録
-              </Button>
-            </div>
+            isWide ? (
+              <div>
+                <Button
+                  color="secondary"
+                  onClick={() => {
+                    setLoginAndSignUpForm({ title: "ログイン", status: true });
+                  }}
+                >
+                  ログイン
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => {
+                    setLoginAndSignUpForm({
+                      title: "無料会員登録",
+                      status: true,
+                    });
+                  }}
+                >
+                  無料会員登録
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  style={{ marginLeft: "10px" }}
+                  onClick={() => setGuestLoginForm(true)}
+                >
+                  ゲストログイン
+                </Button>
+              </div>
+            ) : (
+              <>
+                <IconButton onClick={openAuthMenu}>
+                  <MenuIcon color="secondary" />
+                </IconButton>
+                <AuthMenu authMenu={authMenu} setAuthMenu={setAuthMenu} />
+              </>
+            )
           ) : (
             <div style={buttonAreaStyle}>
               {isWide ? (

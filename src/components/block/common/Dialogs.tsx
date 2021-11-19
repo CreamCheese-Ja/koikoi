@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
+  guestLoginDialogState,
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
   passwordChangeDialogState,
@@ -9,6 +10,7 @@ import {
 } from "src/atoms/atom";
 import AlertDialog from "src/components/atoms/dialogs/AlertDialog";
 import BasicDialog from "src/components/atoms/dialogs/BasicDialog";
+import GuestLoginForm from "src/components/modules/forms/GuestLoginForm";
 import PasswordChangeForm from "src/components/modules/forms/PasswordChangeForm";
 import { logoutApp } from "src/firebase/authentication/logoutApp";
 import { sendVerificationEmail } from "src/firebase/authentication/sendVerificationEmail";
@@ -41,6 +43,22 @@ const Dialogs = () => {
   const openCloseVerificationEmailDialog = () => {
     setShowVerificationEmail((status) => !status);
   };
+
+  // ***********************************ゲストユーザー用*******************************
+
+  // ゲストユーザーログインダイアログ
+  const [showGuestLogin, setShowGuestLogin] = useRecoilState(
+    guestLoginDialogState
+  );
+  // ゲストユーザーログイン実行中
+  const [guestLoginRunning, setGuestLoginRunning] = useState(false);
+  // ゲストログインダイアログ開閉
+  const openCloseGuestLoginDialog = () => {
+    setShowGuestLogin((status) => !status);
+  };
+
+  // ******************************************************************************
+
   // ユーザープロフィール変更関数
   const setUserProfile = useSetRecoilState(userProfileState);
   // メールアドレス検証メール送信処理
@@ -115,6 +133,19 @@ const Dialogs = () => {
         content="登録されているメールアドレス宛に有効性確認用メールを送信します。よろしいですか？"
         mainMethod={sendVerificationMail}
         running={verificationEmailRunning}
+      />
+      <BasicDialog
+        title="ゲストログイン"
+        open={showGuestLogin}
+        onClick={openCloseGuestLoginDialog}
+        content={
+          <GuestLoginForm
+            running={guestLoginRunning}
+            setRunning={setGuestLoginRunning}
+            openAndCloseDialog={openCloseGuestLoginDialog}
+          />
+        }
+        running={guestLoginRunning}
       />
       {/* <BasicDialog
         title="メールアドレスの変更"
