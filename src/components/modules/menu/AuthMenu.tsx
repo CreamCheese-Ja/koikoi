@@ -30,20 +30,27 @@ const AuthMenu = (props: Props) => {
         onClose={closeAuthMenu}
       >
         <MenuItem
-          onClick={() =>
-            setLoginAndSignUpDialog({ title: "ログイン", status: true })
-          }
+          onClick={() => {
+            setLoginAndSignUpDialog({ title: "ログイン", status: true });
+            closeAuthMenu();
+          }}
         >
           ログイン
         </MenuItem>
         <MenuItem
-          onClick={() =>
-            setLoginAndSignUpDialog({ title: "無料会員登録", status: true })
-          }
+          onClick={() => {
+            setLoginAndSignUpDialog({ title: "無料会員登録", status: true });
+            closeAuthMenu();
+          }}
         >
           無料会員登録
         </MenuItem>
-        <MenuItem onClick={() => setGuestLoginDialog(true)}>
+        <MenuItem
+          onClick={() => {
+            setGuestLoginDialog(true);
+            closeAuthMenu();
+          }}
+        >
           ゲストログイン
         </MenuItem>
       </Menu>
