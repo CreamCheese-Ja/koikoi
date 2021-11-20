@@ -1,5 +1,6 @@
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps, Color } from "@material-ui/lab/Alert";
+import { SyntheticEvent } from "react";
 import { SetterOrUpdater } from "recoil";
 
 function Alert(props: AlertProps) {
@@ -16,7 +17,7 @@ type Props = {
 const MultipurposeAlert = (props: Props) => {
   const { alert, setAlert, message, warningType } = props;
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose = (event?: SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
@@ -25,7 +26,7 @@ const MultipurposeAlert = (props: Props) => {
   };
 
   return (
-    <Snackbar open={alert} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar open={alert} autoHideDuration={4000} onClose={handleClose}>
       <Alert severity={warningType}>{message}</Alert>
     </Snackbar>
   );
