@@ -98,13 +98,14 @@ const ConsultationListArea = (props: Props) => {
                     ? consul.title
                     : consul.title.slice(0, 30) + "..."}
                 </h2>
+
+                <p>
+                  {consul.content.length <= 100
+                    ? consul.content
+                    : consul.content.slice(0, 100) + "..."}
+                </p>
               </a>
             </Link>
-            <p>
-              {consul.content.length <= 100
-                ? consul.content
-                : consul.content.slice(0, 100) + "..."}
-            </p>
             <div>
               <Category categoryLabel={consul.category} />
             </div>

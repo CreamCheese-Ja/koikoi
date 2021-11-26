@@ -112,7 +112,10 @@ const LoginAndSignUpFormDialog = () => {
                 </Button>
                 <div className={styles.caution}>
                   会員登録することで、
-                  <span className={styles.terms} onClick={pushTerms}>
+                  <span
+                    className={styles.terms}
+                    onClick={running ? () => {} : pushTerms}
+                  >
                     利用規約
                   </span>
                   に同意したものとみなします。

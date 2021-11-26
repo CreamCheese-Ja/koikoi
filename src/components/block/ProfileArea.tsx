@@ -54,7 +54,7 @@ const ProfileArea = (props: Props) => {
         </div>
         <div className={styles.bestAnswer}>
           <div className={styles.count}>{numberOfBestAnswer}</div>
-          <div>BA</div>
+          <div>ベストアンサー</div>
         </div>
       </div>
       <p className={styles.message}>

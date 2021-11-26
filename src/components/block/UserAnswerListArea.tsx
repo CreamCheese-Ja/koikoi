@@ -89,11 +89,15 @@ const UserAnswerListArea = (props: Props) => {
                 </a>
               </Link>
               <div className={styles.answerArea}>
-                <p>
-                  {answer.content.length <= 100
-                    ? answer.content
-                    : answer.content.slice(0, 100) + "..."}
-                </p>
+                <Link href={`/consultations/${answer.consultationId}`}>
+                  <a>
+                    <p>
+                      {answer.content.length <= 100
+                        ? answer.content
+                        : answer.content.slice(0, 100) + "..."}
+                    </p>
+                  </a>
+                </Link>
                 <div className={styles.pointArea}>
                   <div className={styles.point}>
                     <div>

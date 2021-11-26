@@ -141,7 +141,6 @@ const UserConsulListArea = (props: Props) => {
           <Divider />
         </div>
       ))}
-
       {userConsulList.length === 0 && isFetchConsul ? (
         <p className={styles.noneMessage}>恋愛相談はありません</p>
       ) : (

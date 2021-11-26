@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   authCheckState,
@@ -42,14 +42,6 @@ const ConsulDetailLikeButton = (props: Props) => {
 
   // 相談に対するいいね機能
   const like = async () => {
-    // 自分の投稿にはいいねをさせない
-    if (userId === userProfile.id) {
-      setError({
-        status: true,
-        message: "自分の投稿には「いいね！」出来ません。",
-      });
-      return;
-    }
     const operationPossible = userOperationPossibleCheck(userProfile.name);
     if (typeof operationPossible !== "string") {
       const isCreateLike = await writeConsulAndTweetLike(
@@ -116,6 +108,8 @@ const ConsulDetailLikeButton = (props: Props) => {
     }
   }, [authCheck]);
 
+  const isPostUser = userId === userProfile.id;
+
   return (
     <>
       {userLike.status ? (
@@ -123,8 +117,13 @@ const ConsulDetailLikeButton = (props: Props) => {
           <FavoriteIcon color="primary" />
         </div>
       ) : (
-        <div style={{ cursor: "pointer" }} onClick={like}>
-          <FavoriteBorderIcon />
+        <div
+          style={{ cursor: isPostUser ? "initial" : "pointer" }}
+          onClick={isPostUser ? () => {} : like}
+        >
+          <FavoriteBorderIcon
+            style={{ color: isPostUser ? "#b0b0b0" : "#000" }}
+          />
         </div>
       )}
       <div style={{ marginLeft: "5px" }}>{likeCount}</div>

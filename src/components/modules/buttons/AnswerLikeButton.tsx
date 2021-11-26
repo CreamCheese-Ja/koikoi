@@ -1,4 +1,3 @@
-import React from "react";
 import { SetterOrUpdater, useSetRecoilState } from "recoil";
 import {
   loginAndSignUpFormState,
@@ -48,14 +47,6 @@ const AnswerLikeButton = (props: Props) => {
 
   // 回答に対する「いいね!」機能
   const like = async () => {
-    // 自分の投稿には「いいね!」をさせない
-    if (likeUserId === userProfile.id) {
-      setError({
-        status: true,
-        message: "自分の投稿には「いいね！」出来ません。",
-      });
-      return;
-    }
     const operationPossible = userOperationPossibleCheck(userProfile.name);
     if (typeof operationPossible !== "string") {
       // 「いいね!」のwrite処理
@@ -110,11 +101,23 @@ const AnswerLikeButton = (props: Props) => {
     }
   };
 
+  const isPostUser = likeUserId === userProfile.id;
+
   return (
     <div className={styles.area}>
       {!userLike ? (
-        <div onClick={like} className={styles.likeButton}>
-          <FavoriteBorderIcon />
+        <div
+          onClick={isPostUser ? () => {} : like}
+          className={styles.likeButton}
+          style={{
+            cursor: isPostUser ? "initial" : "pointer",
+          }}
+        >
+          <FavoriteBorderIcon
+            style={{
+              color: isPostUser ? "#b0b0b0" : "#000",
+            }}
+          />
         </div>
       ) : (
         <div>

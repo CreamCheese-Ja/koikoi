@@ -1,4 +1,3 @@
-import React from "react";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { userOperationPossibleCheck } from "src/common/userOperationPossibleCheck";
 import { useSetRecoilState } from "recoil";
@@ -29,14 +28,6 @@ const ListLikeButton = (props: Props) => {
 
   // 相談に対するいいね機能
   const like = async () => {
-    // 自分の投稿にはいいねをさせない
-    if (userId === userProfile.id) {
-      setError({
-        status: true,
-        message: "自分の投稿には「いいね！」出来ません。",
-      });
-      return;
-    }
     const operationPossible = userOperationPossibleCheck(userProfile.name);
     if (typeof operationPossible !== "string") {
       const isCreateLike = await writeConsulAndTweetLike(
@@ -67,9 +58,14 @@ const ListLikeButton = (props: Props) => {
     }
   };
 
+  const isPostUser = userId === userProfile.id;
+
   return (
-    <div style={{ cursor: "pointer" }} onClick={like}>
-      <FavoriteBorderIcon />
+    <div
+      style={{ cursor: isPostUser ? "initial" : "pointer" }}
+      onClick={isPostUser ? () => {} : like}
+    >
+      <FavoriteBorderIcon style={{ color: isPostUser ? "#b0b0b0" : "#000" }} />
     </div>
   );
 };

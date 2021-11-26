@@ -13,11 +13,6 @@
   font-weight: bold;
   margin-top: 3px;
   margin-bottom: 10px;
-  display: inline-block;
-}
-.title:hover {
-  color: #f48fb1;
-  transition: 0.2s;
 }
 .tweetContent {
   margin-top: 10px;

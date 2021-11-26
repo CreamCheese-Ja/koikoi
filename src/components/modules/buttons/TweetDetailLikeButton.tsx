@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   authCheckState,
@@ -13,7 +13,6 @@ import { writeConsulAndTweetLike } from "src/firebase/firestore/common/write/wri
 import { ProfileItem } from "src/type";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { getNewTweetData } from "src/firebase/firestore/tweets/get/getNewTweetData";
 
 type Props = {
   numberOfLikes: number;
@@ -41,14 +40,6 @@ const TweetDetailLikeButton = (props: Props) => {
 
   // 相談に対するいいね機能
   const like = async () => {
-    // 自分の投稿にはいいねをさせない
-    if (userId === userProfile.id) {
-      setError({
-        status: true,
-        message: "自分の投稿には「いいね！」出来ません。",
-      });
-      return;
-    }
     const operationPossible = userOperationPossibleCheck(userProfile.name);
     if (typeof operationPossible !== "string") {
       const isCreateLike = await writeConsulAndTweetLike(
@@ -113,6 +104,8 @@ const TweetDetailLikeButton = (props: Props) => {
     }
   }, [authCheck]);
 
+  const isPostUser = userId === userProfile.id;
+
   return (
     <>
       {userLike.status ? (
@@ -120,8 +113,13 @@ const TweetDetailLikeButton = (props: Props) => {
           <FavoriteIcon color="primary" />
         </div>
       ) : (
-        <div style={{ cursor: "pointer" }} onClick={like}>
-          <FavoriteBorderIcon />
+        <div
+          style={{ cursor: isPostUser ? "initial" : "pointer" }}
+          onClick={isPostUser ? () => {} : like}
+        >
+          <FavoriteBorderIcon
+            style={{ color: isPostUser ? "#b0b0b0" : "#000" }}
+          />
         </div>
       )}
       <div style={{ marginLeft: "5px" }}>{likeCount}</div>

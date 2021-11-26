@@ -21,7 +21,7 @@ const UserRanking = () => {
   const [isFetchLikeList, setIsFetchLikeList] = useState(false);
   const [isFetchBestAnswerList, setIsFetchBestAnswerList] = useState(false);
 
-  const tabItem = ["いいね数", "BA数"];
+  const tabItem = ["いいね数", "ベストアンサー数"];
 
   return (
     <div className={styles.rankingArea}>
