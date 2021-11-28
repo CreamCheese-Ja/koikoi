@@ -12,8 +12,10 @@ import { getCommentList } from "src/firebase/firestore/tweets/get/getCommentList
 import { changeDateFormatAddTime } from "src/common/changeDateFormat";
 import TweetCommentLikeButton from "../modules/buttons/TweetCommentLikeButton";
 import styles from "styles/components/block/answerArea.module.css";
-import MoreTweetCommentButton from "../modules/buttons/MoreTweetCommentButton";
 import UserPhoto from "../atoms/others/UserPhoto";
+import Spinner from "../atoms/progress/Spinner";
+import ExecutionButton from "../atoms/buttons/ExecutionButton";
+import { useGetNextTweetCommentList } from "src/hooks/useGetNextTweetCommentList";
 
 type Props = {
   tweetId: string;
@@ -37,6 +39,15 @@ const TweetCommentArea = (props: Props) => {
   const authCheck = useRecoilValue(authCheckState);
   // 実行中
   const setRunning = useSetRecoilState(getTweetCommentListRunningState);
+
+  // 次ページ取得のhook
+  const { running, isButtonDisplay, fetchNextPage } =
+    useGetNextTweetCommentList(
+      tweetCommentList,
+      setTweetCommentList,
+      tweetId,
+      userProfile.id
+    );
 
   useEffect(() => {
     // 最初にコメントリストを空にする
@@ -99,12 +110,17 @@ const TweetCommentArea = (props: Props) => {
         ))}
       </div>
       <div className={styles.moreButtonArea}>
-        <MoreTweetCommentButton
-          commentList={tweetCommentList}
-          setCommentList={setTweetCommentList}
-          tweetId={tweetId}
-          userProfileId={userProfile.id}
-        />
+        {running ? (
+          <Spinner />
+        ) : isButtonDisplay && tweetCommentList.length >= 5 ? (
+          <ExecutionButton
+            onClick={fetchNextPage}
+            buttonLabel="もっと見る"
+            disabled={running}
+          />
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

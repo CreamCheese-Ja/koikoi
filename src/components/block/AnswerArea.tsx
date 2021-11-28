@@ -1,5 +1,5 @@
 import { Divider } from "@material-ui/core";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   answerListState,
@@ -15,9 +15,11 @@ import BestAnswerButton from "src/components/modules/buttons/BestAnswerButton";
 import AnswerCommentField from "src/components/modules/textFields/AnswerCommentField";
 import { getAnswerList } from "src/firebase/firestore/consultations/get/getAnswerList";
 import styles from "styles/components/block/answerArea.module.css";
-import MoreAnswerButton from "../modules/buttons/MoreAnswerButton";
 import UserPhoto from "../atoms/others/UserPhoto";
 import BasicButton from "../atoms/buttons/BasicButton";
+import Spinner from "../atoms/progress/Spinner";
+import ExecutionButton from "../atoms/buttons/ExecutionButton";
+import { useGetNextAnswerList } from "src/hooks/useGetNextAnswerList";
 
 type Props = {
   consultationId: string;
@@ -26,7 +28,6 @@ type Props = {
 
 const AnswerArea = (props: Props) => {
   const { consultationId, consulUserId } = props;
-
   // 回答リストのstate
   const [answerList, setAnswerList] = useRecoilState(answerListState);
   // 回答数の値
@@ -40,6 +41,14 @@ const AnswerArea = (props: Props) => {
   // 返信フィールド開閉
   const [showAnswerReplyField, setShowAnswerReplyField] = useRecoilState(
     showAnswerReplyFieldState
+  );
+
+  // 次ページ取得のhook
+  const { running, isButtonDisplay, fetchNextPage } = useGetNextAnswerList(
+    answerList,
+    setAnswerList,
+    consultationId,
+    userProfile.id
   );
 
   useEffect(() => {
@@ -88,7 +97,6 @@ const AnswerArea = (props: Props) => {
                 </div>
               </div>
               <p className={styles.content}>{answer.content}</p>
-
               <div className={styles.likeAndAnswerArea}>
                 <div className={styles.iconArea}>
                   <AnswerLikeButton
@@ -166,12 +174,17 @@ const AnswerArea = (props: Props) => {
         ))}
       </div>
       <div className={styles.moreButtonArea}>
-        <MoreAnswerButton
-          answerList={answerList}
-          setAnswerList={setAnswerList}
-          consultationId={consultationId}
-          userProfileId={userProfile.id}
-        />
+        {running ? (
+          <Spinner />
+        ) : isButtonDisplay && answerList.length !== 0 ? (
+          <ExecutionButton
+            onClick={fetchNextPage}
+            buttonLabel="もっと見る"
+            disabled={running}
+          />
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

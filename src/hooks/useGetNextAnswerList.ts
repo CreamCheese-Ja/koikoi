@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   SetterOrUpdater,
   useRecoilState,
@@ -11,21 +11,15 @@ import {
   multipurposeErrorAlertState,
   numberOfAnswerState,
 } from "src/atoms/atom";
-import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
-import Spinner from "src/components/atoms/progress/Spinner";
 import { getNextAnswerList } from "src/firebase/firestore/consultations/get/getNextAnswerList";
 import { AnswerList } from "src/type";
 
-type Props = {
-  answerList: AnswerList;
-  setAnswerList: SetterOrUpdater<AnswerList>;
-  consultationId: string;
-  userProfileId: string;
-};
-
-const MoreAnswerButton = (props: Props) => {
-  const { answerList, setAnswerList, consultationId, userProfileId } = props;
-
+export const useGetNextAnswerList = (
+  answerList: AnswerList,
+  setAnswerList: SetterOrUpdater<AnswerList>,
+  consultationId: string,
+  userProfileId: string
+) => {
   const [running, setRunning] = useRecoilState(getAnswerListRunningState);
   const [isButtonDisplay, setIsButtonDisplay] = useState(false);
   // 回答数のstate
@@ -63,21 +57,5 @@ const MoreAnswerButton = (props: Props) => {
     setRunning(false);
   };
 
-  return (
-    <>
-      {running ? (
-        <Spinner />
-      ) : isButtonDisplay && answerList.length !== 0 ? (
-        <ExecutionButton
-          onClick={fetchNextPage}
-          buttonLabel="もっと見る"
-          disabled={running}
-        />
-      ) : (
-        <div></div>
-      )}
-    </>
-  );
+  return { running, isButtonDisplay, fetchNextPage };
 };
-
-export default MoreAnswerButton;

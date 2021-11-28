@@ -4,21 +4,15 @@ import {
   getTweetCommentListRunningState,
   multipurposeErrorAlertState,
 } from "src/atoms/atom";
-import ExecutionButton from "src/components/atoms/buttons/ExecutionButton";
-import Spinner from "src/components/atoms/progress/Spinner";
 import { getNextCommentList } from "src/firebase/firestore/tweets/get/getNextCommentList";
 import { TweetCommentList } from "src/type";
 
-type Props = {
-  commentList: TweetCommentList;
-  setCommentList: SetterOrUpdater<TweetCommentList>;
-  tweetId: string;
-  userProfileId: string;
-};
-
-const MoreTweetCommentButton = (props: Props) => {
-  const { commentList, setCommentList, tweetId, userProfileId } = props;
-
+export const useGetNextTweetCommentList = (
+  commentList: TweetCommentList,
+  setCommentList: SetterOrUpdater<TweetCommentList>,
+  tweetId: string,
+  userProfileId: string
+) => {
   const [running, setRunning] = useRecoilState(getTweetCommentListRunningState);
   const [isButtonDisplay, setIsButtonDisplay] = useState(true);
   // エラーstate
@@ -44,22 +38,5 @@ const MoreTweetCommentButton = (props: Props) => {
     }
     setRunning(false);
   };
-
-  return (
-    <>
-      {running ? (
-        <Spinner />
-      ) : isButtonDisplay && commentList.length >= 5 ? (
-        <ExecutionButton
-          onClick={fetchNextPage}
-          buttonLabel="もっと見る"
-          disabled={running}
-        />
-      ) : (
-        <div></div>
-      )}
-    </>
-  );
+  return { running, isButtonDisplay, fetchNextPage };
 };
-
-export default MoreTweetCommentButton;
