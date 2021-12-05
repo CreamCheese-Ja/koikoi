@@ -17,11 +17,11 @@ import { deletePostData } from "src/firebase/firestore/common/write/deletePostDa
 import useMedia from "use-media";
 
 type Props = {
-  userId: string;
+  pageId: string;
 };
 
-const PostListArea = (props: Props) => {
-  const { userId } = props;
+const UserPostListArea = (props: Props) => {
+  const { pageId } = props;
   const isWide = useMedia({ minWidth: 801 });
 
   // ユーザープロフィールの値
@@ -49,13 +49,15 @@ const PostListArea = (props: Props) => {
 
   // 削除ダイアログ
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  // 削除関数に渡すid
-  const [docData, setDocData] = useState({ id: "", postName: "" });
+  // 削除関数に渡すidとsubId
+  const [docData, setDocData] = useState({ id: "", subId: "", postName: "" });
+  // 削除実行中
+  const [deleteRunning, setDeleteRunning] = useState(false);
 
   // 削除ダイアログ開
   const openDeleteDialog = useCallback(
-    (id: string, name: string) => {
-      setDocData({ id: id, postName: name });
+    (id: string, subId: string, name: string) => {
+      setDocData({ id: id, subId: subId, postName: name });
       setShowDeleteDialog(true);
     },
     [docData, showDeleteDialog]
@@ -65,9 +67,6 @@ const PostListArea = (props: Props) => {
   const closeDeleteDialog = useCallback(() => {
     setShowDeleteDialog(false);
   }, [showDeleteDialog]);
-
-  // 削除実行中
-  const [deleteRunning, setDeleteRunning] = useState(false);
 
   // 恋愛相談削除(回答、いいね!がない場合のみ削除可能)
   const deleteConsultation = async () => {
@@ -96,6 +95,8 @@ const PostListArea = (props: Props) => {
         setSuccess({ status: true, message: "投稿を削除しました。" });
       } else {
         setError({ status: true, message: "エラーが発生しました。" });
+        setDeleteRunning(false);
+        return;
       }
     } else {
       setError({
@@ -126,7 +127,7 @@ const PostListArea = (props: Props) => {
           return data.tweetId !== docData.id;
         });
         setUserTweetList(newUserTweetList);
-        // 2.恋愛相談リストから削除
+        // 2.つぶやきリストから削除
         setTweetList((tweetList) => {
           const newTweetList = tweetList.filter((data) => {
             return data.tweetId !== docData.id;
@@ -136,11 +137,68 @@ const PostListArea = (props: Props) => {
         setSuccess({ status: true, message: "投稿を削除しました。" });
       } else {
         setError({ status: true, message: "エラーが発生しました。" });
+        setDeleteRunning(false);
+        return;
       }
     } else {
       setError({
         status: true,
         message: "コメント、いいね！がある投稿は削除できません。",
+      });
+      setDeleteRunning(false);
+      return;
+    }
+    setDeleteRunning(false);
+    closeDeleteDialog();
+  };
+
+  // 回答削除(いいね!がない場合のみ削除可能)
+  const deleteAnswer = async () => {
+    setDeleteRunning(true);
+    const answerData = userAnswerList.filter((data) => {
+      return data.answerId === docData.subId;
+    });
+    if (
+      answerData[0].numberOfLikes === 0 &&
+      answerData[0].bestAnswer === false
+    ) {
+      const deleteResult = await deletePostData(
+        "consultations",
+        docData.id,
+        "answers",
+        docData.subId
+      );
+      if (deleteResult) {
+        // 1.ユーザーリストから削除
+        const newUserAnswerList = userAnswerList.filter((data) => {
+          return data.answerId !== docData.subId;
+        });
+        setUserAnswerList(newUserAnswerList);
+        // 2.恋愛相談リストの回答数を1減らす
+        setConsultationList((consulList) => {
+          const newConsulList = consulList.map((data) => {
+            if (data.consultationId === docData.id) {
+              const newData = {
+                ...data,
+                numberOfAnswer: data.numberOfAnswer - 1,
+              };
+              return newData;
+            } else {
+              return data;
+            }
+          });
+          return newConsulList;
+        });
+        setSuccess({ status: true, message: "投稿を削除しました。" });
+      } else {
+        setError({ status: true, message: "エラーが発生しました。" });
+        setDeleteRunning(false);
+        return;
+      }
+    } else {
+      setError({
+        status: true,
+        message: "いいね！がある、またはベストアンサーの投稿は削除できません。",
       });
       setDeleteRunning(false);
       return;
@@ -160,7 +218,7 @@ const PostListArea = (props: Props) => {
       />
       {tabValue === 0 ? (
         <UserConsulListArea
-          userId={userId}
+          pageId={pageId}
           userConsulList={userConsulList}
           setUserConsulList={setUserConsulList}
           isFetchConsul={isFetchConsul}
@@ -176,20 +234,22 @@ const PostListArea = (props: Props) => {
       )}
       {tabValue === 1 ? (
         <UserAnswerListArea
-          userId={userId}
+          pageId={pageId}
           userAnswerList={userAnswerList}
           setUserAnswerList={setUserAnswerList}
           isFetchAnswer={isFetchAnswer}
           setIsFetchAnswer={setIsFetchAnswer}
           running={running}
           setRunning={setRunning}
+          currentUserId={userProfile.id}
+          openDeleteDialog={openDeleteDialog}
         />
       ) : (
         <div></div>
       )}
       {tabValue === 2 ? (
         <UserTweetListArea
-          userId={userId}
+          pageId={pageId}
           userTweetList={userTweetList}
           setUserTweetList={setUserTweetList}
           isFetchTweet={isFetchTweet}
@@ -207,16 +267,24 @@ const PostListArea = (props: Props) => {
         open={showDeleteDialog}
         dialogClose={closeDeleteDialog}
         title={
-          docData.postName === "consul" ? "恋愛相談の削除" : "つぶやきの削除"
+          docData.postName === "consul"
+            ? "恋愛相談の削除"
+            : docData.postName === "tweet"
+            ? "つぶやきの削除"
+            : "回答の削除"
         }
         content="投稿は1度削除すると復元できません。本当に削除しますか？"
         running={deleteRunning}
         mainMethod={
-          docData.postName === "consul" ? deleteConsultation : deleteTweet
+          docData.postName === "consul"
+            ? deleteConsultation
+            : docData.postName === "tweet"
+            ? deleteTweet
+            : deleteAnswer
         }
       />
     </div>
   );
 };
 
-export default PostListArea;
+export default UserPostListArea;

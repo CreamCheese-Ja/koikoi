@@ -102,7 +102,7 @@ export const getStaticPaths: GetStaticPaths<ISGParams> = (
 ) => {
   return {
     paths: [],
-    fallback: true,
+    fallback: "blocking",
   };
 };
 

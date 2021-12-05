@@ -15,7 +15,7 @@ import { SetterOrUpdater } from "recoil";
 import DeleteButton from "../atoms/buttons/DeleteButton";
 
 type Props = {
-  userId: string;
+  pageId: string;
   userConsulList: UserConsulList;
   setUserConsulList: Dispatch<SetStateAction<UserConsulList>>;
   isFetchConsul: boolean;
@@ -27,12 +27,12 @@ type Props = {
     status: boolean;
     message: string;
   }>;
-  openDeleteDialog: (id: string, postName: string) => void;
+  openDeleteDialog: (id: string, subId: string, postName: string) => void;
 };
 
 const UserConsulListArea = (props: Props) => {
   const {
-    userId,
+    pageId,
     userConsulList,
     setUserConsulList,
     isFetchConsul,
@@ -51,7 +51,7 @@ const UserConsulListArea = (props: Props) => {
       setRunning(true);
     }
     const getPage = async () => {
-      const firstPage = await getUserConsultationList(userId);
+      const firstPage = await getUserConsultationList(pageId);
       if (firstPage) {
         setUserConsulList(firstPage);
       }
@@ -68,7 +68,7 @@ const UserConsulListArea = (props: Props) => {
     setRunning(true);
     // 次の10件を取得
     const nextPage = await getNextUserConsultationList(
-      userId,
+      pageId,
       userConsulList[userConsulList.length - 1].createdAt
     );
     if (nextPage) {
@@ -119,10 +119,10 @@ const UserConsulListArea = (props: Props) => {
                   </div>
                   <div>{consul.numberOfAnswer}</div>
                 </div>
-                {currentUserId === userId ? (
+                {currentUserId === pageId ? (
                   <DeleteButton
                     onClick={() =>
-                      openDeleteDialog(consul.consultationId, "consul")
+                      openDeleteDialog(consul.consultationId, "", "consul")
                     }
                   />
                 ) : (

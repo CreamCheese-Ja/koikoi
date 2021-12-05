@@ -15,7 +15,7 @@ import ExecutionButton from "../atoms/buttons/ExecutionButton";
 import DeleteButton from "../atoms/buttons/DeleteButton";
 
 type Props = {
-  userId: string;
+  pageId: string;
   userTweetList: UserTweetList;
   setUserTweetList: Dispatch<SetStateAction<UserTweetList>>;
   isFetchTweet: boolean;
@@ -27,12 +27,12 @@ type Props = {
     status: boolean;
     message: string;
   }>;
-  openDeleteDialog: (id: string, postName: string) => void;
+  openDeleteDialog: (id: string, subId: string, postName: string) => void;
 };
 
 const UserTweetListArea = (props: Props) => {
   const {
-    userId,
+    pageId,
     userTweetList,
     setUserTweetList,
     isFetchTweet,
@@ -51,7 +51,7 @@ const UserTweetListArea = (props: Props) => {
       setRunning(true);
     }
     const getPage = async () => {
-      const firstPage = await getUserTweetList(userId);
+      const firstPage = await getUserTweetList(pageId);
       if (firstPage) {
         setUserTweetList(firstPage);
       }
@@ -68,7 +68,7 @@ const UserTweetListArea = (props: Props) => {
     setRunning(true);
     // 次の10件を取得
     const nextPage = await getNextUserTweetList(
-      userId,
+      pageId,
       userTweetList[userTweetList.length - 1].createdAt
     );
     if (nextPage) {
@@ -124,9 +124,9 @@ const UserTweetListArea = (props: Props) => {
                   </div>
                   <div>{tweet.numberOfComments}</div>
                 </div>
-                {currentUserId === userId ? (
+                {currentUserId === pageId ? (
                   <DeleteButton
-                    onClick={() => openDeleteDialog(tweet.tweetId, "tweet")}
+                    onClick={() => openDeleteDialog(tweet.tweetId, "", "tweet")}
                   />
                 ) : (
                   <></>

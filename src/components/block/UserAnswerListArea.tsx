@@ -11,26 +11,31 @@ import { multipurposeErrorAlertState } from "src/atoms/atom";
 import Spinner from "../atoms/progress/Spinner";
 import ExecutionButton from "../atoms/buttons/ExecutionButton";
 import { getNextUserAnswerList } from "src/firebase/firestore/consultations/get/getNextUserAnswerList";
+import DeleteButton from "../atoms/buttons/DeleteButton";
 
 type Props = {
-  userId: string;
+  pageId: string;
   userAnswerList: UserAnswerList;
   setUserAnswerList: Dispatch<SetStateAction<UserAnswerList>>;
   isFetchAnswer: boolean;
   setIsFetchAnswer: Dispatch<SetStateAction<boolean>>;
   running: boolean;
   setRunning: Dispatch<SetStateAction<boolean>>;
+  currentUserId: string;
+  openDeleteDialog: (id: string, subId: string, postName: string) => void;
 };
 
 const UserAnswerListArea = (props: Props) => {
   const {
-    userId,
+    pageId,
     userAnswerList,
     setUserAnswerList,
     isFetchAnswer,
     setIsFetchAnswer,
     running,
     setRunning,
+    currentUserId,
+    openDeleteDialog,
   } = props;
 
   const [showMoreButton, setShowMoreButton] = useState(true);
@@ -42,7 +47,7 @@ const UserAnswerListArea = (props: Props) => {
       setRunning(true);
     }
     const getPage = async () => {
-      const firstPage = await getUserAnswerList(userId);
+      const firstPage = await getUserAnswerList(pageId);
       if (firstPage) {
         setUserAnswerList(firstPage);
       }
@@ -59,7 +64,7 @@ const UserAnswerListArea = (props: Props) => {
     setRunning(true);
     // 次の10件を取得
     const nextPage = await getNextUserAnswerList(
-      userId,
+      pageId,
       userAnswerList[userAnswerList.length - 1].createdAt
     );
     if (nextPage) {
@@ -108,6 +113,19 @@ const UserAnswerListArea = (props: Props) => {
                     </div>
                     <div>{answer.numberOfLikes}</div>
                   </div>
+                  {currentUserId === pageId ? (
+                    <DeleteButton
+                      onClick={() =>
+                        openDeleteDialog(
+                          answer.consultationId,
+                          answer.answerId,
+                          "answer"
+                        )
+                      }
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
             </div>

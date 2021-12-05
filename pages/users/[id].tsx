@@ -8,18 +8,18 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { pageNumberState, userProfileState } from "src/atoms/atom";
-import PostListArea from "src/components/block/PostListArea";
-import ProfileArea from "src/components/block/ProfileArea";
+import UserPostListArea from "src/components/block/UserPostListArea";
+import UserProfileArea from "src/components/block/UserProfileArea";
 import { getUserProfile } from "src/firebase/firestore/users/get/getUserProfile";
 import { ProfileItem } from "src/type";
 import Error from "next/error";
 import useMedia from "use-media";
 
-type ISRProps = {
+type ISGProps = {
   post: ProfileItem | null;
 };
 
-export default function User({ post }: ISRProps) {
+export default function User({ post }: ISGProps) {
   const { id, name } = post || {};
   const isWide = useMedia({ minWidth: 801 });
 
@@ -61,7 +61,7 @@ export default function User({ post }: ISRProps) {
         {post && id ? (
           <>
             {profileData ? (
-              <ProfileArea userData={profileData} />
+              <UserProfileArea userData={profileData} />
             ) : (
               <div
                 style={{
@@ -71,7 +71,7 @@ export default function User({ post }: ISRProps) {
                 }}
               ></div>
             )}
-            <PostListArea userId={id} />
+            <UserPostListArea pageId={id} />
           </>
         ) : (
           <Error statusCode={404} />
@@ -81,26 +81,25 @@ export default function User({ post }: ISRProps) {
   );
 }
 
-type ISRParams = {
+type ISGParams = {
   id: string;
 };
 
-export const getStaticPaths: GetStaticPaths<ISRParams> = (
+export const getStaticPaths: GetStaticPaths<ISGParams> = (
   _context: GetStaticPathsContext
 ) => {
   return {
     paths: [],
-    fallback: true,
+    fallback: "blocking",
   };
 };
 
-export const getStaticProps: GetStaticProps<ISRProps> = async (
+export const getStaticProps: GetStaticProps<ISGProps> = async (
   context: GetStaticPropsContext
 ) => {
-  const params = context.params as ISRParams;
+  const params = context.params as ISGParams;
   const postId = params.id;
   const post = await getUserProfile(postId);
-
   return {
     props: {
       post,

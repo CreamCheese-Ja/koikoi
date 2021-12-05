@@ -1,4 +1,5 @@
 // firebase emulators:start --only firestore
+// npm test
 
 const firebase = require("@firebase/testing");
 
@@ -811,6 +812,41 @@ const firestoreTest = describe("app", () => {
     );
   });
 
+  // answerドキュメントの削除
+  it("作成者以外のユーザーのanswerドキュメントの削除が不可能であること", async () => {
+    const db = getFirestore({ ...theirAuth, email_verified: true });
+    const batch = db.batch();
+    const testDoc = db
+      .collection("consultations")
+      .doc(myId)
+      .collection("answers")
+      .doc(theirId);
+    const consulDoc = db.collection("consultations").doc("myId");
+    batch.delete(testDoc);
+    batch.update(consulDoc, {
+      numberOfAnswer: firebase.firestore.FieldValue.increment(-1),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    await firebase.assertFails(batch.commit());
+  });
+
+  it("認証、email有効性確認有りでanswerドキュメントの削除が可能であること", async () => {
+    const db = getFirestore({ ...theirAuth, email_verified: true });
+    const batch = db.batch();
+    const testDoc = db
+      .collection("consultations")
+      .doc(myId)
+      .collection("answers")
+      .doc(theirId);
+    const consulDoc = db.collection("consultations").doc(myId);
+    batch.delete(testDoc);
+    batch.update(consulDoc, {
+      numberOfAnswer: firebase.firestore.FieldValue.increment(-1),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    await firebase.assertSucceeds(batch.commit());
+  });
+
   // consultationドキュメント、tweetドキュメントの削除
 
   // consultation
@@ -820,7 +856,7 @@ const firestoreTest = describe("app", () => {
     await firebase.assertFails(testDoc.delete());
   });
 
-  // answerドキュメントの更新をコメントアウトしてからテストする
+  // answerを削除しない場合、answerドキュメントの作成、更新のテストをコメントアウトしてからテストする
   it("認証、email有効性確認有りでconsultationドキュメントの削除が可能であること", async () => {
     const db = getFirestore({ ...myAuth, email_verified: true });
     const testDoc = db.collection("consultations").doc(myId);

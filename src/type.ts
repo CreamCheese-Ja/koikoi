@@ -180,6 +180,7 @@ export type UserAnswerData = {
   answerId: string;
   content: string;
   createdAt: TimeStamp;
+  bestAnswer: boolean;
   numberOfLikes: number;
 };
 

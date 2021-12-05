@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { ProfileItem } from "src/type";
 import UserPhoto from "../atoms/others/UserPhoto";
 import styles from "styles/components/block/profileArea.module.css";
@@ -12,7 +12,7 @@ type Props = {
   userData: ProfileItem;
 };
 
-const ProfileArea = (props: Props) => {
+const UserProfileArea = (props: Props) => {
   const {
     id,
     name,
@@ -118,4 +118,4 @@ const ProfileArea = (props: Props) => {
   );
 };
 
-export default ProfileArea;
+export default UserProfileArea;

@@ -25,6 +25,7 @@ export const getUserAnswerList = async (
             content: doc.get("content"),
             createdAt: doc.get("createdAt"),
             numberOfLikes: doc.get("numberOfLikes"),
+            bestAnswer: doc.get("bestAnswer"),
           };
         } else {
           // consultationドキュメントがない(削除トラブルがあった)場合、"none"を入れる
@@ -35,6 +36,7 @@ export const getUserAnswerList = async (
             content: doc.get("content"),
             createdAt: doc.get("createdAt"),
             numberOfLikes: doc.get("numberOfLikes"),
+            bestAnswer: doc.get("bestAnswer"),
           };
         }
       })
