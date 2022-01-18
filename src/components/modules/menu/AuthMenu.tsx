@@ -18,7 +18,7 @@ const AuthMenu = (props: Props) => {
   };
 
   const setLoginAndSignUpDialog = useSetRecoilState(loginAndSignUpFormState);
-  const setGuestLoginDialog = useSetRecoilState(guestLoginDialogState);
+  // const setGuestLoginDialog = useSetRecoilState(guestLoginDialogState);
 
   return (
     <div>
@@ -45,14 +45,14 @@ const AuthMenu = (props: Props) => {
         >
           無料会員登録
         </MenuItem>
-        <MenuItem
+        {/* <MenuItem
           onClick={() => {
             setGuestLoginDialog(true);
             closeAuthMenu();
           }}
         >
           ゲストログイン
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </div>
   );

@@ -51,7 +51,7 @@ const Header = () => {
   );
 
   // ゲストユーザーログインフォーム用の変更関数
-  const setGuestLoginForm = useSetRecoilState(guestLoginDialogState);
+  // const setGuestLoginForm = useSetRecoilState(guestLoginDialogState);
   // 認証メニュー用state
   const [authMenu, setAuthMenu] = useState<null | HTMLElement>(null);
   // 投稿メニュー開
@@ -106,14 +106,14 @@ const Header = () => {
                 >
                   無料会員登録
                 </Button>
-                <Button
+                {/* <Button
                   variant="outlined"
                   color="secondary"
                   style={{ marginLeft: "10px" }}
                   onClick={() => setGuestLoginForm(true)}
                 >
                   ゲストログイン
-                </Button>
+                </Button> */}
               </div>
             ) : (
               <>
