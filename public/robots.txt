@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://koikoi-community.com/
-
-# Sitemaps
-Sitemap: https://koikoi-community.com/sitemap.xml
