@@ -48,7 +48,7 @@ export const useCreateAnswer = (
     if (answer.length <= 1000) {
       // ユーザー操作が可能かどうかチェック
       const operationPossible = userOperationPossibleCheck(userProfile.name);
-      if (typeof operationPossible !== "string") {
+      if (operationPossible === true) {
         // ここですでに投稿しているかどうかをチェックする。投稿していれば投稿させない
         const isAnswered = await getIsAnswered(userProfile.id, consultationId);
         if (!isAnswered) {

@@ -63,7 +63,9 @@ const ResizeImageForm = (props: Props) => {
           });
           const canvasImage = canvas.image as HTMLCanvasElement;
           canvasImage.toBlob((blob) => {
-            setCroppedImage(window.URL.createObjectURL(blob));
+            if (blob) {
+              setCroppedImage(window.URL.createObjectURL(blob));
+            }
           });
         } else {
           setCroppedImage(croppedImage);

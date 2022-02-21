@@ -22,3 +22,12 @@
   width: 200px;
   margin: auto;
 }
+.socialLogin {
+  margin-top: 20px;
+}
+.socialButtons {
+  margin-top: 10px;
+}
+.socialButton {
+  cursor: pointer;
+}

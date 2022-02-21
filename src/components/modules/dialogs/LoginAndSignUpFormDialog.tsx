@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Router from "next/router";
+import Image from "next/image";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
 } from "@material-ui/core";
 import LoginForm from "../forms/LoginForm";
 import SignUpForm from "../forms/SignUpForm";
@@ -17,6 +19,8 @@ import {
   loginAndSignUpFormState,
   passwordChangeDialogState,
 } from "src/atoms/atom";
+import googleButton from "public/images/googleSignIn.png";
+import { useSocialLogin } from "src/hooks/useSocialLogin";
 
 const LoginAndSignUpFormDialog = () => {
   // 確認メールDialog用のstate
@@ -51,6 +55,8 @@ const LoginAndSignUpFormDialog = () => {
     setLoginAndSignUpForm({ ...loginAndSignUpForm, status: false });
   };
 
+  const { googleLogin } = useSocialLogin();
+
   return (
     <>
       <Dialog
@@ -66,6 +72,18 @@ const LoginAndSignUpFormDialog = () => {
           {loginAndSignUpForm.title === "ログイン" ? (
             <div>
               <LoginForm running={running} setRunning={setRunning} />
+              <div className={styles.socialLogin}>
+                <Divider />
+                <div className={styles.socialButtons}>
+                  <Image
+                    src={googleButton}
+                    width={230}
+                    height={56}
+                    className={styles.socialButton}
+                    onClick={googleLogin}
+                  />
+                </div>
+              </div>
               <div className={styles.passwordMessage}>
                 <Button
                   color="primary"
@@ -97,6 +115,17 @@ const LoginAndSignUpFormDialog = () => {
                 running={running}
                 setRunning={setRunning}
               />
+              <div className={styles.socialLogin}>
+                <Divider />
+                <div className={styles.socialButtons}>
+                  <Image
+                    src={googleButton}
+                    width={230}
+                    height={56}
+                    className={styles.socialButton}
+                  />
+                </div>
+              </div>
               <div className={styles.loginAndSignUpMessage}>
                 <Button
                   color="primary"

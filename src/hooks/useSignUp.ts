@@ -158,7 +158,7 @@ export const useSignUp = (
       if (name.length <= 20) {
         // firebaseAuthに新規アカウントを登録
         await postNewUser();
-      } else if (name.length >= 20) {
+      } else if (name.length > 20) {
         setInputError({ ...inputError, name: true });
         setErrorMessage({
           ...errorMessage,

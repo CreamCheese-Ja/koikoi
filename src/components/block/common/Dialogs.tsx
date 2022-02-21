@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
+  createProfileDialogState,
   guestLoginDialogState,
   multipurposeErrorAlertState,
   multipurposeSuccessAlertState,
@@ -9,7 +10,9 @@ import {
   verificationEmailDialogState,
 } from "src/atoms/atom";
 import AlertDialog from "src/components/atoms/dialogs/AlertDialog";
+import AppDialogWindow from "src/components/atoms/dialogs/AppDialogWindow";
 import BasicDialog from "src/components/atoms/dialogs/BasicDialog";
+import CreateProfileForm from "src/components/modules/forms/CreateProfileForm";
 import GuestLoginForm from "src/components/modules/forms/GuestLoginForm";
 import PasswordChangeForm from "src/components/modules/forms/PasswordChangeForm";
 import { logoutApp } from "src/firebase/authentication/logoutApp";
@@ -42,6 +45,17 @@ const Dialogs = () => {
   // メールアドレス検証ダイアログ開閉
   const openCloseVerificationEmailDialog = () => {
     setShowVerificationEmail((status) => !status);
+  };
+
+  // プロフィール作成ダイアログ
+  const [showCreateProfile, setShowCreateProfile] = useRecoilState(
+    createProfileDialogState
+  );
+  // プロフィール作成処理中
+  const [createProfileRunning, setCreateProfileRunning] = useState(false);
+  // プロフィール作成ダイアログ開閉
+  const toggleCreateProfileDialog = () => {
+    setShowCreateProfile((status) => !status);
   };
 
   // ***********************************ゲストユーザー用*******************************
@@ -99,17 +113,6 @@ const Dialogs = () => {
     setVerificationEmailRunning(false);
   };
 
-  // メールアドレス変更ダイアログ
-  // const [showEmailChange, setShowEmailChange] = useRecoilState(
-  //   emailChangeDialogState
-  // );
-  // メールアドレス変更処理中
-  // const [emailChangeRunning, setEmailChangeRunning] = useState(false);
-  // メールアドレス変更ダイアログ開閉
-  // const openCloseEmailChangeDialog = () => {
-  //   setShowEmailChange((status) => !status);
-  // };
-
   return (
     <>
       <LoginAndSignUpFormDialog />
@@ -147,19 +150,20 @@ const Dialogs = () => {
         }
         running={guestLoginRunning}
       />
-      {/* <BasicDialog
-        title="メールアドレスの変更"
-        open={showEmailChange}
-        onClick={openCloseEmailChangeDialog}
-        content={
-          <EmailChangeForm
-            running={emailChangeRunning}
-            setRunning={setEmailChangeRunning}
-            openAndCloseDialog={openCloseEmailChangeDialog}
-          />
-        }
-        running={emailChangeRunning}
-      /> */}
+      <AppDialogWindow
+        title="プロフィールの作成"
+        open={showCreateProfile}
+        onClick={toggleCreateProfileDialog}
+        running={createProfileRunning}
+        hasCancel={false}
+        isLock={true}
+      >
+        <CreateProfileForm
+          running={createProfileRunning}
+          setRunning={setCreateProfileRunning}
+          toggleDialog={toggleCreateProfileDialog}
+        />
+      </AppDialogWindow>
     </>
   );
 };

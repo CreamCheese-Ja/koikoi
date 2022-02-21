@@ -85,6 +85,12 @@ export const createTweetDialogState = atom({
   default: false,
 });
 
+// プロフィール作成ダイアログ
+export const createProfileDialogState = atom({
+  key: "createProfileDialogState",
+  default: false,
+});
+
 // 共通のエラーアラート
 export const multipurposeErrorAlertState = atom({
   key: "multipurposeErrorAlertState",

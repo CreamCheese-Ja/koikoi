@@ -9,7 +9,7 @@ import firebase from "../firebase/firebase";
 import {
   authCheckState,
   consultationListState,
-  multipurposeErrorAlertState,
+  createProfileDialogState,
   tweetListState,
   userProfileState,
 } from "src/atoms/atom";
@@ -32,10 +32,8 @@ export default function Layout({ children, ...props }: Props) {
   const setTweetList = useSetRecoilState(tweetListState);
   // onAuthStateChangedでチェック有無の変更関数
   const setAuthCheck = useSetRecoilState(authCheckState);
-  // エラーアラート用の変更関数
-  const setMultipurposeErrorAlert = useSetRecoilState(
-    multipurposeErrorAlertState
-  );
+  // プロフィール作成ダイアログを開く
+  const setCreateProfileDialog = useSetRecoilState(createProfileDialogState);
 
   useEffect(() => {
     // userがログインしていればプロフィールデータを取得しstateに保存
@@ -51,11 +49,11 @@ export default function Layout({ children, ...props }: Props) {
         if (profileData) {
           setUserProfile(profileData);
         } else {
+          // NOTE: 新規登録時は、メール確認ができていないため、↓の条件が必要 & socialログインかどうかを判別するためにも使える
           if (firebase.auth().currentUser?.emailVerified) {
-            setMultipurposeErrorAlert({
-              status: true,
-              message: "ユーザー情報を取得できませんでした。",
-            });
+            // 会員登録済み & email確認済みでプロフィール情報がなかったときの処理(socialLoginも含む)
+            // 名前を決めるフォームを開く
+            setCreateProfileDialog(true);
           }
         }
       }
