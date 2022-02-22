@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Router from "next/router";
 import Image from "next/image";
+import googleSignIn from "public/images/googleSignIn.png";
 import {
   Button,
   Dialog,
@@ -19,7 +20,6 @@ import {
   loginAndSignUpFormState,
   passwordChangeDialogState,
 } from "src/atoms/atom";
-import googleSignIn from "public/images/googleSignIn.png";
 import { useSocialLogin } from "src/hooks/useSocialLogin";
 
 const LoginAndSignUpFormDialog = () => {
