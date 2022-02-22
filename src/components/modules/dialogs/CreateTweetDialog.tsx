@@ -181,13 +181,14 @@ const CreateTweetDialog = (props: Props) => {
               error={content.errorStatus}
               errorMessage={content.errorMessage}
               disabled={running}
+              rows={5}
             />
           </div>
           <div className={styles.buttonArea}>
             <ExecutionButton
               onClick={postTweet}
               buttonLabel="投稿する"
-              disabled={running}
+              disabled={running || !category.text || !content.text}
             />
           </div>
         </DialogContent>

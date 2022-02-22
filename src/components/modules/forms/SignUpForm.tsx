@@ -57,7 +57,7 @@ const SignUpForm = (props: Props) => {
         <ExecutionButton
           onClick={signUpUser}
           buttonLabel="新規登録"
-          disabled={running}
+          disabled={running || !name || !email || password.password.length < 8}
         />
       </div>
     </>

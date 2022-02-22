@@ -69,6 +69,7 @@ const EditProfileForm = (props: Props) => {
           error={fieldMessage.errorStatus}
           errorMessage={fieldMessage.errorMessage}
           disabled={running}
+          rows={5}
         />
       </div>
       {selectValues.map((values, index) => (

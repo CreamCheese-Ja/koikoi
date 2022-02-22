@@ -65,7 +65,7 @@ const PasswordChangeForm = (props: Props) => {
         <ExecutionButton
           onClick={sendPasswordChangeEmail}
           buttonLabel="送信する"
-          disabled={running}
+          disabled={running || !email}
         />
       </div>
     </>

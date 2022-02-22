@@ -13,10 +13,11 @@ type Props = {
   error: boolean;
   errorMessage: string;
   disabled: boolean;
+  rows: number;
 };
 
 const MultilineTextField = (props: Props) => {
-  const { label, value, setValue, error, errorMessage, disabled } = props;
+  const { label, value, setValue, error, errorMessage, disabled, rows } = props;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((value) => ({ ...value, text: event.target.value }));
@@ -30,6 +31,7 @@ const MultilineTextField = (props: Props) => {
         helperText={error === true ? errorMessage : ""}
         label={label}
         multiline
+        rows={rows}
         maxRows={10}
         value={value}
         onChange={handleChange}

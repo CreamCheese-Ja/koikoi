@@ -43,7 +43,7 @@ const LoginForm = (props: Props) => {
         <ExecutionButton
           onClick={loginUser}
           buttonLabel="ログイン"
-          disabled={running}
+          disabled={running || !email || !password.password}
         />
       </div>
     </>

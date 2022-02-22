@@ -94,14 +94,8 @@ const CreateConsultationDialog = (props: Props) => {
 
   // 恋愛相談を投稿する関数
   const postConsultation = async () => {
-    setRunning(() => true);
-    if (
-      category.text !== "" &&
-      title.text !== "" &&
-      content.text !== "" &&
-      title.text.length <= 100 &&
-      content.text.length <= 10000
-    ) {
+    setRunning(true);
+    if (title.text.length <= 100 && content.text.length <= 10000) {
       // ユーザー操作が可能かどうかチェック
       const operationPossible = userOperationPossibleCheck(userProfile.name);
       if (typeof operationPossible !== "string") {
@@ -178,7 +172,7 @@ const CreateConsultationDialog = (props: Props) => {
         }));
       }
     }
-    setRunning(() => false);
+    setRunning(false);
   };
 
   return (
@@ -213,6 +207,7 @@ const CreateConsultationDialog = (props: Props) => {
               error={title.errorStatus}
               errorMessage={title.errorMessage}
               disabled={running}
+              rows={0}
             />
           </div>
           <div className={styles.inputArea}>
@@ -223,13 +218,16 @@ const CreateConsultationDialog = (props: Props) => {
               error={content.errorStatus}
               errorMessage={content.errorMessage}
               disabled={running}
+              rows={5}
             />
           </div>
           <div className={styles.buttonArea}>
             <ExecutionButton
               onClick={postConsultation}
               buttonLabel="投稿する"
-              disabled={running}
+              disabled={
+                running || !category.text || !title.text || !content.text
+              }
             />
           </div>
         </DialogContent>

@@ -17,10 +17,10 @@ export const useSocialLogin = () => {
   // Googleログイン
   const googleLogin = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
+    // 新規登録、ログインダイアログを閉じる処理
     setLoginAndSignUpForm({ title: "", status: false });
     try {
       await firebase.auth().signInWithPopup(provider);
-      // 新規登録、ログインダイアログを閉じる処理
       setSuccess({ status: true, message: "ログインしました。" });
     } catch {
       setError({

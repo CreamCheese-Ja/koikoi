@@ -51,26 +51,18 @@ const ContactForm = (props: Props) => {
   // お問い合わせ内容を送信
   const sendMessage = async () => {
     setRunning(true);
-    // 内容入力のチェック
-    if (content.text === "") {
-      setContent((content) => ({
-        ...content,
-        errorStatus: true,
-        errorMessage: "内容を入力してください。",
-      }));
-      setRunning(false);
-      return;
-    }
+
     const user = firebase.auth().currentUser;
     const sendEmail = user?.email ? user.email + "(会員)" : email + "(非会員)";
+
     // メールアドレスの形式チェック
-    if (!(user || emailReg.test(email))) {
-      console.log("error2");
+    if (!user && !emailReg.test(email)) {
       setInputError(true);
       setErrorMessage("正しい形式で入力してください。");
       setRunning(false);
       return;
     }
+
     const sendResult = await sendMessageToSlack(sendEmail, content.text);
     if (sendResult) {
       setSuccess({ status: true, message: "送信しました。" });
@@ -78,6 +70,7 @@ const ContactForm = (props: Props) => {
     } else {
       setError({ status: true, message: "エラーが発生しました。" });
     }
+
     setRunning(false);
   };
 
@@ -106,12 +99,17 @@ const ContactForm = (props: Props) => {
           error={content.errorStatus}
           errorMessage={content.errorMessage}
           disabled={running}
+          rows={5}
         />
       </div>
       <div style={{ textAlign: "center" }}>
         <ExecutionButton
           buttonLabel="送信する"
-          disabled={running}
+          disabled={
+            firebase.auth().currentUser
+              ? running || !content.text
+              : running || !email || !content.text
+          }
           onClick={sendMessage}
         />
       </div>

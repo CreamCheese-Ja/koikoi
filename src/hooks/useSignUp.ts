@@ -143,37 +143,29 @@ export const useSignUp = (
   // 新規登録一連メソッド
   const signUpUser = async () => {
     setRunning(true);
-    if (name !== "") {
-      // ここでユーザー名の存在確認
-      const isNameAvailable = await getIsNameAvailable(name);
-      if (isNameAvailable) {
-        setInputError({ ...inputError, name: true });
-        setErrorMessage({
-          ...errorMessage,
-          name: "このユーザー名は使用されています。",
-        });
-        setRunning(false);
-        return;
-      }
-      if (name.length <= 20) {
-        // firebaseAuthに新規アカウントを登録
-        await postNewUser();
-      } else if (name.length > 20) {
-        setInputError({ ...inputError, name: true });
-        setErrorMessage({
-          ...errorMessage,
-          name: "ユーザー名は20文字以内で決めてください。",
-        });
-      }
-    } else {
-      if (name === "") {
-        setInputError({ ...inputError, name: true });
-        setErrorMessage({
-          ...errorMessage,
-          name: "ユーザー名が未入力です。",
-        });
-      }
+
+    // ユーザー名の存在確認
+    const isNameAvailable = await getIsNameAvailable(name);
+    if (isNameAvailable) {
+      setInputError({ ...inputError, name: true });
+      setErrorMessage({
+        ...errorMessage,
+        name: "このユーザー名は使用されています。",
+      });
+      setRunning(false);
+      return;
     }
+    if (name.length <= 20) {
+      // firebaseAuthに新規アカウントを登録
+      await postNewUser();
+    } else if (name.length > 20) {
+      setInputError({ ...inputError, name: true });
+      setErrorMessage({
+        ...errorMessage,
+        name: "ユーザー名は20文字以内で決めてください。",
+      });
+    }
+
     setRunning(false);
   };
   return {
