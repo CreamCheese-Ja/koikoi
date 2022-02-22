@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Router from "next/router";
 import Image from "next/image";
-import googleSignIn from "../../../../public/images/googleSignIn.png";
+import googleSignIn from "public/images/googleSignin.png";
 import {
   Button,
   Dialog,
