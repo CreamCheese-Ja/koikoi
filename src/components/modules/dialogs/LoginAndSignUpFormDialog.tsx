@@ -72,7 +72,7 @@ const LoginAndSignUpFormDialog = () => {
           {loginAndSignUpForm.title === "ログイン" ? (
             <div>
               <LoginForm running={running} setRunning={setRunning} />
-              <div className={styles.socialLogin}>
+              {/* <div className={styles.socialLogin}>
                 <Divider />
                 <div className={styles.socialButtons}>
                   <Image
@@ -83,7 +83,7 @@ const LoginAndSignUpFormDialog = () => {
                     onClick={googleLogin}
                   />
                 </div>
-              </div>
+              </div> */}
               <div className={styles.passwordMessage}>
                 <Button
                   color="primary"
@@ -115,7 +115,7 @@ const LoginAndSignUpFormDialog = () => {
                 running={running}
                 setRunning={setRunning}
               />
-              <div className={styles.socialLogin}>
+              {/* <div className={styles.socialLogin}>
                 <Divider />
                 <div className={styles.socialButtons}>
                   <Image
@@ -123,9 +123,10 @@ const LoginAndSignUpFormDialog = () => {
                     width={230}
                     height={56}
                     className={styles.socialButton}
+                    onClick={googleLogin}
                   />
                 </div>
-              </div>
+              </div> */}
               <div className={styles.loginAndSignUpMessage}>
                 <Button
                   color="primary"
