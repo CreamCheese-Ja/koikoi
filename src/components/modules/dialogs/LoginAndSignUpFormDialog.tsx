@@ -19,7 +19,7 @@ import {
   loginAndSignUpFormState,
   passwordChangeDialogState,
 } from "src/atoms/atom";
-import googleButton from "public/images/googleSignIn.png";
+import googleSignIn from "public/images/googleSignIn.png";
 import { useSocialLogin } from "src/hooks/useSocialLogin";
 
 const LoginAndSignUpFormDialog = () => {
@@ -76,7 +76,7 @@ const LoginAndSignUpFormDialog = () => {
                 <Divider />
                 <div className={styles.socialButtons}>
                   <Image
-                    src={googleButton}
+                    src={googleSignIn}
                     width={230}
                     height={56}
                     className={styles.socialButton}
@@ -119,7 +119,7 @@ const LoginAndSignUpFormDialog = () => {
                 <Divider />
                 <div className={styles.socialButtons}>
                   <Image
-                    src={googleButton}
+                    src={googleSignIn}
                     width={230}
                     height={56}
                     className={styles.socialButton}
