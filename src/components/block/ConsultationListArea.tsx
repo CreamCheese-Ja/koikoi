@@ -92,7 +92,7 @@ const ConsultationListArea = (props: Props) => {
               </div>
             </div>
             <Link href={`/consultations/${consul.consultationId}`}>
-              <a>
+              <a className={styles.consulLink}>
                 <h2 className={styles.consulTitle}>
                   {consul.title.length <= 30
                     ? consul.title

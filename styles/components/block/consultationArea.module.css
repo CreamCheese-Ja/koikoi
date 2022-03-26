@@ -71,6 +71,9 @@
 .commentIcon {
   margin-top: 5px;
 }
+.consulLink:hover .consulTitle {
+  color: #f48fb1;
+}
 
 @media (max-width: 960px) {
   .consulTitle {
