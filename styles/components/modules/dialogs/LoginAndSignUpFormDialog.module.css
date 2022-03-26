@@ -23,11 +23,10 @@
   margin: auto;
 }
 .socialLogin {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .socialButtons {
-  margin-top: 10px;
-}
-.socialButton {
-  cursor: pointer;
+  margin-top: 15px;
+  width: 230px;
+  margin-left: -5px;
 }

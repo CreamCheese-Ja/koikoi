@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Router from "next/router";
-import Image from "next/image";
-import googleSignIn from "public/images/googleSignin.png";
+import GoogleButton from "react-google-button";
 import {
   Button,
   Dialog,
@@ -75,13 +74,7 @@ const LoginAndSignUpFormDialog = () => {
               <div className={styles.socialLogin}>
                 <Divider />
                 <div className={styles.socialButtons}>
-                  <Image
-                    src={googleSignIn}
-                    width={230}
-                    height={56}
-                    className={styles.socialButton}
-                    onClick={googleLogin}
-                  />
+                  <GoogleButton onClick={googleLogin} />
                 </div>
               </div>
               <div className={styles.passwordMessage}>
@@ -118,13 +111,7 @@ const LoginAndSignUpFormDialog = () => {
               <div className={styles.socialLogin}>
                 <Divider />
                 <div className={styles.socialButtons}>
-                  <Image
-                    src={googleSignIn}
-                    width={230}
-                    height={56}
-                    className={styles.socialButton}
-                    onClick={googleLogin}
-                  />
+                  <GoogleButton onClick={googleLogin} />
                 </div>
               </div>
               <div className={styles.loginAndSignUpMessage}>
